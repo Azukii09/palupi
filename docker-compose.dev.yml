@@ -1,0 +1,61 @@
+name: palupi-dev
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports: ["${DB_PORT}:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  api:
+    image: rust:1-bookworm
+    working_dir: /app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      RUST_LOG: ${RUST_LOG}
+      JWT_SECRET: ${JWT_SECRET}
+    volumes:
+      - ./backend:/app
+      - cargo-reg:/usr/local/cargo/registry
+      - cargo-target:/app/target
+    depends_on:
+      db:
+        condition: service_healthy
+    ports: [ "${API_PORT}:8080" ]
+    command: >
+      bash -lc "
+      echo PATH=$PATH && ls -l /usr/local/cargo/bin &&
+      /usr/local/cargo/bin/cargo --version &&
+      (/usr/local/cargo/bin/cargo install cargo-watch || true) &&
+      (/usr/local/cargo/bin/cargo install sqlx-cli || true) &&
+      /usr/local/cargo/bin/cargo watch -x 'run'
+      "
+
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm ci || npm i && npm run dev"
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NEXT_TELEMETRY_DISABLED: ${NEXT_TELEMETRY_DISABLED}
+    volumes:
+      - ./frontend:/app
+      - web-node-mod:/app/node_modules
+    depends_on:
+      - api
+    ports: ["${WEB_PORT}:3000"]
+
+volumes:
+  pgdata:
+  cargo-reg:
+  cargo-target:
+  web-node-mod:

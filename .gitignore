@@ -72,3 +72,5 @@ pgdata/
 /coverage/
 /reports/
 /*.bak
+
+.env.dev
