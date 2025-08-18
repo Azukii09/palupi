@@ -17,15 +17,18 @@ services:
       retries: 5
 
   api:
-    image: rust:1-bookworm
+    image: rust:1.89-bookworm              # pin versi biar cache stabil
     working_dir: /app
     environment:
       DATABASE_URL: ${DATABASE_URL}
       RUST_LOG: ${RUST_LOG}
       JWT_SECRET: ${JWT_SECRET}
+      CARGO_TARGET_DIR: /app/target        # pastikan konsisten
     volumes:
       - ./backend:/app
+      - cargo-bin:/usr/local/cargo/bin     # ← persist BINARIES cargo install
       - cargo-reg:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git     # ← persist git cache cargo
       - cargo-target:/app/target
     depends_on:
       db:
@@ -35,8 +38,8 @@ services:
       bash -lc "
       echo PATH=$PATH && ls -l /usr/local/cargo/bin &&
       /usr/local/cargo/bin/cargo --version &&
-      (/usr/local/cargo/bin/cargo install cargo-watch || true) &&
-      (/usr/local/cargo/bin/cargo install sqlx-cli || true) &&
+      test -x /usr/local/cargo/bin/cargo-watch || /usr/local/cargo/bin/cargo install cargo-watch &&
+      test -x /usr/local/cargo/bin/sqlx || /usr/local/cargo/bin/cargo install sqlx-cli &&
       /usr/local/cargo/bin/cargo watch -x 'run'
       "
 
@@ -56,6 +59,8 @@ services:
 
 volumes:
   pgdata:
+  cargo-bin:     # ← baru
   cargo-reg:
+  cargo-git:     # ← baru
   cargo-target:
   web-node-mod:
