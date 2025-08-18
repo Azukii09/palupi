@@ -1,0 +1,24 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.99"
+argon2 = "0.5.3"
+axum = { version = "0.8.4", features = ["macros", "json"] }
+config = "0.15.14"
+dotenvy = "0.15.7"
+jsonwebtoken = "9.3.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.142"
+sqlx = { version = "0.8.6", features = ["runtime-tokio", "postgres", "macros", "migrate"] }
+thiserror = "2.0.15"
+time = { version = "0.3.41", features = ["macros"] }
+tokio = { version = "1.47.1", features = ["rt-multi-thread", "macros", "signal", "time"] }
+tower = "0.5.2"
+tower-http = { version = "0.6.6", features = ["cors", "trace", "compression-gzip", "compression-deflate", "decompression-gzip", "decompression-deflate"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "json"] }
+ulid = "1.2.1"
+validator = { version = "0.20.0", features = ["derive"] }

@@ -28,7 +28,6 @@ frontend/.env
 # =========================
 # Build output
 /backend/target/
-/backend/Cargo.lock  # opsional: commit kalau perlu reproducible build, skip untuk lib
 
 # SQLx (offline data)
 backend/.sqlx/
