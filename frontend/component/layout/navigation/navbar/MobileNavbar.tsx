@@ -1,0 +1,34 @@
+"use client"
+import React, { useState } from 'react';
+import {useParams} from "next/navigation";
+import {navigationData} from "@/lib/data/navigation/navigation_data";
+import {HiBars4} from "react-icons/hi2";
+import SidebarAdminComponent from "@/component/layout/navigation/sidebar/SidebarAdminComponent";
+
+export default function MobileNavbar() {
+    const [isOpen, setIsOpen] = useState(false);
+    const params = useParams();
+    const dataSidebar =  navigationData.find((item) => item.locale === params.locale);
+
+    return (
+        <div className="flex gap-4 capitalize">
+            <HiBars4
+                className="size-8 text-admin-title cursor-pointer"
+                onClick={() => setIsOpen(!isOpen)}
+            />
+            <div
+                className={`-z-10 fixed inset-0 bg-admin-accent/50 transition-opacity duration-700 cursor-pointer ${
+                    isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+                onClick={() => setIsOpen(false)}
+            />
+            <div
+                className={`fixed top-20 left-0 w-64 h-screen overflow-y-scroll pt-8 pb-24 pr-5 bg-admin-navbar-background text-admin-title shadow-lg transform transition-transform duration-700 ease-in-out ${
+                    isOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}
+            >
+                <SidebarAdminComponent dataSidebar={dataSidebar?.navigation}/>
+            </div>
+        </div>
+    );
+}
