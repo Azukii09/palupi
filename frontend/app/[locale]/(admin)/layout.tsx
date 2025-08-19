@@ -1,6 +1,7 @@
 import {Metadata} from "next";
 import React from "react";
 import SidebarAdminMain from "@/component/layout/navigation/sidebar/SidebarAdminMain";
+import Footer from "@/component/layout/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Palupi",
@@ -30,7 +31,7 @@ export default function AdminLayout({
             </div>
           </div>
         </div>
-        {/*<Footer/>*/}
+        <Footer/>
       </div>
     </section>
   );
