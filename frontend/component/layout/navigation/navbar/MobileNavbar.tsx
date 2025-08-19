@@ -13,17 +13,17 @@ export default function MobileNavbar() {
     return (
         <div className="flex gap-4 capitalize">
             <HiBars4
-                className="size-8 text-admin-title cursor-pointer"
+                className="size-8 cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             />
             <div
-                className={`-z-10 fixed inset-0 bg-admin-accent/50 transition-opacity duration-700 cursor-pointer ${
+                className={`-z-10 fixed inset-0 bg-secondary/30 transition-opacity duration-700 cursor-pointer ${
                     isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
                 onClick={() => setIsOpen(false)}
             />
             <div
-                className={`fixed top-20 left-0 w-64 h-screen overflow-y-scroll pt-8 pb-24 pr-5 bg-admin-navbar-background text-admin-title shadow-lg transform transition-transform duration-700 ease-in-out ${
+                className={`fixed top-20 left-0 w-64 h-screen overflow-y-scroll pt-8 pb-24 pr-5 bg-primary text-white shadow-lg transform transition-transform duration-700 ease-in-out ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
