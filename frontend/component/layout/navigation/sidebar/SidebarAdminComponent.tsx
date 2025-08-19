@@ -18,6 +18,7 @@ export default function SidebarAdminComponent({
                 item.navigation && item.navigation.length ?
                     <SubSidebar
                         key={index}
+                        link={item.link}
                         dataSidebar={item.navigation}
                         buttonName={item.name}
                         hasChildren={hasChildren}
@@ -26,13 +27,13 @@ export default function SidebarAdminComponent({
                     :
                     <div
                         key={index}
-                        className={`${router.endsWith(item.link) && "text-admin-title/80 bg-admin-sidebar-background-active/15 rounded-md md:text-admin-text/65"} hover:text-admin-sidebar-text hover:bg-admin-sidebar-background-active/80 hover:rounded-md  px-3 py-1 w-full flex flex-col group cursor-pointer mb-4`}
+                        className={`${router.endsWith(item.link) && "bg-secondary/60 rounded-md text-tertiary"} hover:bg-secondary/60 hover:rounded-md  px-3 py-1 w-full flex flex-col group cursor-pointer mb-4`}
                     >
                         <Link
                             href={item.link}
                             className={"inline-flex items-center justify-between w-full font-bold"}
                         >
-                            <div className={`flex gap-4 items-center group-hover:text-admin-sidebar-text`}>
+                            <div className={`flex gap-4 items-center group-hover:text-white`}>
                                 {item.icon}
                                 <span>{item.name}</span>
                             </div>

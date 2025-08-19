@@ -3,31 +3,35 @@ import React, {useState} from 'react';
 import SidebarAdminComponent from "@/component/layout/navigation/sidebar/SidebarAdminComponent";
 import {NavigationDataProps} from "@/lib/data/navigation/navigation_data";
 import {HiMiniChevronDown} from "react-icons/hi2";
+import {usePathname} from "next/navigation";
 
 export default function SubSidebar({
     hasChildren,
     dataSidebar,
     buttonName,
     parentIcon,
+    link,
 }:{
     hasChildren?: number;
     dataSidebar?: NavigationDataProps[];
     buttonName?: string;
     parentIcon?: React.ReactNode;
+    link?: string;
 }) {
     const [active,setActive] = useState(false)
+    const router = usePathname();
 
-    return (
+  return (
         <div className={"flex flex-col gap-4"}>
             <button
                 onClick={()=> setActive(!active)}
-                className={`hover:bg-admin-sidebar-background-active hover:text-admin-sidebar-text px-3 py-1 rounded-md w-full flex flex-col group cursor-pointer font-bold`}
+                className={`${router.includes(link as string) && "bg-success/60 text-tertiary"} hover:bg-success/60 hover:text-white px-3 py-1 rounded-md w-full flex flex-col group cursor-pointer font-bold`}
             >
                 <div className={`flex items-center max-w-36`}>
                     {parentIcon}
                     <span className={`ml-4`}>{buttonName}</span>
                 </div>
-                <div className={`${active?"rotate-0":"rotate-90"} absolute size-4 right-7 hover:text-admin-sidebar-text transition-all duration-300`}>
+                <div className={`${active?"rotate-0":"rotate-90"} absolute size-4 right-7 transition-all duration-300`}>
                     <HiMiniChevronDown className={"size-5"}/>
                 </div>
             </button>

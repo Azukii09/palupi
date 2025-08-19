@@ -9,8 +9,8 @@ function SidebarAdminMain() {
     const params = useParams();
     const dataSidebar =  navigationData.find((item) => item.locale === params.locale);
     return (
-        <aside className={"z-0 hidden md:block md:fixed flex-shrink-0 min-h-screen max-h-screen border-r-2 border-slate-100 relative w-64 flex-col  text-admin-title gap-4 overflow-y-auto text-sm capitalize"}>
-            <Link href={"/"} className={"w-full flex items-center justify-center py-5 shadow-xs shadow-admin-sidebar-background-active/20 mb-6"}>
+        <aside className={"z-0 hidden md:block md:fixed flex-shrink-0 min-h-screen max-h-screen border-r-2 border-white relative w-64 flex-col  text-white bg-primary gap-4 overflow-y-auto text-sm capitalize"}>
+            <Link href={"/"} className={"w-full flex items-center justify-center py-5 shadow-xs shadow-white mb-6 min-h-20"}>
                 {/*<Logo className={"text-admin-nav-text"} size={"md"}/>*/}
               logo
             </Link>
