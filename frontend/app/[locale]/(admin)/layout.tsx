@@ -2,6 +2,7 @@ import {Metadata} from "next";
 import React from "react";
 import SidebarAdminMain from "@/component/layout/navigation/sidebar/SidebarAdminMain";
 import Footer from "@/component/layout/footer/Footer";
+import NavbarAdmin from "@/component/layout/navigation/navbar/NavbarAdmin";
 
 export const metadata: Metadata = {
   title: "Palupi",
@@ -21,7 +22,7 @@ export default function AdminLayout({
       <SidebarAdminMain/>
       <div className={"w-full md:max-w-[calc(100%-16rem)] md:ml-64 flex-1 flex flex-col"}>
         <div className={"fixed w-full md:max-w-[calc(100%-16rem)] top-0 z-10"}>
-          {/*<NavbarAdmin/>*/}
+          <NavbarAdmin/>
         </div>
         <div className={"w-full bg-slate-200 min-h-screen mt-20"}>
           <div className="container mx-auto p-8">

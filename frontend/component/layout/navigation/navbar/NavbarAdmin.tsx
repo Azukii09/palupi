@@ -8,13 +8,16 @@ export default function NavbarAdmin() {
     const formTranslate = useTranslations('form');
 
     return (
-            <nav className={"h-20 bg-admin-navbar-background font-medium text-admin-title px-6 relative"}
+            <nav className={"h-20 bg-white font-medium text-primary px-6 relative"}
             >
                 {/*mobile view nav*/}
                 <div className={"flex items-center h-full justify-between md:hidden z-50"}>
                     {/*mobile hamburger*/}
                     <MobileNavbar/>
-                    <div>
+                    <div className={"flex gap-4 items-center"}>
+                      logo
+                      <HiEnvelope className={"size-6 cursor-pointer"}/>
+                      <HiBell className={"size-6 cursor-pointer"}/>
                         {/*<Logo className={"text-admin-nav-text"} size={"sm"}/>*/}
                     </div>
                 </div>
@@ -22,19 +25,19 @@ export default function NavbarAdmin() {
                 {/*large view*/}
                 <div className={"hidden md:flex h-full items-center justify-between "}>
                     <div className={"flex gap-2"}>
-                        <div className="w-full flex flex-1 items-center justify-between bg-form-background p-2 rounded-xl px-4">
-                            <HiMagnifyingGlass className={"size-5 text-form-placeholder"} />
+                        <div className="w-full flex flex-1 items-center justify-between bg-primary/40 p-2 rounded-xl px-4 text-white">
+                            <HiMagnifyingGlass className={"size-5 "} />
                             <input
                                 type="text"
                                 name="search"
                                 placeholder={formTranslate('search')}
-                                className={"flex flex-1 px-2 border-none rounded-full focus:outline-none placeholder-form-placeholder capitalize"}
+                                className={"flex flex-1 px-2 border-none rounded-full focus:outline-none placeholder-white capitalize"}
                             />
                         </div>
                     </div>
                     <div className={"flex w-1/2 gap-4 items-center justify-end"}>
-                        <HiEnvelope className={"size-6 text-admin-navbar-text cursor-pointer"}/>
-                        <HiBell className={"size-6 text-admin-navbar-text cursor-pointer"}/>
+                        <HiEnvelope className={"size-6 cursor-pointer"}/>
+                        <HiBell className={"size-6 cursor-pointer"}/>
                         {/*<Avatar*/}
                         {/*    size={"sm"}*/}
                         {/*    withShadow={false}*/}
