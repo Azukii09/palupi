@@ -3,6 +3,7 @@ import {useTranslations} from "next-intl";
 import React from "react";
 import MobileNavbar from "@/component/layout/navigation/navbar/MobileNavbar";
 import {HiBell, HiEnvelope, HiMagnifyingGlass} from "react-icons/hi2";
+import Avatar from "@/component/util/base/Avatar";
 
 export default function NavbarAdmin() {
     const formTranslate = useTranslations('form');
@@ -38,11 +39,11 @@ export default function NavbarAdmin() {
                     <div className={"flex w-1/2 gap-4 items-center justify-end"}>
                         <HiEnvelope className={"size-6 cursor-pointer"}/>
                         <HiBell className={"size-6 cursor-pointer"}/>
-                        {/*<Avatar*/}
-                        {/*    size={"sm"}*/}
-                        {/*    withShadow={false}*/}
-                        {/*    shape={"circle"}*/}
-                        {/*/>*/}
+                        <Avatar
+                            size={"sm"}
+                            withShadow={true}
+                            shape={"circle"}
+                        />
                         {/*<LanguageChanger/>*/}
                     </div>
                     {/*auth form button*/}
