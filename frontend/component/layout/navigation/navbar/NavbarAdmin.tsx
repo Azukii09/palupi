@@ -4,6 +4,7 @@ import React from "react";
 import MobileNavbar from "@/component/layout/navigation/navbar/MobileNavbar";
 import {HiBell, HiEnvelope, HiMagnifyingGlass} from "react-icons/hi2";
 import Avatar from "@/component/util/base/Avatar";
+import LanguageChanger from "@/component/util/base/LanguageChanger";
 
 export default function NavbarAdmin() {
     const formTranslate = useTranslations('form');
@@ -44,7 +45,7 @@ export default function NavbarAdmin() {
                             withShadow={true}
                             shape={"circle"}
                         />
-                        {/*<LanguageChanger/>*/}
+                        <LanguageChanger/>
                     </div>
                     {/*auth form button*/}
                 </div>
