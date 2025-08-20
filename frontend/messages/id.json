@@ -2,5 +2,9 @@
   "HomePage": {
     "title": "Halo dunia!",
     "about": "pergi ke halaman tentang"
+  },
+  "form": {
+    "search": "pencarian",
+    "formTitle": "Formulir Dasar"
   }
 }

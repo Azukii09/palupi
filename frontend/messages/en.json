@@ -2,5 +2,9 @@
   "HomePage": {
     "title": "Hello world!",
     "about": "Go to the about page"
+  },
+  "form": {
+    "search": "search",
+    "formTitle": "Basic Form"
   }
 }
