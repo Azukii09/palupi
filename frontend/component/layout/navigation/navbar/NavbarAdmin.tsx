@@ -17,10 +17,8 @@ export default function NavbarAdmin() {
                     {/*mobile hamburger*/}
                     <MobileNavbar/>
                     <div className={"flex gap-4 items-center"}>
-                      logo
                       <HiEnvelope className={"size-6 cursor-pointer"}/>
                       <HiBell className={"size-6 cursor-pointer"}/>
-                        {/*<Logo className={"text-admin-nav-text"} size={"sm"}/>*/}
                     </div>
                 </div>
 
