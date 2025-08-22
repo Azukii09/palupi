@@ -7,6 +7,7 @@ import Table from "@/component/util/base/Table";
 import Button from "@/component/util/base/Button";
 import {FaEye, FaTrash} from "react-icons/fa";
 import {HiOutlinePencilAlt} from "react-icons/hi";
+import Switch from "@/component/util/base/Switch";
 
 export default function MainViewCategory() {
   const params = useParams()
@@ -25,26 +26,27 @@ export default function MainViewCategory() {
       <BasicCard.content
         haveFooter={false}
       >
-        <Table
-          data={dataInLocal}
-          stripPrefixes={["contact.phone", "contact"]}
-          excludesColumnsData={["contact","id","avatar"]}
-          excludesColumnsName={["contact","id","avatar"]}
-          variants={"strip"}
-          withNumbering
-          withSearch={
-            {
-              searchStatus: true,
-              textColor:"text-primary",
-              borders:"border-primary",
-            }
+        <Switch/>
+      <Table
+        data={dataInLocal}
+        stripPrefixes={["contact.phone", "contact"]}
+        excludesColumnsData={["contact", "id", "avatar"]}
+        excludesColumnsName={["contact", "id", "avatar"]}
+        variants={"strip"}
+        withNumbering
+        withSearch={
+          {
+            searchStatus: true,
+            textColor: "text-primary",
+            borders: "border-primary",
           }
-          rowHover
-          pagination={{paginated: true,}}
-          withActions={
-            (row:number|unknown)=>(
-              <td className="text-center flex items-center justify-center gap-2 py-2">
-                <Button
+        }
+        rowHover
+        pagination={{paginated: true,}}
+        withActions={
+          (row: number | unknown) => (
+            <td className="text-center flex items-center justify-center gap-2 py-2">
+            <Button
                   buttonName={"detail"}
                   buttonType={"button"}
                   variant={"primary"}
