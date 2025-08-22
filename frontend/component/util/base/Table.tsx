@@ -15,25 +15,25 @@ export default function Table({
     withFooter = false,
     variants = 'default',
     rowHover = false,
-    hoverColor = 'hover:bg-admin-accent/20',
-    borderColor = 'border-admin-background',
-    stripColor = 'bg-admin-background/40',
-    headColor = 'text-admin-title/80',
-    textColor = 'text-admin-text/80',
-    rowColor = 'bg-admin-foreground',
+    hoverColor = 'hover:bg-secondary/20',
+    borderColor = 'border-primary',
+    stripColor = 'bg-primary/20',
+    headColor = 'text-primary/80',
+    textColor = 'text-primary/80',
+    rowColor = 'bg-white',
     renameMap = {},
     pagination = {
         paginated: false,
         textColor:{
-            active: 'bg-admin-accent text-admin-title/80',
-            text: 'text-admin-title/80',
+            active: 'bg-primary text-tertiary/80',
+            text: 'text-tertiary/80',
             pageNumber: 'text-success/60'
         }
     },
     withSearch = {
         searchStatus: false,
-        textColor: pagination.textColor?.text || 'text-admin-title/80',
-        borders: 'border-admin-foreground',
+        textColor: pagination.textColor?.text || 'text-primary/80',
+        borders: 'border-primary',
     },
 }: {
     data: Array<Record<string, unknown>> | undefined;
@@ -118,15 +118,15 @@ export default function Table({
     return (
         <div className="flex flex-col">
             <div
-                className={`${pagination.textColor?.text ? pagination.textColor.text:"text-admin-title/80"} ${pagination.paginated ? 'justify-between':'justify-end'} w-full flex items-center`}
+                className={`${pagination.textColor?.text ? pagination.textColor.text:"text-primary/80"} ${pagination.paginated ? 'justify-between':'justify-end'} w-full flex items-center`}
             >
                 {pagination.paginated && (
-                    <div className={"py-6"}>
+                    <div className={"py-6 flex flex-col md:flex-row gap-2 items-center justify-center"}>
                         <span>Show </span>
                         <select
                             name="pagination"
                             value={pageSize}
-                            className={`${borderColor} ${pagination.textColor?.text ? pagination.textColor.text:"text-admin-title/80"} border-2 px-2 focus:outline-0 focus:border-3 cursor-pointer mx-2`}
+                            className={`${borderColor} ${pagination.textColor?.text ? pagination.textColor.text:"text-primary/80"} border-1 border-primary px-2 focus:outline-0 focus:border-3 cursor-pointer mx-2 rounded-md`}
                             onChange={e => setPageSize(Number(e.target.value))}
                         >
                             {
@@ -146,7 +146,7 @@ export default function Table({
                     </div>
                 )}
                 {withSearch.searchStatus && (
-                    <div className={`${withSearch.textColor?withSearch.textColor:"text-admin-title/80"} capitalize`}>
+                    <div className={`${withSearch.textColor?withSearch.textColor:"text-primary/80"} capitalize flex items-center`}>
                         <label htmlFor="table-search" className="mr-2">
                             Search:
                         </label>
@@ -156,13 +156,13 @@ export default function Table({
                             placeholder="Search..."
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
-                            className={`${withSearch.borders ? withSearch.borders : "border-admin-background"} ${withSearch.textColor?withSearch.textColor:"text-admin-title/80"} border-2 px-4 py-1 focus:outline-0 focus:border-3 cursor-text mx-2`}
+                            className={`${withSearch.borders ? withSearch.borders : "border-primary"} ${withSearch.textColor?withSearch.textColor:"text-primary/80"} border-1 px-1 lg:px-4 py-1 focus:outline-0 focus:border-3 cursor-text mx-2 rounded-md`}
                         />
                     </div>
                 )}
             </div>
             <div
-                className={`${borderColor} border w-full rounded-xl overflow-auto bg-admin-foreground shadow-sm shadow-admin-accent`}
+                className={`${borderColor} border w-full rounded-xl overflow-auto bg-white shadow-xs shadow-primary`}
             >
                 <table className={`${textColor} w-full rounded-xl p-6 text-sm`}>
                     <thead className={`${delaGothic.className} ${headColor}`}>
@@ -227,7 +227,7 @@ export default function Table({
 
             {pagination.paginated && (
                 <div className="flex justify-between w-full items-center gap-2 mt-4">
-                    <div className={`${delaGothic.className} ${pagination.textColor?.text || 'text-admin-title/80'} bg-white text-sm tracking-widest h-full py-2`}>
+                    <div className={`${delaGothic.className} ${pagination.textColor?.text || 'text-primary/80'} bg-white text-xs tracking-widest h-full py-2`}>
                         Show{' '}
                         <span className={`${poppins.className} ${pagination.textColor?.pageNumber || 'text-success/60'} font-extrabold`}>{start + 1}–{Math.min(start + pageSize, rows.length)}</span>
                         {' '}from{' '}

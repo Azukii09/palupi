@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { getPageItems } from '@/lib/utils/getPageItems';
+import useWindowWidth from "@/hook/useWindowWidth";
 
 interface PaginationControlsProps {
     currentPage: number;
@@ -18,10 +19,12 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
     onPageChange,
     activePage,
 }) => {
-    const items = getPageItems(currentPage, totalPages);
+    const windowSize = useWindowWidth()
+    const maxSize = windowSize === "xs"?1:windowSize === "sm"?1:windowSize === "md"?2:windowSize === "lg"?3:windowSize === "xl"?4:5
+    const items = getPageItems(currentPage, totalPages, maxSize);
 
     return (
-        <div className={`${activePage?.text ? activePage.text :"text-admin-title/80"} flex items-center space-x-1`}>
+        <div className={`${activePage?.text ? activePage.text :"text-primary/80"} flex items-center space-x-1`}>
             {items.map(it => {
                 if (it.type === 'prev') {
                     return (
@@ -30,10 +33,10 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
                             onClick={() => onPageChange(currentPage - 1)}
                             disabled={it.disabled}
                             className={
-                                "px-2 py-1 rounded-full cursor-pointer shadow-sm shadow-admin-accent" +
+                                "px-2 py-1 rounded-full cursor-pointer shadow-sm shadow-primary text-nowrap text-xs sm:text-sm md:text-base" +
                                 (it.disabled
-                                    ? " opacity-50 cursor-not-allowed"
-                                    : " hover:bg-gray-100")
+                                    ? " opacity-50 bg-primary/20 cursor-not-allowed"
+                                    : " hover:bg-primary/20")
                             }
                         >
                             ‹ Prev
@@ -47,10 +50,10 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
                             onClick={() => onPageChange(currentPage + 1)}
                             disabled={it.disabled}
                             className={
-                                "px-2 py-1 rounded-full cursor-pointer shadow-sm shadow-admin-accent" +
+                                "px-2 py-1 rounded-full cursor-pointer shadow-sm shadow-primary text-nowrap text-xs sm:text-sm md:text-base" +
                                 (it.disabled
-                                    ? " opacity-50 cursor-not-allowed"
-                                    : " hover:bg-gray-100")
+                                  ? " opacity-50 bg-primary/20 cursor-not-allowed"
+                                  : " hover:bg-primary/20")
                             }
                         >
                             Next ›
@@ -61,7 +64,7 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
                     return (
                         <span
                             key={it.key}
-                            className="px-2 py-1 text-primary font-bold select-none tracking-wider"
+                            className="px-2 py-1 text-primary font-bold select-none tracking-wider text-nowrap text-xs sm:text-sm md:text-base"
                         >
                           . . . .
                         </span>
@@ -70,10 +73,10 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
 
                 // type === 'page'
                 const isActive = it.page === currentPage;
-                const baseClass = "px-4 py-1 rounded-full shadow-sm shadow-admin-accent ";
+                const baseClass = "px-4 py-1 rounded-full shadow-sm shadow-primary text-xs sm:text-sm md:text-base ";
                 const finalClass = isActive
-                    ? baseClass + (activePage?.active ? activePage.active : " bg-primary text-white")
-                    : baseClass + " hover:bg-gray-100";
+                    ? baseClass + (activePage?.active ? activePage.active : " bg-primary text-tertiary")
+                    : baseClass + " hover:bg-primary/20";
 
                 return (
                     <button

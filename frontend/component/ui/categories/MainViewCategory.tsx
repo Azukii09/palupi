@@ -29,6 +29,13 @@ export default function MainViewCategory() {
           excludesColumnsName={["contact","id","avatar"]}
           variants={"strip"}
           withNumbering
+          withSearch={
+            {
+              searchStatus: true,
+              textColor:"text-primary",
+              borders:"border-primary",
+            }
+          }
           rowHover
           pagination={{paginated: true,}}
         />
