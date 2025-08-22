@@ -25,7 +25,7 @@ export default function SubSidebar({
         <div className={"flex flex-col gap-4"}>
             <button
                 onClick={()=> setActive(!active)}
-                className={`${router.includes(link as string) && "bg-success/60 text-tertiary"} hover:bg-success/60 hover:text-white px-3 py-1 rounded-md w-full flex flex-col group cursor-pointer font-bold`}
+                className={`${router.includes(link as string) && "bg-secondary/60 text-tertiary"} hover:bg-secondary/60 hover:text-white px-3 py-1 rounded-md w-full flex flex-col group cursor-pointer font-bold`}
             >
                 <div className={`flex items-center max-w-36`}>
                     {parentIcon}
