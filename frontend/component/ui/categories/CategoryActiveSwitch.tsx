@@ -29,7 +29,7 @@ export function CategoryActiveSwitch({
       // optional: kamu bisa beri name/value jika suatu saat ingin kirim via form
       name={`category-${categoryId}-active`}
       value="true"
-      size={"md"}
+      size={"sm"}
     />
   )
 }
