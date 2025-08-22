@@ -5,6 +5,7 @@ import {navigationData} from "@/lib/data/navigation/navigation_data";
 import {HiBars4} from "react-icons/hi2";
 import SidebarAdminComponent from "@/component/layout/navigation/sidebar/SidebarAdminComponent";
 import Logo from "@/component/util/base/Logo";
+import LanguageChanger from "@/component/util/base/LanguageChanger";
 
 export default function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +29,9 @@ export default function MobileNavbar() {
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
-              <div className={"w-full flex flex-col pl-5 items-center py-6"}>
+              <div className={"w-full flex pl-5 items-center justify-between py-6"}>
                 <Logo className={"text-white"} size={"md"}/>
+                <LanguageChanger/>
               </div>
               <SidebarAdminComponent dataSidebar={dataSidebar?.navigation}/>
             </div>

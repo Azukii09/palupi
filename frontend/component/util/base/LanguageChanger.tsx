@@ -19,7 +19,7 @@ export default function LanguageChanger() {
                 id="package"
                 name="package"
                 defaultValue={locale}
-                className={"rounded-lg ring-1 ring-primary/70 bg-primary/40 text-white p-1 focus:outline-0 focus:ring-3"}
+                className={"rounded-lg ring-1 ring-primary/70 bg-white text-primary p-1 focus:outline-0 focus:ring-3"}
                 onChange={(e) => changeLocale(e.target.value)}
             >
                 {routing.locales.map((option,index) => (
