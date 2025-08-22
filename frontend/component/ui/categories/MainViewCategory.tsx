@@ -7,7 +7,7 @@ import Table from "@/component/util/base/Table";
 import Button from "@/component/util/base/Button";
 import {FaEye, FaTrash} from "react-icons/fa";
 import {HiOutlinePencilAlt} from "react-icons/hi";
-import Switch from "@/component/util/base/Switch";
+import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
 
 export default function MainViewCategory() {
   const params = useParams()
@@ -26,7 +26,6 @@ export default function MainViewCategory() {
       <BasicCard.content
         haveFooter={false}
       >
-        <Switch/>
       <Table
         data={dataInLocal}
         stripPrefixes={["contact.phone", "contact"]}
@@ -82,6 +81,16 @@ export default function MainViewCategory() {
               </td>
             )
           }
+        customColumnRenderer={{
+          status:(data)=>(
+            <div className={"flex items-center justify-center"}>
+              <CategoryActiveSwitch
+                categoryId={data.id as string}
+                initialActive={data.status as boolean}
+              />
+            </div>
+          )
+        }}
         />
       </BasicCard.content>
     </BasicCard>
