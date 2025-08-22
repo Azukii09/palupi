@@ -2,17 +2,17 @@
 import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import {useParams} from "next/navigation";
-import {BasicTableData} from "@/lib/data/dummy/BasicTable";
 import Table from "@/component/util/base/Table";
 import Button from "@/component/util/base/Button";
 import {FaEye, FaTrash} from "react-icons/fa";
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
+import {DummyCategory} from "@/lib/data/dummy/Category";
 
 export default function MainViewCategory() {
   const params = useParams()
 
-  const dataInLocal = BasicTableData.find(item => item.locale === params.locale)?.data;
+  const dataInLocal = DummyCategory.find(item => item.locale === params.locale)?.data;
   return (
     <BasicCard>
       {/*Title*/}
@@ -28,9 +28,8 @@ export default function MainViewCategory() {
       >
       <Table
         data={dataInLocal}
-        stripPrefixes={["contact.phone", "contact"]}
-        excludesColumnsData={["contact", "id", "avatar"]}
-        excludesColumnsName={["contact", "id", "avatar"]}
+        excludesColumnsData={[ "id"]}
+        excludesColumnsName={[ "id"]}
         variants={"strip"}
         withNumbering
         withSearch={
