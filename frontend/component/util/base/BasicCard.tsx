@@ -10,7 +10,11 @@ const BasicCardTitle = ({ children }: { children: React.ReactNode }) => {
 
 const BasicCardContent = ({ children, haveFooter = true }: { children: React.ReactNode, haveFooter?: boolean }) => {
     return (
-        <div className={`${!haveFooter && "rounded-b-md"} bg-white p-6 text-primary w-full overflow-auto`}>{children}</div>
+        <div className={`${!haveFooter && "rounded-b-md"} bg-white py-5 px-3 text-primary w-full`}>
+          <div className={"py-2 px-1 overflow-auto"}>
+            {children}
+          </div>
+        </div>
     );
 };
 
