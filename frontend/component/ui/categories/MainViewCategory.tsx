@@ -40,7 +40,10 @@ export default function MainViewCategory() {
           }
         }
         rowHover
-        pagination={{paginated: true,}}
+        pagination={{
+          paginated: true,
+          paginatedPageCount:[5,10,15],
+        }}
         withActions={
           (row: number | unknown) => (
             <td className="text-center flex items-center justify-center gap-2 py-2">
