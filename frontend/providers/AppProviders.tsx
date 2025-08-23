@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import {ModalProvider} from "@/app/_providers/context/ModalContext";
+import {ModalProvider} from "@/providers/context/ModalContext";
 
 const AppProviders = ({ children }: { children: ReactNode }) => {
     return (

@@ -5,6 +5,7 @@ import {routing} from "@/i18n/routing";
 import {notFound} from "next/navigation";
 import { poppins} from "@/lib/font/font";
 import React from "react";
+import AppProviders from "@/providers/AppProviders";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +27,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className={`${poppins.className}`}>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <AppProviders>
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </AppProviders>
       </body>
     </html>
 
