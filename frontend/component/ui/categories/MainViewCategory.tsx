@@ -62,7 +62,9 @@ export default function MainViewCategory() {
                     Category Detail
                   </Modal.Header>
                   <Modal.Body>
-                    <div className={"flex flex-col gap-2"}></div>
+                    <div className={"flex flex-col gap-2"}>
+                      tes {row as number}
+                    </div>
                   </Modal.Body>
                   <Modal.Footer
                     btnVariant={"success"}
