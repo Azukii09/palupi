@@ -48,46 +48,64 @@ export default function MainViewCategory() {
         withActions={
           (row: number | unknown) => (
             <td className="text-center flex items-center justify-center gap-2 py-2">
-                <Modal
-                  id={`detail-${row}`}
-                  btnVariant={"primary"}
-                  btnName={`detail-${row}`}
-                  btnText={`View`}
-                  btnSize={"xs"}
-                  btnBadge
-                  btnOnlyIcon
-                  btnIcon={<FaEye className={"size-4"}/>}
-                >
-                  <Modal.Header>
-                    Category Detail
-                  </Modal.Header>
-                  <Modal.Body>
-                    <div className={"flex flex-col gap-2"}>
-                      tes {row as number}
-                    </div>
-                  </Modal.Body>
-                  <Modal.Footer
-                    btnVariant={"success"}
-                    btnText={"Submit"}
-                    btnName={"Submit"}
-                    btnVariantType={"solid"}
-                    btnSize={"sm"}
-                    >
-                    Footer
-                  </Modal.Footer>
-                </Modal>
+              <Modal
+                id={`detail-${row}`}
+                btnVariant={"primary"}
+                btnName={`detail-${row}`}
+                btnText={`View`}
+                btnSize={"xs"}
+                btnBadge
+                btnOnlyIcon
+                btnIcon={<FaEye className={"size-4"}/>}
+              >
+                <Modal.Header>
+                  Category Detail
+                </Modal.Header>
+                <Modal.Body>
+                  <div className={"flex flex-col gap-2"}>
+                    tes {row as number}
+                  </div>
+                </Modal.Body>
+                <Modal.Footer
+                  btnVariant={"success"}
+                  btnText={"Submit"}
+                  btnName={"Submit"}
+                  btnVariantType={"solid"}
+                  btnSize={"sm"}
+                  >
+                  Footer
+                </Modal.Footer>
+              </Modal>
 
-                <Button
-                  buttonName={"edit"}
-                  buttonType={"button"}
-                  variant={"warning"}
-                  buttonText={"Edit"}
-                  size={"sm"}
-                  isBadge
-                  onlyIcon
-                  icon={<HiOutlinePencilAlt className={"size-4"}/>}
-                  handler={()=>console.log(row)}
-                />
+              <Modal
+                id={`edit-${row}`}
+                btnVariant={"warning"}
+                btnName={`edit-${row}`}
+                btnText={`View`}
+                btnSize={"xs"}
+                btnBadge
+                btnOnlyIcon
+                btnIcon={<HiOutlinePencilAlt className={"size-4"}/>}
+              >
+                <Modal.Header>
+                  Edit Category
+                </Modal.Header>
+                <Modal.Body>
+                  <div className={"flex flex-col gap-2"}>
+                    tes {row as number}
+                  </div>
+                </Modal.Body>
+                <Modal.Footer
+                  btnVariant={"success"}
+                  btnText={"Submit"}
+                  btnName={"Submit"}
+                  btnVariantType={"solid"}
+                  btnSize={"sm"}
+                >
+                  Footer
+                </Modal.Footer>
+              </Modal>
+
                 <Button
                   buttonName={"delete"}
                   buttonType={"button"}
