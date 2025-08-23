@@ -76,17 +76,7 @@ export default function MainViewCategory() {
                     Footer
                   </Modal.Footer>
                 </Modal>
-                <Button
-                  buttonName={"detail"}
-                  buttonType={"button"}
-                  variant={"primary"}
-                  buttonText={"Detail"}
-                  size={"sm"}
-                  isBadge
-                  onlyIcon
-                  icon={<FaEye className={"size-4"}/>}
-                  handler={()=>console.log(row)}
-                />
+
                 <Button
                   buttonName={"edit"}
                   buttonType={"button"}
