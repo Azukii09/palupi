@@ -13,16 +13,16 @@ import {useModal} from "@/providers/context/ModalContext";
 const ModalHeader = ({children, onClose}: { children: ReactNode; onClose?: () => void }) => {
     return (
         <div
-            className="flex-shrink-0 flex items-center w-full justify-center px-8 py-2 border-b-2 border-admin-background">
+            className="flex-shrink-0 flex items-center w-full justify-center px-8 py-2 border-b-1 border-primary">
             <div className="flex items-center justify-between w-full">
-                <h3 className="p-2 w-full tracking-wider text-lg font-semibold text-admin-title uppercase">
+                <h3 className="p-2 w-full tracking-wider text-lg font-semibold text-primary uppercase">
                     {children}
                 </h3>
                 {onClose && (
                     <button onClick={onClose} className="translate-x-1/2 cursor-pointer">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6 text-admin-title/70 hover:text-admin-title"
+                            className="w-6 h-6 text-primary/70 hover:text-primary"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -58,7 +58,7 @@ const ModalBody = ({
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 }) => {
     return (
-        <div className="flex-grow overflow-y-auto p-6 text-admin-text w-full">
+        <div className="flex-grow overflow-y-auto p-6 text-primary w-full">
             {formId ? (
                 <form id={formId} className="w-full h-full" onSubmit={onSubmit}>
                     {children}
@@ -106,7 +106,7 @@ const ModalFooter = ({
 }) => {
     return (
         <div
-            className="flex-shrink-0 px-6 py-4 bg-admin-foreground rounded-b-lg text-admin-text w-full border-t-2 border-admin-background/60">
+            className="flex-shrink-0 px-6 py-4 bg-white rounded-b-lg text-primary w-full border-t-1 border-primary/60">
             <div className={`${children ? "justify-between" : "justify-end"} flex items-center`}>
                 {children}
                 <div className="flex gap-2">
@@ -209,7 +209,7 @@ const Modal = ({
             {/* Modal overlay and content */}
             <div
                 className={`${
-                    isOpen ? "visible bg-admin-accent/40 z-10" : "invisible"
+                    isOpen ? "visible bg-primary/30 z-10" : "invisible"
                 } fixed flex top-0 left-0 w-screen h-screen justify-center items-center transition-colors`}
             >
                 {/* Overlay to close modal */}
@@ -227,7 +227,7 @@ const Modal = ({
                         ${modalSize === "md" && "max-w-1/2"} 
                         ${modalSize === "sm" && "max-w-1/3"} 
                         
-                        transition-transform container bg-admin-foreground rounded-lg shadow-lg shadow-primary flex flex-col min-w-80 max-h-11/12`}
+                        transition-transform container bg-white rounded-lg shadow-md shadow-primary flex flex-col min-w-80 max-h-11/12`}
                 >
                     {/* Pass handleClose function to children */}
                     {React.Children.map(children, (child) =>
