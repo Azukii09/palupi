@@ -3,7 +3,6 @@ import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import {useParams} from "next/navigation";
 import Table from "@/component/util/base/Table";
-import Button from "@/component/util/base/Button";
 import {FaEye, FaTrash} from "react-icons/fa";
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
@@ -81,7 +80,7 @@ export default function MainViewCategory() {
                 id={`edit-${row}`}
                 btnVariant={"warning"}
                 btnName={`edit-${row}`}
-                btnText={`View`}
+                btnText={`Edit`}
                 btnSize={"xs"}
                 btnBadge
                 btnOnlyIcon
@@ -106,17 +105,34 @@ export default function MainViewCategory() {
                 </Modal.Footer>
               </Modal>
 
-                <Button
-                  buttonName={"delete"}
-                  buttonType={"button"}
-                  variant={"danger"}
-                  buttonText={"Delete"}
-                  size={"sm"}
-                  isBadge
-                  onlyIcon
-                  icon={<FaTrash className={"size-4"}/>}
-                  handler={()=>console.log(row)}
-                />
+              <Modal
+                id={`delete-${row}`}
+                btnVariant={"danger"}
+                btnName={`delete-${row}`}
+                btnText={`Delete`}
+                btnSize={"xs"}
+                btnBadge
+                btnOnlyIcon
+                btnIcon={<FaTrash className={"size-4"}/>}
+              >
+                <Modal.Header>
+                  Delete Category
+                </Modal.Header>
+                <Modal.Body>
+                  <div className={"flex flex-col gap-2"}>
+                    tes {row as number}
+                  </div>
+                </Modal.Body>
+                <Modal.Footer
+                  btnVariant={"success"}
+                  btnText={"Submit"}
+                  btnName={"Submit"}
+                  btnVariantType={"solid"}
+                  btnSize={"sm"}
+                >
+                  Footer
+                </Modal.Footer>
+              </Modal>
               </td>
             )
           }
