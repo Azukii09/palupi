@@ -15,6 +15,10 @@ async fn main() {
 #[cfg(test)]
 mod test {
     use std::env;
+    use axum::extract::Request;
+    use axum::Router;
+    use axum::routing::get;
+    use axum_test::TestServer;
     use dotenvy::dotenv;
     use sqlx::{Connection, Error, PgConnection};
     use crate::core::database::db::init_pool;
@@ -36,5 +40,20 @@ mod test {
         let pool = init_pool(&cfg).await?;
         pool.close().await;
         Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_app() {
+        async fn hello_world(request: Request) ->  String {
+            format!("Hello, world! {}", request.uri().path())
+        }
+        let app = Router::new()
+            .route("/get", get(hello_world));
+
+        let server = TestServer::new(app).unwrap();
+        let response = server.get("/get").await;
+
+        response.assert_status_ok();
+        response.assert_text("Hello, world! /get");
     }
 }
