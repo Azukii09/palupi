@@ -1,8 +1,15 @@
+use axum::{serve, Router};
+use axum::routing::get;
+use tokio::net::TcpListener;
+
 mod core;
 mod app;
 
-fn main() {
-    println!("Hello, world!");
+#[tokio::main]
+async fn main() {
+    let app_router = Router::new().route("/", get( || async { "Hello, World! this is category api" }));
+    let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
+    serve(listener,app_router).await.unwrap()
 }
 
 #[cfg(test)]
