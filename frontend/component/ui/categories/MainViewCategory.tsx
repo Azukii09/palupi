@@ -3,11 +3,12 @@ import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import {useParams} from "next/navigation";
 import Table from "@/component/util/base/Table";
-import {FaEye, FaTrash} from "react-icons/fa";
+import { FaTrash} from "react-icons/fa";
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
 import {DummyCategory} from "@/lib/data/dummy/Category";
 import Modal from "@/component/util/base/Modal";
+import CategoryDetail from "@/component/ui/categories/detail/CategoryDetail";
 
 export default function MainViewCategory() {
   const params = useParams()
@@ -47,34 +48,7 @@ export default function MainViewCategory() {
         withActions={
           (row: number | unknown) => (
             <td className="text-center flex items-center justify-center gap-2 py-2">
-              <Modal
-                id={`detail-${row}`}
-                btnVariant={"primary"}
-                btnName={`detail-${row}`}
-                btnText={`View`}
-                btnSize={"xs"}
-                btnBadge
-                btnOnlyIcon
-                btnIcon={<FaEye className={"size-4"}/>}
-              >
-                <Modal.Header>
-                  Category Detail
-                </Modal.Header>
-                <Modal.Body>
-                  <div className={"flex flex-col gap-2"}>
-                    tes {row as number}
-                  </div>
-                </Modal.Body>
-                <Modal.Footer
-                  btnVariant={"success"}
-                  btnText={"Submit"}
-                  btnName={"Submit"}
-                  btnVariantType={"solid"}
-                  btnSize={"sm"}
-                  >
-                  Footer
-                </Modal.Footer>
-              </Modal>
+              <CategoryDetail id={row as number}/>
 
               <Modal
                 id={`edit-${row}`}
