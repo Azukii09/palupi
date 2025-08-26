@@ -4,7 +4,7 @@ import {FaEye} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
 import {DummyCategory} from "@/lib/data/dummy/Category";
 import {useParams} from "next/navigation";
-import {delaGothic, poppins} from "@/lib/font/font";
+import {poppins} from "@/lib/font/font";
 
 export default function CategoryDetail({
   id
