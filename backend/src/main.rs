@@ -7,9 +7,23 @@ mod app;
 
 #[tokio::main]
 async fn main() {
-    let app_router = Router::new().route("/", get( || async { "Hello, World! this is category api" }));
+
+    let category_router = Router::new()
+        .route("/", get(|| async { "Hello, category!" }));
+
+    let auth_router = Router::new()
+        .route("/login", get(|| async { "Hello, auth!"}));
+
+    let api_v1 = Router::new()
+        .nest("/category", category_router)
+        .nest("/auth", auth_router);
+
+    let app = Router::new()
+        .nest("/api/v1", api_v1);
+
+
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
-    serve(listener,app_router).await.unwrap()
+    serve(listener,app).await.unwrap()
 }
 
 #[cfg(test)]
