@@ -1,6 +1,6 @@
-use axum::{serve, Router};
-use axum::routing::get;
+use axum::{serve};
 use tokio::net::TcpListener;
+use crate::app::build_router;
 
 mod core;
 mod app;
@@ -8,19 +8,7 @@ mod app;
 #[tokio::main]
 async fn main() {
 
-    let category_router = Router::new()
-        .route("/", get(|| async { "Hello, category!" }));
-
-    let auth_router = Router::new()
-        .route("/login", get(|| async { "Hello, auth!"}));
-
-    let api_v1 = Router::new()
-        .nest("/category", category_router)
-        .nest("/auth", auth_router);
-
-    let app = Router::new()
-        .nest("/api/v1", api_v1);
-
+    let app = build_router();
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
     serve(listener,app).await.unwrap()
