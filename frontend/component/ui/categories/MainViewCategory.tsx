@@ -9,7 +9,6 @@ import {DummyCategory} from "@/lib/data/dummy/Category";
 import Modal from "@/component/util/base/Modal";
 import CategoryDetail from "@/component/ui/categories/detail/CategoryDetail";
 import CategoryEdit from "@/component/ui/categories/edit/CategoryEdit";
-import Button from "@/component/util/base/Button";
 
 export default function MainViewCategory() {
   const params = useParams()
