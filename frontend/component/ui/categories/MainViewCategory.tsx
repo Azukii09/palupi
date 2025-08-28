@@ -9,6 +9,7 @@ import {DummyCategory} from "@/lib/data/dummy/Category";
 import Modal from "@/component/util/base/Modal";
 import CategoryDetail from "@/component/ui/categories/detail/CategoryDetail";
 import CategoryEdit from "@/component/ui/categories/edit/CategoryEdit";
+import CategoryCreate from "@/component/ui/categories/create/CategoryCreate";
 
 export default function MainViewCategory() {
   const params = useParams()
@@ -28,20 +29,7 @@ export default function MainViewCategory() {
         haveFooter={false}
       >
         <div>
-          <Modal id={"mdl-add"} btnVariant={"primary"} btnName={"add-category"} btnText={"New Category"} btnSize={"sm"}>
-            <Modal.Header>
-              Add New Category
-            </Modal.Header>
-            <Modal.Body>body</Modal.Body>
-            <Modal.Footer
-              btnVariant={"success"}
-              btnText={"Submit"}
-              btnName={"Submit"}
-              btnVariantType={"solid"}
-              btnSize={"sm"}
-            >
-            </Modal.Footer>
-          </Modal>
+          <CategoryCreate/>
 
           <Table
             data={dataInLocal}
