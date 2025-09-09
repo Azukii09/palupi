@@ -3,13 +3,12 @@ import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import {useParams} from "next/navigation";
 import Table from "@/component/util/base/Table";
-import { FaTrash} from "react-icons/fa";
 import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
 import {DummyCategory} from "@/lib/data/dummy/Category";
-import Modal from "@/component/util/base/Modal";
 import CategoryDetail from "@/component/ui/categories/detail/CategoryDetail";
 import CategoryEdit from "@/component/ui/categories/edit/CategoryEdit";
 import CategoryCreate from "@/component/ui/categories/create/CategoryCreate";
+import CategoryDelete from "@/component/ui/categories/delete/CategoryDelete";
 
 export default function MainViewCategory() {
   const params = useParams()
@@ -56,34 +55,7 @@ export default function MainViewCategory() {
 
                   <CategoryEdit id={row as number}/>
 
-                  <Modal
-                    id={`delete-${row}`}
-                    btnVariant={"danger"}
-                    btnName={`delete-${row}`}
-                    btnText={`Delete`}
-                    btnSize={"xs"}
-                    btnBadge
-                    btnOnlyIcon
-                    btnIcon={<FaTrash className={"size-4"}/>}
-                  >
-                    <Modal.Header>
-                      Delete Category
-                    </Modal.Header>
-                    <Modal.Body>
-                      <div className={"flex flex-col gap-2"}>
-                        tes {row as number}
-                      </div>
-                    </Modal.Body>
-                    <Modal.Footer
-                      btnVariant={"success"}
-                      btnText={"Submit"}
-                      btnName={"Submit"}
-                      btnVariantType={"solid"}
-                      btnSize={"sm"}
-                    >
-                      Footer
-                    </Modal.Footer>
-                  </Modal>
+                  <CategoryDelete id={row as number}/>
                 </td>
               )
             }
