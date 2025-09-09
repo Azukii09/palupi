@@ -53,7 +53,7 @@ export default function CategoryEdit({
         {/* name */}
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-primary mb-1"
+          className="block text-sm font-medium text-primary mb-1 text-start"
         >
           Category Name
         </label>
@@ -71,7 +71,7 @@ export default function CategoryEdit({
         {/* description */}
         <label
           htmlFor="desc"
-          className="block text-sm font-medium text-primary mb-1"
+          className="block text-sm font-medium text-primary mb-1 text-start"
         >
           Category Description
         </label>
