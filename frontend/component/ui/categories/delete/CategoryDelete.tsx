@@ -27,13 +27,13 @@ export default function CategoryDelete({
         </div>
       </Modal.Body>
       <Modal.Footer
-        btnVariant={"success"}
-        btnText={"Submit"}
-        btnName={"Submit"}
+        btnVariant={"danger"}
+        btnText={"Delete"}
+        btnName={"delete"}
         btnVariantType={"solid"}
         btnSize={"sm"}
       >
-        Footer
+        Delete Category
       </Modal.Footer>
     </Modal>
   );
