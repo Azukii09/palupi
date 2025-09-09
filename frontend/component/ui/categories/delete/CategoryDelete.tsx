@@ -22,8 +22,10 @@ export default function CategoryDelete({
         Delete Category
       </Modal.Header>
       <Modal.Body>
-        <div className={"flex flex-col gap-2"}>
-          <FaTrash className={"size-4"}/>
+        <div className={"flex flex-col gap-2 items-center justify-center"}>
+          <div className={"bg-rose-500 p-8 rounded-full"}>
+            <FaTrash className={"size-14 text-white"}/>
+          </div>
         </div>
       </Modal.Body>
       <Modal.Footer
