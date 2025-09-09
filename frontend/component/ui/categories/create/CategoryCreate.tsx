@@ -14,8 +14,9 @@ export default function CategoryCreate() {
     const fd = new FormData(e.currentTarget);
     // pastikan 'name' sama dengan atribut name pada input
     const name = fd.get("name");
+    const desc = fd.get("desc");
 
-    console.log("Form submitted with:", { name });
+    console.log("Form submitted with:", { name , desc});
 
     // contoh: reset form & tutup modal setelah submit
     e.currentTarget.reset();
@@ -28,20 +29,32 @@ export default function CategoryCreate() {
       btnVariant="primary"
       btnVariantType="solid"
       btnName="open-create-category"
-      btnText="Open Modal Form"
+      btnText="New Category"
       btnSize="sm"
       formId={formId}
     >
       <Modal.Header>New Category</Modal.Header>
 
       <Modal.Body formId={formId} onSubmit={handleSubmit}>
-        {/* Penting: gunakan atribut name agar terbaca oleh FormData */}
+        {/*name*/}
         <label htmlFor="name" className="block text-sm font-medium text-primary mb-1">
           Category Name
         </label>
         <input
           id="name"
           name="name"
+          type="text"
+          placeholder="e.g. Beverages"
+          className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
+          required
+        />
+        {/*description*/}
+        <label htmlFor="desc" className="block text-sm font-medium text-primary mb-1">
+          Category Description
+        </label>
+        <input
+          id="desc"
+          name="desc"
           type="text"
           placeholder="e.g. Beverages"
           className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
