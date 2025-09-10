@@ -46,7 +46,7 @@ export default function MainViewCategory() {
             rowHover
             pagination={{
               paginated: true,
-              paginatedPageCount:[5,10,15],
+              paginatedPageCount:[5,10,20,50],
             }}
             withActions={
               (row: number | unknown) => (
