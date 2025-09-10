@@ -6,5 +6,17 @@
   "form": {
     "search": "search",
     "formTitle": "Basic Form"
+  },
+  "Category": {
+    "form": {
+      "name": "Name",
+      "detail": "Detail",
+      "status": "Status",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "create": "Create"
+    }
   }
 }

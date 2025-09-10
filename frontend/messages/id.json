@@ -6,5 +6,17 @@
   "form": {
     "search": "pencarian",
     "formTitle": "Formulir Dasar"
+  },
+  "Category": {
+    "form": {
+      "name": "Nama",
+      "detail": "Detail",
+      "status": "Status",
+      "submit": "Kirim",
+      "cancel": "Batal",
+      "edit": "Edit",
+      "delete": "Hapus",
+      "create": "Buat"
+    }
   }
 }
