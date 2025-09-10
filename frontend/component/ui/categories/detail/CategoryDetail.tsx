@@ -5,6 +5,7 @@ import Modal from "@/component/util/base/Modal";
 import {DummyCategory} from "@/lib/data/dummy/Category";
 import {useParams} from "next/navigation";
 import {poppins} from "@/lib/font/font";
+import {useTranslations} from "next-intl";
 
 export default function CategoryDetail({
   id
@@ -12,6 +13,7 @@ export default function CategoryDetail({
   id:number;
 }) {
   const params = useParams()
+  const tCatefory = useTranslations('Category')
 
   const data = DummyCategory.find(item => item.locale === params.locale)?.data.find(it => it.id === id);
   return (
@@ -33,12 +35,12 @@ export default function CategoryDetail({
           <table className="w-full text-sm">
             <tbody className={`${poppins.className}`}>
               <tr className=" border-primary/50">
-                <td className="px-4 py-2 text-start">Name</td>
+                <td className="px-4 py-2 text-start">{tCatefory('form.name')}</td>
                 <td className="px-4 py-2">:</td>
                 <td className="px-4 py-2 text-start">{data?.name}</td>
               </tr>
               <tr className=" border-primary/50 border-t">
-                <td className="px-4 py-2 text-start">Description</td>
+                <td className="px-4 py-2 text-start">{tCatefory('form.detail')}</td>
                 <td className="px-4 py-2">:</td>
                 <td className="px-4 py-2 text-start">{data?.detail}</td>
               </tr>
