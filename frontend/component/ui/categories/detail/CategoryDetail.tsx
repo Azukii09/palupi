@@ -29,12 +29,13 @@ export default function CategoryDetail({
         Category Detail
       </Modal.Header>
       <Modal.Body>
-        <div className="rounded-xl overflow-hidden border border-primary">
+        <div className="rounded-xl overflow-hidden border-[1.5px] border-primary/50">
           <table className="w-full text-sm">
-            <tbody className={poppins.className}>
-              <tr className="border-b border-primary">
-                <td className="px-4 py-2">tes</td>
-                <td className="px-4 py-2 border-l border-primary">tes 2</td>
+            <tbody className={`${poppins.className}`}>
+              <tr className=" border-primary">
+                <td className="px-4 py-2 text-start">Name</td>
+                <td className="px-4 py-2">:</td>
+                <td className="px-4 py-2 text-start">{data?.name}</td>
               </tr>
             </tbody>
           </table>
