@@ -31,7 +31,7 @@ export default function CategoryDetail({
         Category Detail
       </Modal.Header>
       <Modal.Body>
-        <div className="rounded-xl overflow-hidden border-[1.5px] border-primary/50">
+        <div className="rounded-xl overflow-hidden shadow shadow-primary">
           <table className="w-full text-sm">
             <tbody className={`${poppins.className}`}>
               <tr className=" border-primary/50">
