@@ -44,6 +44,11 @@ export default function CategoryDetail({
                 <td className="px-4 py-2">:</td>
                 <td className="px-4 py-2 text-start">{data?.detail}</td>
               </tr>
+              <tr className=" border-primary/50 border-t">
+                <td className="px-4 py-2 text-start">{tCatefory('form.status')}</td>
+                <td className="px-4 py-2">:</td>
+                <td className="px-4 py-2 text-start">{data?.status ? "active":"not active"}</td>
+              </tr>
             </tbody>
           </table>
         </div>
