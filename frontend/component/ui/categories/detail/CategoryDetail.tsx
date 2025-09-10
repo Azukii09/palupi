@@ -32,10 +32,15 @@ export default function CategoryDetail({
         <div className="rounded-xl overflow-hidden border-[1.5px] border-primary/50">
           <table className="w-full text-sm">
             <tbody className={`${poppins.className}`}>
-              <tr className=" border-primary">
+              <tr className=" border-primary/50">
                 <td className="px-4 py-2 text-start">Name</td>
                 <td className="px-4 py-2">:</td>
                 <td className="px-4 py-2 text-start">{data?.name}</td>
+              </tr>
+              <tr className=" border-primary/50 border-t">
+                <td className="px-4 py-2 text-start">Description</td>
+                <td className="px-4 py-2">:</td>
+                <td className="px-4 py-2 text-start">{data?.detail}</td>
               </tr>
             </tbody>
           </table>
