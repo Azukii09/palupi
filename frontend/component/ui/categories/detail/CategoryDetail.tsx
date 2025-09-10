@@ -29,22 +29,15 @@ export default function CategoryDetail({
         Category Detail
       </Modal.Header>
       <Modal.Body>
-        <div className={"flex flex-col gap-2"}>
-          <table className={` w-full rounded-xl p-6 text-sm`}>
-            <tbody className={`${poppins.className} rounded-xl`}>
-              <tr
-                className={` border-y rounded-xl`}
-              >
-                <td className={`border-primary px-4 py-2 border-x rounded-xl`}>
-                  tes
-                </td>
-                <td className={`border-primary px-4 py-2 border-x `}>
-                  tes 2
-                </td>
+        <div className="rounded-xl overflow-hidden border border-primary">
+          <table className="w-full text-sm">
+            <tbody className={poppins.className}>
+              <tr className="border-b border-primary">
+                <td className="px-4 py-2">tes</td>
+                <td className="px-4 py-2 border-l border-primary">tes 2</td>
               </tr>
             </tbody>
           </table>
-          {data?.name}
         </div>
       </Modal.Body>
     </Modal>
