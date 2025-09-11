@@ -28,17 +28,16 @@ export default function CategoryDetail({
       btnIcon={<FaEye className={"size-4"}/>}
     >
       <Modal.Header>
-        <div className={`${params.locale === "id" && "flex-row-reverse"} ${poppins.className} flex items-center gap-2 justify-center`}>
-          <span>{tCategory('form.category')}</span>
-          <span>{tCategory('form.detail')}</span>
-        </div>
+        {params.locale ==="id" ? `${tCategory('form.detail')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.detail')}`}
       </Modal.Header>
       <Modal.Body>
         <div className="rounded-xl overflow-hidden shadow shadow-primary">
           <table className="w-full text-sm">
             <tbody className={`${poppins.className}`}>
               <tr className=" border-primary/50">
-                <td className="px-4 py-2 text-start bg-primary text-white">{tCategory('form.name')}</td>
+                <td className={`px-4 py-2 text-start bg-primary text-white`}>
+                  {params.locale ==="id" ? `${tCategory('form.name')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.name')}`}
+                </td>
                 <td className="px-4 py-2 bg-primary text-white">:</td>
                 <td className="px-4 py-2 text-start">{data?.name}</td>
               </tr>
