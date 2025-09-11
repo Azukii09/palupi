@@ -16,7 +16,8 @@
       "cancel": "Cancel",
       "edit": "Edit",
       "delete": "Delete",
-      "create": "Create"
+      "create": "Create",
+      "category": "Category"
     }
   }
 }
