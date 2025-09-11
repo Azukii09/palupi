@@ -10,7 +10,7 @@
   "Category": {
     "form": {
       "name": "Name",
-      "detail": "Detail",
+      "description": "Description",
       "status": "Status",
       "submit": "Submit",
       "cancel": "Cancel",
