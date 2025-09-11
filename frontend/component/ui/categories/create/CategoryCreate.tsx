@@ -2,11 +2,15 @@
 import React, { useState } from "react";
 import Modal from "@/component/util/base/Modal";
 import { useModal } from "@/providers/context/ModalContext";
+import {useTranslations} from "next-intl";
 
 export default function CategoryCreate() {
   const { closeModal } = useModal();
   const modalId = "demo-create-category";
   const formId = "create-category-form";
+
+  const tCategory = useTranslations('Category')
+
 
   // state untuk form
   const [name, setName] = useState("");
@@ -42,7 +46,7 @@ export default function CategoryCreate() {
           htmlFor="name"
           className="block text-sm font-medium text-primary mb-1"
         >
-          Category Name
+          {tCategory('form.name')}
         </label>
         <input
           id="name"
@@ -60,7 +64,7 @@ export default function CategoryCreate() {
           htmlFor="desc"
           className="block text-sm font-medium text-primary mb-1"
         >
-          Category Description
+          {tCategory('form.description')}
         </label>
         <input
           id="desc"
