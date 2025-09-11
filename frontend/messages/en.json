@@ -17,7 +17,8 @@
       "edit": "Edit",
       "delete": "Delete",
       "create": "Create",
-      "category": "Category"
+      "category": "Category",
+      "detail": "Detail"
     }
   }
 }

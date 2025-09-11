@@ -17,7 +17,8 @@
       "edit": "Edit",
       "delete": "Hapus",
       "create": "Buat",
-      "category": "Kategori"
+      "category": "Kategori",
+      "detail": "Detail"
     }
   }
 }
