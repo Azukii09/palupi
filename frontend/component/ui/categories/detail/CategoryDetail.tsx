@@ -40,7 +40,7 @@ export default function CategoryDetail({
                 <td className="px-4 py-2 text-start">{data?.name}</td>
               </tr>
               <tr className=" border-primary/50 border-t">
-                <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">{tCategory('form.detail')}</td>
+                <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">{tCategory('form.description')}</td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
                 <td className="px-4 py-2 text-start">{data?.detail}</td>
               </tr>
