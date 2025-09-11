@@ -28,7 +28,10 @@ export default function CategoryDetail({
       btnIcon={<FaEye className={"size-4"}/>}
     >
       <Modal.Header>
-        Category Detail
+        <div className={`${params.locale === "id" && "flex-row-reverse"} ${poppins.className} flex items-center gap-2 justify-center`}>
+          <span>{tCategory('form.category')}</span>
+          <span>{tCategory('form.detail')}</span>
+        </div>
       </Modal.Header>
       <Modal.Body>
         <div className="rounded-xl overflow-hidden shadow shadow-primary">
