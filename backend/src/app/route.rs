@@ -4,6 +4,6 @@ use axum::{
 };
 
 pub fn category_router() -> Router {
-    Router::new().route("/", get(|| async { println!("Hello World"); }))
+    Router::new().route("/", get(|| async { "Hello World"}))
 }
 
