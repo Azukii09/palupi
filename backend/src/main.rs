@@ -1,11 +1,5 @@
-use std::time::Duration;
 use axum::{serve};
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
-use sqlx::{FromRow, PgPool};
-use sqlx::postgres::PgPoolOptions;
 use tokio::net::TcpListener;
-use uuid::Uuid;
 use crate::app::build_router;
 
 mod core;
