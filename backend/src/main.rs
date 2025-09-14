@@ -16,7 +16,7 @@ mod app;
 #[tokio::main]
 async fn main() {
 
-    let app = build_router();
+    let app = app().await;
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
     serve(listener,app).await.unwrap()
