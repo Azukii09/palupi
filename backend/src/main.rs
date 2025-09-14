@@ -1,6 +1,6 @@
 use std::env;
 use axum::{serve, Router};
-use axum::extract::State;
+use axum::extract::{Path, State};
 use axum::response::IntoResponse;
 use axum::routing::get;
 use dotenvy::dotenv;
@@ -8,7 +8,6 @@ use http::StatusCode;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, PgPool};
 use tokio::net::TcpListener;
-use crate::app::build_router;
 
 mod core;
 mod app;
@@ -48,10 +47,23 @@ async fn get_categories_list(State(pool): State<PgPool>) -> impl IntoResponse {
     (StatusCode::OK, todos_json)
 }
 
+async fn get_single_categories(State(pool): State<PgPool>, Path(id): Path<i32>) -> impl IntoResponse {
+    let rows: Vec<Category> = sqlx::query_as("SELECT * FROM categories WHERE id = $1").bind(&id).fetch_all(&pool).await.unwrap();
+
+    if rows.len() == 0 {
+        let msg = format!("No Categories id : {id} Found!");
+        (StatusCode::NOT_FOUND, msg)
+    } else {
+        let todo_json = serde_json::to_string_pretty(&rows[0]).unwrap();
+        (StatusCode::OK, todo_json)
+    }
+}
+
 async fn app () -> Router {
     let pool = db().await;
     Router::new()
         .route("/categories", get(get_categories_list))
+        .route("/categories/{id}", get(get_single_categories))
         .with_state(pool)
 
 }
