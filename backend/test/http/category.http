@@ -8,4 +8,13 @@ GET http://localhost:8080/categories
 GET http://localhost:8080/categories/5
 
 ###
+POST http://localhost:8080/add_categories
+Content-Type: application/json
+
+{
+  "name": "Bebek aaa"
+}
+
+
+###
 POST http://localhost:8080/api/category

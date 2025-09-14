@@ -1,8 +1,8 @@
 use std::env;
-use axum::{serve, Router};
+use axum::{serve, Json, Router};
 use axum::extract::{Path, State};
 use axum::response::IntoResponse;
-use axum::routing::get;
+use axum::routing::{get, post};
 use dotenvy::dotenv;
 use http::StatusCode;
 use serde::{Deserialize, Serialize};
@@ -59,11 +59,18 @@ async fn get_single_categories(State(pool): State<PgPool>, Path(id): Path<i32>) 
     }
 }
 
+async fn add_categories(State(pool): State<PgPool>, Json(todo_req): Json<CategoryDto>) -> impl IntoResponse {
+    sqlx::query("INSERT INTO categories (name) VALUES ($1)").bind(&todo_req.name).execute(&pool).await.unwrap();
+
+    (StatusCode::OK, "Add new Categories Successful!")
+}
+
 async fn app () -> Router {
     let pool = db().await;
     Router::new()
         .route("/categories", get(get_categories_list))
         .route("/categories/{id}", get(get_single_categories))
+        .route("/add_categories", post(add_categories))
         .with_state(pool)
 
 }
