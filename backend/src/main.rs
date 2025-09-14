@@ -2,7 +2,7 @@ use std::env;
 use axum::{serve, Json, Router};
 use axum::extract::{Path, State};
 use axum::response::IntoResponse;
-use axum::routing::{get, post};
+use axum::routing::{delete, get, post};
 use dotenvy::dotenv;
 use http::StatusCode;
 use serde::{Deserialize, Serialize};
@@ -65,12 +65,25 @@ async fn add_categories(State(pool): State<PgPool>, Json(todo_req): Json<Categor
     (StatusCode::OK, "Add new Categories Successful!")
 }
 
+async fn delete_categories(State(pool): State<PgPool>, Path(id): Path<i32>) -> impl IntoResponse {
+    let rows: Vec<Category> = sqlx::query_as("SELECT * FROM categories WHERE id = $1").bind(&id).fetch_all(&pool).await.unwrap();
+
+    if rows.len() == 0 {
+        let msg = format!("No Categories id : {id} Found!");
+        (StatusCode::NOT_FOUND, msg)
+    } else {
+        sqlx::query("DELETE FROM categories WHERE id = $1").bind(&id).execute(&pool).await.unwrap();
+        (StatusCode::OK, "Delete Categories Successful!".to_string())
+    }
+}
+
 async fn app () -> Router {
     let pool = db().await;
     Router::new()
         .route("/categories", get(get_categories_list))
-        .route("/categories/{id}", get(get_single_categories))
+        .route("/categories/{:id}", get(get_single_categories))
         .route("/add_categories", post(add_categories))
+        .route("/delete_categories/{:id}", delete(delete_categories))
         .with_state(pool)
 
 }
