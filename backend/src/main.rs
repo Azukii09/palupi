@@ -1,7 +1,8 @@
 use std::env;
-use axum::{serve};
+use axum::{serve, Router};
 use axum::extract::State;
 use axum::response::IntoResponse;
+use axum::routing::get;
 use dotenvy::dotenv;
 use http::StatusCode;
 use serde::{Deserialize, Serialize};
@@ -45,4 +46,12 @@ async fn get_categories_list(State(pool): State<PgPool>) -> impl IntoResponse {
     let todos_json = serde_json::to_string_pretty(&todos).unwrap();
 
     (StatusCode::OK, todos_json)
+}
+
+async fn app () -> Router {
+    let pool = db().await;
+    Router::new()
+        .route("/categories", get(get_categories_list))
+        .with_state(pool)
+
 }
