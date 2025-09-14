@@ -1,6 +1,9 @@
 use std::env;
 use axum::{serve};
+use axum::extract::State;
+use axum::response::IntoResponse;
 use dotenvy::dotenv;
+use http::StatusCode;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, PgPool};
 use tokio::net::TcpListener;
@@ -34,4 +37,12 @@ async fn db() -> PgPool {
     let pool = sqlx::postgres::PgPool::connect(&*db_url).await.unwrap();
 
     pool
+}
+
+async fn get_categories_list(State(pool): State<PgPool>) -> impl IntoResponse {
+    let todos : Vec<Category> = sqlx::query_as("SELECT * FROM categories").fetch_all(&pool).await.unwrap();
+
+    let todos_json = serde_json::to_string_pretty(&todos).unwrap();
+
+    (StatusCode::OK, todos_json)
 }
