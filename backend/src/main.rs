@@ -1,6 +1,8 @@
+use std::env;
 use axum::{serve};
+use dotenvy::dotenv;
 use serde::{Deserialize, Serialize};
-use sqlx::FromRow;
+use sqlx::{FromRow, PgPool};
 use tokio::net::TcpListener;
 use crate::app::build_router;
 
@@ -24,4 +26,12 @@ struct Category {
 #[derive(Deserialize)]
 struct CategoryDto {
     name: String,
+}
+
+async fn db() -> PgPool {
+    dotenv().ok();
+    let db_url = env::var("DATABASE_URL").unwrap();
+    let pool = sqlx::postgres::PgPool::connect(&*db_url).await.unwrap();
+
+    pool
 }
