@@ -1,26 +1,19 @@
 ### GET request to example server
-GET http://localhost:8080/api/v1/category
+GET http://localhost:8080/api/v1/categories/list
 
 ###
-GET http://localhost:8080/categories
+GET http://localhost:8080/api/v1/categories/5
 
 ###
-GET http://localhost:8080/categories/5
-
-###
-POST http://localhost:8080/add_categories
+POST http://localhost:8080/api/v1/categories/add
 Content-Type: application/json
 
 {
   "name": "Bebek aaa"
 }
 
-
 ###
-POST http://localhost:8080/api/category
-
-###
-PUT http://localhost:8080/update_categories/4
+PUT http://localhost:8080/api/v1/categories/update/4
 Content-Type: application/json
 Accept: application/json
 
@@ -29,4 +22,4 @@ Accept: application/json
 }
 
 ###
-DELETE http://localhost:8080/delete_categories/5
+DELETE http://localhost:8080/api/v1/categories/delete/5
