@@ -2,13 +2,14 @@ use axum::{serve, Json};
 use axum::extract::{Path, State};
 use axum::response::IntoResponse;
 use http::StatusCode;
-use serde::{Deserialize, Serialize};
-use sqlx::{FromRow, PgPool};
+use sqlx::{PgPool};
 use tokio::net::TcpListener;
 use crate::app::build_router;
+use crate::features::categories::dto::{Category, CategoryDto};
 
 mod core;
 mod app;
+mod features;
 
 #[tokio::main]
 async fn main() {
@@ -19,15 +20,6 @@ async fn main() {
     serve(listener,app).await.unwrap()
 }
 
-#[derive(Serialize, FromRow)]
-pub struct Category {
-    id: i32,
-    name: String,
-}
-#[derive(Deserialize)]
-pub struct CategoryDto {
-    name: String,
-}
 
 pub async fn get_categories_list(State(pool): State<PgPool>) -> impl IntoResponse {
     let todos : Vec<Category> = sqlx::query_as("SELECT * FROM categories").fetch_all(&pool).await.unwrap();
