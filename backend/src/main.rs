@@ -6,8 +6,7 @@ use http::StatusCode;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, PgPool};
 use tokio::net::TcpListener;
-use crate::core::database::db::init_pool;
-use crate::core::database::db_config::DBConfig;
+use crate::core::connections_pool;
 
 mod core;
 mod app;
@@ -83,8 +82,7 @@ async fn update_categories(State(pool): State<PgPool>, Path(id): Path<i32>, Json
 }
 
 async fn app () -> Router {
-    let db = DBConfig::from_env_cfg();
-    let pool = init_pool(&db).await.unwrap();
+    let pool = connections_pool().await.unwrap();
     Router::new()
         .route("/categories", get(get_categories_list))
         .route("/categories/{:id}", get(get_single_categories))
