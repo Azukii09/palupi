@@ -1,13 +1,13 @@
-use std::env;
 use axum::{serve, Json, Router};
 use axum::extract::{Path, State};
 use axum::response::IntoResponse;
 use axum::routing::{delete, get, post, put};
-use dotenvy::dotenv;
 use http::StatusCode;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, PgPool};
 use tokio::net::TcpListener;
+use crate::core::database::db::init_pool;
+use crate::core::database::db_config::DBConfig;
 
 mod core;
 mod app;
@@ -29,14 +29,6 @@ struct Category {
 #[derive(Deserialize)]
 struct CategoryDto {
     name: String,
-}
-
-async fn db() -> PgPool {
-    dotenv().ok();
-    let db_url = env::var("DATABASE_URL").unwrap();
-    let pool = sqlx::postgres::PgPool::connect(&*db_url).await.unwrap();
-
-    pool
 }
 
 async fn get_categories_list(State(pool): State<PgPool>) -> impl IntoResponse {
@@ -91,7 +83,8 @@ async fn update_categories(State(pool): State<PgPool>, Path(id): Path<i32>, Json
 }
 
 async fn app () -> Router {
-    let pool = db().await;
+    let db = DBConfig::from_env_cfg();
+    let pool = init_pool(&db).await.unwrap();
     Router::new()
         .route("/categories", get(get_categories_list))
         .route("/categories/{:id}", get(get_single_categories))
