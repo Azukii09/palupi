@@ -4,7 +4,7 @@ use http::StatusCode;
 use crate::core::errors::error::AppError;
 use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
 use crate::features::categories::controllers::dto::{CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest};
-use crate::features::categories::services::use_cases::{AddCategory, GetAll, GetById, UpdateCategory};
+use crate::features::categories::services::use_cases::{AddCategory, DeleteCategory, GetAll, GetById, UpdateCategory};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -34,4 +34,10 @@ pub async fn update_category(State(state): State<AppState>, Path(id): Path<i32>,
     let uc = UpdateCategory(state.repo);
     let c = uc.run(id, &payload.name).await?;
     Ok(Json(CategoryResponse { id: c.id, name: c.name }))
+}
+
+pub async fn delete_category(State(state): State<AppState>, Path(id): Path<i32>) -> Result<StatusCode,AppError>{
+    let uc = DeleteCategory(state.repo);
+    uc.run(id).await?;
+    Ok(StatusCode::NO_CONTENT)
 }

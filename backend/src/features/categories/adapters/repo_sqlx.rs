@@ -52,4 +52,13 @@ impl CategoryRepo for CategoryRepoSqlx {
             None => Err(DomainError::NotFound),
         }
     }
+
+    async fn delete(&self, id: i32) -> Result<(), DomainError> {
+        let res = sqlx::query!("DELETE FROM categories WHERE id = $1", id)
+            .execute(&self.pool).await
+            .map_err(|e| DomainError::Conflict(e.to_string()))?;
+        if res.rows_affected() == 0 { return Err(DomainError::NotFound); }
+
+        Ok(())
+    }
 }

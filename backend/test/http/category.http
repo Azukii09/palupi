@@ -22,4 +22,4 @@ Accept: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/v1/categories/delete/5
+DELETE http://localhost:8080/api/v1/categories/6

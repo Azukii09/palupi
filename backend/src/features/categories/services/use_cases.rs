@@ -28,3 +28,10 @@ impl<R: CategoryRepo> UpdateCategory<R> {
         self.0.update(id, name).await
     }
 }
+
+pub struct DeleteCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> DeleteCategory<R> {
+    pub async fn run(&self, id: i32) -> Result<(),DomainError> {
+        self.0.delete(id).await
+    }
+}
