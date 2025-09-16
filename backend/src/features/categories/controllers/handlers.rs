@@ -2,6 +2,7 @@ use axum::extract::{Path, State};
 use axum::Json;
 use http::StatusCode;
 use crate::core::errors::error::AppError;
+use crate::core::response::global_response::ApiResponse;
 use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
 use crate::features::categories::controllers::dto::{CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest};
 use crate::features::categories::services::use_cases::{AddCategory, DeleteCategory, GetAll, GetById, UpdateCategory};
@@ -11,11 +12,11 @@ pub struct AppState {
     pub repo: CategoryRepoSqlx,
 }
 
-pub async fn list_categories(State(state): State<AppState>) -> Result<Json<Vec<CategoryResponse>>, AppError> {
+pub async fn list_categories(State(state): State<AppState>) -> Result<Json<ApiResponse<Vec<CategoryResponse>>>, AppError> {
     let uc = GetAll(state.repo);
     let items = uc.run().await?;
     let resp = items.into_iter().map(|c| CategoryResponse { id: c.id, name: c.name }).collect();
-    Ok(Json(resp))
+    Ok(Json(ApiResponse::success(resp)))
 }
 
 pub async fn get_category(State(state): State<AppState>, Path(id): Path<i32>) -> Result<Json<CategoryResponse>, AppError> {
