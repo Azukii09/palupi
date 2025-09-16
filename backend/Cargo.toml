@@ -17,3 +17,5 @@ sqlx = { version = "0.8.6", features = ["runtime-tokio", "chrono", "postgres", "
 tokio = { version = "1.47.1", features = ["full"] }
 tower = "0.5.2"
 uuid = { version = "1.18.0", features = ["v4"] }
+thiserror = "2.0.16"
+async-trait = "0.1.89"
