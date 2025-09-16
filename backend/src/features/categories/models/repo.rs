@@ -12,4 +12,5 @@ pub enum DomainError {
 #[async_trait]
 pub trait CategoryRepo {
     async fn get_all(&self) -> Result<Vec<Category>, DomainError>;
+    async fn get_by_id(&self, id: i32) -> Result<Category, DomainError>;
 }

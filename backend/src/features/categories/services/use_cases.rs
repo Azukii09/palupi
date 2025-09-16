@@ -7,3 +7,10 @@ impl<R: CategoryRepo> GetAll<R> {
         self.0.get_all().await
     }
 }
+
+pub struct GetById<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> GetById<R> {
+    pub async fn run(&self, id: i32) -> Result<Category,DomainError> {
+        self.0.get_by_id(id).await
+    }
+}
