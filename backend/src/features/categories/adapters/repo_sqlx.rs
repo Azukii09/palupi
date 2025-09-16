@@ -34,4 +34,11 @@ impl CategoryRepo for CategoryRepoSqlx {
             None => Err(DomainError::NotFound),
         }
     }
+
+    async fn create(&self, name: &str) -> Result<Category, DomainError> {
+        let row = sqlx::query!("INSERT INTO categories (name) VALUES ($1) RETURNING id, name", name)
+            .fetch_one(&self.pool).await
+            .map_err(|e| DomainError::Conflict(e.to_string()))?;
+        Ok(Category::new(row.id, row.name))
+    }
 }

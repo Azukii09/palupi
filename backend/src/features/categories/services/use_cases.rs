@@ -14,3 +14,10 @@ impl<R: CategoryRepo> GetById<R> {
         self.0.get_by_id(id).await
     }
 }
+
+pub struct AddCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> AddCategory<R> {
+    pub async fn run(&self, name: &str) -> Result<Category,DomainError> {
+        self.0.create(name).await
+    }
+}
