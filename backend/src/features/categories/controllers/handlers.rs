@@ -19,16 +19,16 @@ pub async fn list_categories(State(state): State<AppState>) -> Result<Json<ApiRe
     Ok(Json(ApiResponse::success(resp)))
 }
 
-pub async fn get_category(State(state): State<AppState>, Path(id): Path<i32>) -> Result<Json<CategoryResponse>, AppError> {
+pub async fn get_category(State(state): State<AppState>, Path(id): Path<i32>) -> Result<Json<ApiResponse<CategoryResponse>>, AppError> {
     let uc = GetById(state.repo);
     let c = uc.run(id).await?;
-    Ok(Json(CategoryResponse { id: c.id, name: c.name }))
+    Ok(Json(ApiResponse::success(CategoryResponse { id: c.id, name: c.name })))
 }
 
-pub async fn create_category(State(state): State<AppState>, Json(payload): Json<CreateCategoryRequest>) -> Result<(StatusCode, Json<CategoryResponse>), AppError> {
+pub async fn create_category(State(state): State<AppState>, Json(payload): Json<CreateCategoryRequest>) -> Result<(StatusCode, Json<ApiResponse<CategoryResponse>>), AppError> {
     let uc = AddCategory(state.repo);
     let c = uc.run(&payload.name).await?;
-    Ok((StatusCode::CREATED, Json(CategoryResponse { id: c.id, name: c.name })))
+    Ok((StatusCode::CREATED, Json(ApiResponse::created(CategoryResponse { id: c.id, name: c.name }))))
 }
 
 pub async fn update_category(State(state): State<AppState>, Path(id): Path<i32>, Json(payload): Json<UpdateCategoryRequest>) -> Result<Json<CategoryResponse>, AppError> {
