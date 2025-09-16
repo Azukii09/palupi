@@ -10,3 +10,8 @@ pub struct CategoryResponse {
 pub struct CreateCategoryRequest {
     pub name: String,
 }
+
+#[derive(Deserialize)]
+pub struct UpdateCategoryRequest {
+    pub name: String,
+}

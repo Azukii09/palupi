@@ -41,4 +41,15 @@ impl CategoryRepo for CategoryRepoSqlx {
             .map_err(|e| DomainError::Conflict(e.to_string()))?;
         Ok(Category::new(row.id, row.name))
     }
+
+    async fn update(&self, id: i32, name: &str) -> Result<Category, DomainError> {
+        let row = sqlx::query!("UPDATE categories SET name = $1 WHERE id = $2 RETURNING id, name", name, id)
+        .fetch_optional(&self.pool).await
+        .map_err(|e| DomainError::Conflict(e.to_string()))?;
+
+        match row {
+            Some(r) => Ok(Category::new(r.id, r.name)),
+            None => Err(DomainError::NotFound),
+        }
+    }
 }

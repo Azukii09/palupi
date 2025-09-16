@@ -21,3 +21,10 @@ impl<R: CategoryRepo> AddCategory<R> {
         self.0.create(name).await
     }
 }
+
+pub struct UpdateCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> UpdateCategory<R> {
+    pub async fn run(&self, id: i32, name: &str) -> Result<Category,DomainError> {
+        self.0.update(id, name).await
+    }
+}

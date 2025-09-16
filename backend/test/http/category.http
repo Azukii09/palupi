@@ -13,12 +13,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/api/v1/categories/update/4
+PUT http://localhost:8080/api/v1/categories/6
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Category Baru"
+  "name": "ini edit"
 }
 
 ###

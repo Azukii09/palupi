@@ -3,8 +3,8 @@ use axum::Json;
 use http::StatusCode;
 use crate::core::errors::error::AppError;
 use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
-use crate::features::categories::controllers::dto::{CategoryResponse, CreateCategoryRequest};
-use crate::features::categories::services::use_cases::{AddCategory, GetAll, GetById};
+use crate::features::categories::controllers::dto::{CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest};
+use crate::features::categories::services::use_cases::{AddCategory, GetAll, GetById, UpdateCategory};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -28,4 +28,10 @@ pub async fn create_category(State(state): State<AppState>, Json(payload): Json<
     let uc = AddCategory(state.repo);
     let c = uc.run(&payload.name).await?;
     Ok((StatusCode::CREATED, Json(CategoryResponse { id: c.id, name: c.name })))
+}
+
+pub async fn update_category(State(state): State<AppState>, Path(id): Path<i32>, Json(payload): Json<UpdateCategoryRequest>) -> Result<Json<CategoryResponse>, AppError> {
+    let uc = UpdateCategory(state.repo);
+    let c = uc.run(id, &payload.name).await?;
+    Ok(Json(CategoryResponse { id: c.id, name: c.name }))
 }
