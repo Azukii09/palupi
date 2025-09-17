@@ -2,20 +2,22 @@
 import React from 'react';
 import {FaEye} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
-import {DummyCategory} from "@/lib/data/dummy/Category";
 import {useParams} from "next/navigation";
 import {poppins} from "@/lib/font/font";
 import {useTranslations} from "next-intl";
+import {Category} from "@/lib/type/api";
 
 export default function CategoryDetail({
-  id
+  id,
+  data
 }:{
   id:number;
+  data:Category[];
 }) {
   const params = useParams()
   const tCategory = useTranslations('Category')
 
-  const data = DummyCategory.find(item => item.locale === params.locale)?.data.find(it => it.id === id);
+  const targetedData = data.find(item => item.id === id);
   return (
     <Modal
       id={`detail-${id}`}
@@ -39,22 +41,22 @@ export default function CategoryDetail({
                   {params.locale ==="id" ? `${tCategory('form.name')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.name')}`}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white">:</td>
-                <td className="px-4 py-2 text-start">{data?.name}</td>
+                <td className="px-4 py-2 text-start">{targetedData?.name}</td>
               </tr>
-              <tr className=" border-primary/50 border-t">
-                <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">
-                  {params.locale ==="id" ? `${tCategory('form.description')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.description')}`}
-                </td>
-                <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
-                <td className="px-4 py-2 text-start">{data?.detail}</td>
-              </tr>
-              <tr className=" border-primary/50 border-t">
-                <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">
-                  {params.locale ==="id" ? `${tCategory('form.status')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.status')}`}
-                </td>
-                <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
-                <td className="px-4 py-2 text-start">{data?.status ? "active":"not active"}</td>
-              </tr>
+              {/*<tr className=" border-primary/50 border-t">*/}
+              {/*  <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">*/}
+              {/*    {params.locale ==="id" ? `${tCategory('form.description')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.description')}`}*/}
+              {/*  </td>*/}
+              {/*  <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>*/}
+              {/*  <td className="px-4 py-2 text-start">{data?.detail}</td>*/}
+              {/*</tr>*/}
+              {/*<tr className=" border-primary/50 border-t">*/}
+              {/*  <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">*/}
+              {/*    {params.locale ==="id" ? `${tCategory('form.status')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.status')}`}*/}
+              {/*  </td>*/}
+              {/*  <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>*/}
+              {/*  <td className="px-4 py-2 text-start">{data?.status ? "active":"not active"}</td>*/}
+              {/*</tr>*/}
             </tbody>
           </table>
         </div>
