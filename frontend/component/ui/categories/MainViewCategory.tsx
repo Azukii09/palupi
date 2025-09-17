@@ -1,19 +1,19 @@
 'use client'
 import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
-import {useParams} from "next/navigation";
 import Table from "@/component/util/base/Table";
 import {CategoryActiveSwitch} from "@/component/ui/categories/CategoryActiveSwitch";
-import {DummyCategory} from "@/lib/data/dummy/Category";
 import CategoryDetail from "@/component/ui/categories/detail/CategoryDetail";
 import CategoryEdit from "@/component/ui/categories/edit/CategoryEdit";
 import CategoryCreate from "@/component/ui/categories/create/CategoryCreate";
 import CategoryDelete from "@/component/ui/categories/delete/CategoryDelete";
+import {Category} from "@/lib/type/api";
 
-export default function MainViewCategory() {
-  const params = useParams()
-
-  const dataInLocal = DummyCategory.find(item => item.locale === params.locale)?.data;
+export default function MainViewCategory({
+  data
+}:{
+  data: Category[];
+}) {
   return (
     <BasicCard>
       {/*Title*/}
@@ -31,7 +31,7 @@ export default function MainViewCategory() {
           <CategoryCreate/>
 
           <Table
-            data={dataInLocal}
+            data={data}
             excludesColumnsData={[ "id"]}
             excludesColumnsName={[ "id"]}
             variants={"strip"}
@@ -51,7 +51,7 @@ export default function MainViewCategory() {
             withActions={
               (row: number | unknown) => (
                 <td className="text-center flex items-center justify-center gap-2 py-2">
-                  <CategoryDetail id={row as number}/>
+                  <CategoryDetail id={row as number} data={data}/>
 
                   <CategoryEdit id={row as number}/>
 
