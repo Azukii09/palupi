@@ -2,18 +2,25 @@
 import { z } from "zod";
 import {apiSend, revalidateCategories} from "@/lib/utils/api";
 
+type ApiError = { message: string };
+
+
 const CreateSchema = z.object({ name: z.string().trim().min(1).max(120) });
 const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
 
 export async function createCategory(_: unknown, formData: FormData) {
   const parsed = CreateSchema.safeParse({ name: formData.get("name") });
-  if (!parsed.success) return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
   try {
     await apiSend<unknown>(`/api/v1/categories`, "POST", parsed.data);
     revalidateCategories("/master/categories");
     return { ok: true };
-  } catch (e: any) {
-    return { ok: false, message: e?.message ?? "Create failed" };
+  } catch (e: unknown) {
+    const err: ApiError = e instanceof Error ? { message: e.message } : { message: "Create failed" };
+    return { ok: false, message: err.message };
   }
 }
 
