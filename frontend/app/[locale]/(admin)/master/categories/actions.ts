@@ -7,7 +7,9 @@ import {ApiEnvelope, Category} from "@/lib/type/api";
 type ApiError = { message: string };
 
 
-
+const DeleteSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
 const CreateSchema = z.object({ name: z.string().trim().min(3).max(120) });
 // const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
 
@@ -45,12 +47,23 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
 //   }
 // }
 //
-// export async function deleteCategory(id: number) {
-//   try {
-//     await apiSend<unknown>(`/api/v1/categories/${id}`, "DELETE");
-//     revalidateCategories("/master/categories");
-//     return { ok: true };
-//   } catch (e: any) {
-//     return { ok: false, message: e?.message ?? "Delete failed" };
-//   }
-// }
+export async function deleteCategory(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const parsed = DeleteSchema.safeParse({ id: formData.get("id") });
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid id" };
+  }
+
+  try {
+    await apiSend<void>(`/api/v1/categories/${parsed.data.id}`, "DELETE");
+    // Sesuaikan dengan strategi revalidate kamu
+    revalidateCategories("categories");            // jika fetch list pakai next:{ tags:["categories"] }
+    revalidateCategories("/master/categories");    // kalau mau by path juga
+    return { ok: true };
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Delete failed";
+    return { ok: false, message: msg };
+  }
+}
