@@ -76,7 +76,6 @@ const ModalBody = ({
                   className="w-full h-full"
                   onSubmit={onSubmit}
                   action={action}
-                  method="post"
                 >
                     {children}
                 </form>
