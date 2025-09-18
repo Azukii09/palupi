@@ -7,7 +7,7 @@ type ApiError = { message: string };
 
 
 const CreateSchema = z.object({ name: z.string().trim().min(3).max(120) });
-const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
+// const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
 
 export async function createCategory(_prev: ActionResult,formData: FormData) {
   const parsed = CreateSchema.safeParse({ name: formData.get("name") });
