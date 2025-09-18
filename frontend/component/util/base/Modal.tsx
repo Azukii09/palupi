@@ -51,23 +51,28 @@ const ModalHeader = ({children, onClose}: { children: ReactNode; onClose?: () =>
  * @param formId - Optional ID for the form element if content should be wrapped in a form
  * @param onSubmit - Optional callback function to handle form submission
  * @param action
+ * @param formRef
  */
 const ModalBody = ({
     children,
     formId,
     onSubmit,
     action,
+    formRef,
 }: {
     children: ReactNode;
     formId?: string;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-    action?: FormAction;     // ⬅️ type aman untuk form action
+    action?: FormAction;
+    formRef?: React.Ref<HTMLFormElement>;
+
 }) => {
     return (
         <div className="flex-grow overflow-y-auto p-6 text-primary w-full">
             {formId ? (
                 <form
                   id={formId}
+                  ref={formRef}
                   className="w-full h-full"
                   onSubmit={onSubmit}
                   action={action}
