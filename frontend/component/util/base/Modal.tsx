@@ -4,6 +4,9 @@ import React, {ReactNode} from "react";
 import Button from "@/component/util/base/Button";
 import {useModal} from "@/providers/context/ModalContext";
 
+type FormAction = React.ComponentProps<"form">["action"];
+
+
 /**
  * Modal Header Subcomponent
  * Renders the header section of the modal with a title and optional close button
@@ -47,20 +50,29 @@ const ModalHeader = ({children, onClose}: { children: ReactNode; onClose?: () =>
  * @param children - Content to be displayed in the modal body
  * @param formId - Optional ID for the form element if content should be wrapped in a form
  * @param onSubmit - Optional callback function to handle form submission
+ * @param action
  */
 const ModalBody = ({
     children,
     formId,
     onSubmit,
+    action,
 }: {
     children: ReactNode;
     formId?: string;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+    action?: FormAction;     // ⬅️ type aman untuk form action
 }) => {
     return (
         <div className="flex-grow overflow-y-auto p-6 text-primary w-full">
             {formId ? (
-                <form id={formId} className="w-full h-full" onSubmit={onSubmit}>
+                <form
+                  id={formId}
+                  className="w-full h-full"
+                  onSubmit={onSubmit}
+                  action={action}
+                  method="post"
+                >
                     {children}
                 </form>
             ) : (
@@ -154,6 +166,7 @@ const ModalFooter = ({
  * @param btnOnlyIcon - Optional flag to show only icon without text
  * @param children - Modal content (Header, Body, Footer components)
  * @param formId - Optional form ID to associate with the modal content
+ * @param lockClose
  */
 const Modal = ({
     id,
@@ -168,6 +181,7 @@ const Modal = ({
     btnOnlyIcon,
     children,
     formId,
+    lockClose = false,
 }: {
     id:string;
     modalSize?: "sm" | "md" | "lg"|"xl"
@@ -181,15 +195,16 @@ const Modal = ({
     btnOnlyIcon?: boolean;
     formId?: string;
     children: ReactNode;
+    lockClose?: boolean;
 }) => {
     const { modals, openModal, closeModal } = useModal(); // Gunakan context
 
     const isOpen = modals[id] || false; // Status modal berdasarkan ID
 
     // Function to handle modal close
-    const handleClose = () => closeModal(id)
-    ;
-
+    const handleClose = () => {
+      if (!lockClose) closeModal(id); // ⬅️ jangan tutup kalau terkunci
+    };
     return (
         <div>
             {/* Button to open modal */}
