@@ -2,8 +2,10 @@
 import { z } from "zod";
 import {apiSend, revalidateCategories} from "@/lib/utils/api";
 import {ActionResult} from "next/dist/server/app-render/types";
+import {ApiEnvelope, Category} from "@/lib/type/api";
 
 type ApiError = { message: string };
+
 
 
 const CreateSchema = z.object({ name: z.string().trim().min(3).max(120) });
@@ -16,9 +18,15 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
   }
 
   try {
-    await apiSend<unknown>(`/api/v1/categories`, "POST", parsed.data);
+    const data  = await apiSend<unknown>(`/api/v1/categories`, "POST", parsed.data) as Category;
+
+    const result : ApiEnvelope<Category> = {
+      status_code: 200,
+      message: "Success",
+      data: data
+    }
     revalidateCategories("/master/categories");
-    return { ok: true };
+    return { ok: true , data: result};
   } catch (e: unknown) {
     const err: ApiError = e instanceof Error ? { message: e.message } : { message: "Create failed" };
     return { ok: false, message: err.message };

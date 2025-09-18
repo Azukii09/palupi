@@ -30,7 +30,7 @@ export default function CategoryCreate() {
     >
       <Modal.Header>New Category</Modal.Header>
 
-      <Modal.Body formId={formId} onSubmit={()=> closeModal(formId)} action={formAction}>
+      <Modal.Body formId={formId} onSubmit={()=> (!isPending && state.ok && closeModal(formId))} action={formAction}>
         {/* name */}
         <label
           htmlFor="name"
