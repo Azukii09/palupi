@@ -1,11 +1,13 @@
 "use server";
 import { z } from "zod";
 import {apiSend, revalidatePage} from "@/lib/utils/api";
-import {ActionResult} from "next/dist/server/app-render/types";
 import {ApiEnvelope, Category} from "@/lib/type/api";
 
 type ApiError = { message: string };
-
+// actions.ts
+export type ActionResult =
+  | { ok: true;  message: string, data?: ApiEnvelope<unknown>}   // ← message opsional saat sukses
+  | { ok: false; message: string };
 
 const DeleteSchema = z.object({
   id: z.coerce.number().int().positive(),
@@ -57,7 +59,7 @@ export async function updateCategory(
     // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
     revalidatePage("/master/categories");    // by path
 
-    return { ok: true };
+    return { ok: true, message: `Successfully updated ${parsed.data.name}` };
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "Update failed";
     return { ok: false, message };
@@ -78,7 +80,7 @@ export async function deleteCategory(
     // Sesuaikan dengan strategi revalidate kamu
     revalidatePage("categories");            // jika fetch list pakai next:{ tags:["categories"] }
     revalidatePage("/master/categories");    // kalau mau by path juga
-    return { ok: true };
+    return { ok: true, message: `Successfully deleted ${parsed.data.id}` };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Delete failed";
     return { ok: false, message: msg };

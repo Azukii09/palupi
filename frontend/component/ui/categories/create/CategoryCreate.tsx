@@ -1,11 +1,10 @@
 "use client";
-import React, {useActionState, useEffect, useRef} from "react";
+import React, {useActionState, useMemo, useRef} from "react";
 import Modal from "@/component/util/base/Modal";
 import {useTranslations} from "next-intl";
-import {ActionResult} from "next/dist/server/app-render/types";
-import {createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
-import {useToast} from "@/providers/context/ToastProvider";
+import {ActionResult, createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
+import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";
@@ -15,17 +14,16 @@ export default function CategoryCreate() {
 
   const [state, formAction, isPending] = useActionState<ActionResult, FormData>(createCategory, { ok: false, message: "" });
 
-  const { showToast } = useToast();
+  const toastOpts = useMemo(() => ({
+    success: {
+      title: "Created",
+      // kalau mau, kirim deskripsi sukses statis/ambil dari result
+      description: (r: ActionResult) => r.message,
+    },
+    error: { title: "Create failed" },
+  }), []);
 
-  useEffect(() => {
-    if (isPending) return;
-    if (state?.ok) {
-      showToast({ title: "Created", description: state.message, variant: "success" });
-    } else if (state && "message" in state && state.message) {
-      showToast({ title: "Failed", description: state.message, variant: "error", duration: 4500 });
-    }
-  }, [state, isPending, showToast]);
-
+  useActionToast(state, isPending, toastOpts);
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
 
