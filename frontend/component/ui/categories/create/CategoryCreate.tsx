@@ -99,7 +99,7 @@ export default function CategoryCreate() {
         disable={isPending}
       >
         <span className="text-xs text-primary/70">
-          Press Save to log the value
+          Create Category
         </span>
       </Modal.Footer>
     </Modal>

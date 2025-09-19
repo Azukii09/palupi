@@ -102,7 +102,7 @@ export default function CategoryEdit({
         disable={isPending}
       >
         <span className="text-xs text-primary/70">
-          Press Edit to log the value
+          Edit Category
         </span>
       </Modal.Footer>
     </Modal>
