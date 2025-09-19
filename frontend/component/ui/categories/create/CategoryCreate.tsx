@@ -5,6 +5,7 @@ import { useModal } from "@/providers/context/ModalContext";
 import {useTranslations} from "next-intl";
 import {ActionResult} from "next/dist/server/app-render/types";
 import {createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
+import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryCreate() {
   const { modals, closeModal } = useModal();
@@ -15,6 +16,8 @@ export default function CategoryCreate() {
   const tCategory = useTranslations('Category')
 
   const [state, formAction, isPending] = useActionState<ActionResult, FormData>(createCategory, { ok: false, message: "" });
+
+  useActionToast(state, isPending, { ok: "Category created", fail: "Create failed" });
 
 
   // Refs

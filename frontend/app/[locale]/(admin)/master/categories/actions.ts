@@ -28,7 +28,7 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
       data: data
     }
     revalidatePage("/master/categories");
-    return { ok: true , data: result};
+    return {ok: true, message: `Successfully created ${parsed.data.name} as a new category`, data: result};
   } catch (e: unknown) {
     const err: ApiError = e instanceof Error ? { message: e.message } : { message: "Create failed" };
     return { ok: false, message: err.message };
