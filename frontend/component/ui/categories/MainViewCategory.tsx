@@ -49,11 +49,11 @@ export default function MainViewCategory({
               paginatedPageCount:[5,10,20,50],
             }}
             withActions={
-              (row: number | unknown) => (
+              (row: unknown) => (
                 <td className="text-center flex items-center justify-center gap-2 py-2">
                   <CategoryDetail id={row as number} data={data}/>
 
-                  <CategoryEdit id={row as number}/>
+                  <CategoryEdit data={row as Category}/>
 
                   <CategoryDelete id={row as number}/>
                 </td>

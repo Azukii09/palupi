@@ -197,7 +197,7 @@ export default function Table({
                                             : '-'}
                                 </td>
                             ))}
-                            {withActions ? withActions(row["id"]) :""
+                            {withActions ? withActions(row) :""
                             }
                         </tr>
                     ))}

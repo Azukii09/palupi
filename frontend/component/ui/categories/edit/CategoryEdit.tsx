@@ -1,38 +1,60 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useActionState, useEffect, useRef} from 'react';
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import Modal from "@/component/util/base/Modal";
-import {useParams} from "next/navigation";
-import {DummyCategory} from "@/lib/data/dummy/Category";
 import {useModal} from "@/providers/context/ModalContext";
+import {updateCategory} from "@/app/[locale]/(admin)/master/categories/actions";
+import {ActionResult} from "next/dist/server/app-render/types";
+import {Category} from "@/lib/type/api";
 
 export default function CategoryEdit({
-  id,
+  data,
 }:{
-  id:number;
+  data:Category;
 }) {
-  const params = useParams()
 
-  const data = DummyCategory.find(item => item.locale === params.locale)?.data.find(it => it.id === id);
+  const {modals, closeModal } = useModal();
+  const modalId = `demo-create-category-${data.id}`;
+  const formId = `edit-category-form-${data.id}`;
+  const isOpen = modals[modalId];
 
-  const { closeModal } = useModal();
-  const modalId = `demo-create-category-${id}`;
-  const formId = `edit-category-form-${id}`;
+  const [state, formAction, isPending] = useActionState<ActionResult, FormData>(updateCategory, { ok:false, message:"" });
 
-  // state untuk form
-  const [name, setName] = useState(data?.name as string);
-  const [desc, setDesc] = useState(data?.detail as string);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Refs
+  const formRef = useRef<HTMLFormElement>(null);
+  const didSubmitRef = useRef(false);
+  const hasClosedRef = useRef(false);
 
-    console.log("Form submitted with:", { name, desc });
+  // Tandai ketika submit dimulai
+  useEffect(() => {
+    if (isPending) didSubmitRef.current = true;
+  }, [isPending]);
 
-    // reset & close
-    setName("");
-    setDesc("");
-    closeModal(modalId);
-  };
+  // Reset guards saat modal ditutup / dibuka lagi
+  useEffect(() => {
+    if (!isOpen) {
+      didSubmitRef.current = false;
+      hasClosedRef.current = false;
+    }
+  }, [isOpen]);
+
+  // Tutup modal sekali setelah submit sukses
+  useEffect(() => {
+    const shouldClose =
+      isOpen &&                 // hanya saat modal terbuka
+      !isPending &&             // request sudah selesai
+      state.ok &&               // berhasil
+      didSubmitRef.current &&   // memang hasil dari submit terakhir
+      !hasClosedRef.current;    // belum pernah ditutup di siklus ini
+
+    if (shouldClose) {
+      hasClosedRef.current = true;
+      didSubmitRef.current = false;
+      formRef.current?.reset(); // opsional: bersihkan input
+      closeModal(modalId);
+    }
+  }, [isOpen, isPending, state.ok, closeModal, modalId]);
   return (
     <Modal
       id={modalId}
@@ -49,7 +71,7 @@ export default function CategoryEdit({
     >
       <Modal.Header>Edit Category</Modal.Header>
 
-      <Modal.Body formId={formId} onSubmit={handleSubmit}>
+      <Modal.Body formId={formId} action={formAction}>
         {/* name */}
         <label
           htmlFor="name"
@@ -57,32 +79,14 @@ export default function CategoryEdit({
         >
           Category Name
         </label>
+        <input type="hidden" name="id" value={data.id} />
         <input
           id="name"
           name="name"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          defaultValue={data.name}
           placeholder="e.g. Beverages"
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
-          required
-        />
-
-        {/* description */}
-        <label
-          htmlFor="desc"
-          className="block text-sm font-medium text-primary mb-1 text-start"
-        >
-          Category Description
-        </label>
-        <input
-          id="desc"
-          name="desc"
-          type="text"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-          placeholder="e.g. Drinks and food category"
-          className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
       </Modal.Body>
@@ -92,9 +96,10 @@ export default function CategoryEdit({
         btnVariant="primary"
         btnVariantType="solid"
         btnName="submit-create-category"
-        btnText="Edit"
+        btnText={isPending ? "Saving..." : "Save"}
         btnSize="sm"
         formId={formId}
+        disable={isPending}
       >
         <span className="text-xs text-primary/70">
           Press Edit to log the value
