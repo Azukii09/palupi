@@ -51,7 +51,7 @@ export default function MainViewCategory({
             withActions={
               (row: unknown) => (
                 <td className="text-center flex items-center justify-center gap-2 py-2">
-                  <CategoryDetail id={row as number} data={data}/>
+                  <CategoryDetail data={row as Category}/>
 
                   <CategoryEdit data={row as Category}/>
 

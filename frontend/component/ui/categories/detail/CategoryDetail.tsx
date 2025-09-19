@@ -8,21 +8,18 @@ import {useTranslations} from "next-intl";
 import {Category} from "@/lib/type/api";
 
 export default function CategoryDetail({
-  id,
   data
 }:{
-  id:number;
-  data:Category[];
+  data:Category;
 }) {
   const params = useParams()
   const tCategory = useTranslations('Category')
 
-  const targetedData = data.find(item => item.id === id);
   return (
     <Modal
-      id={`detail-${id}`}
+      id={`detail-${data.id}`}
       btnVariant={"primary"}
-      btnName={`detail-${id}`}
+      btnName={`detail-${data.id}`}
       btnText={`View`}
       btnSize={"xs"}
       btnBadge
@@ -41,7 +38,7 @@ export default function CategoryDetail({
                   {params.locale ==="id" ? `${tCategory('form.name')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.name')}`}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white">:</td>
-                <td className="px-4 py-2 text-start">{targetedData?.name}</td>
+                <td className="px-4 py-2 text-start">{data.name}</td>
               </tr>
               {/*<tr className=" border-primary/50 border-t">*/}
               {/*  <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">*/}
