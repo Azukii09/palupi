@@ -1,59 +1,44 @@
-import React, {useActionState, useEffect, useRef} from 'react';
+import React, {useActionState, useMemo, useRef} from 'react';
 import {FaExclamationTriangle, FaTrash} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
-import {ActionResult} from "next/dist/server/app-render/types";
-import { deleteCategory} from "@/app/[locale]/(admin)/master/categories/actions";
-import {useModal} from "@/providers/context/ModalContext";
+import {ActionResult, deleteCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {Category} from "@/lib/type/api";
+import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
+import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryDelete({
   data
 }:{
   data:Category;
 }) {
-  const {modals, closeModal } = useModal();
-  const modalId = `delet-category-${data.id}`;
+  const modalId = `delete-category-${data.id}`;
   const formId = `delete-category-form-${data.id}`;
-  const isOpen = modals[modalId];
 
 
   const [state, formAction, isPending] = useActionState<ActionResult,FormData>(deleteCategory, { ok: false, message: "" });
 
+  const toastOpts = useMemo(() => ({
+    success: {
+      title: "Deleted",
+      // kalau mau, kirim deskripsi sukses statis/ambil dari result
+      description: (r: ActionResult) => r.message,
+    },
+    error: { title: "Delete failed" },
+  }), []);
+
+  useActionToast(state, isPending, toastOpts);
 
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
-  const didSubmitRef = useRef(false);
-  const hasClosedRef = useRef(false);
+  useActionModalAutoClose({
+    modalId,
+    state,
+    pending: isPending,
+    formRef,
+    resetOnClose: true,
+    closeDelayMs: 0,
+  });
 
-  // Tandai ketika submit dimulai
-  useEffect(() => {
-    if (isPending) didSubmitRef.current = true;
-  }, [isPending]);
-
-  // Reset guards saat modal ditutup / dibuka lagi
-  useEffect(() => {
-    if (!isOpen) {
-      didSubmitRef.current = false;
-      hasClosedRef.current = false;
-    }
-  }, [isOpen]);
-
-  // Tutup modal sekali setelah submit sukses
-  useEffect(() => {
-    const shouldClose =
-      isOpen &&                 // hanya saat modal terbuka
-      !isPending &&             // request sudah selesai
-      state.ok &&               // berhasil
-      didSubmitRef.current &&   // memang hasil dari submit terakhir
-      !hasClosedRef.current;    // belum pernah ditutup di siklus ini
-
-    if (shouldClose) {
-      hasClosedRef.current = true;
-      didSubmitRef.current = false;
-      formRef.current?.reset(); // opsional: bersihkan input
-      closeModal(modalId);
-    }
-  }, [isOpen, isPending, state.ok, closeModal, modalId]);
 
   return (
     <Modal
@@ -71,7 +56,7 @@ export default function CategoryDelete({
       <Modal.Header>
         Delete Category
       </Modal.Header>
-      <Modal.Body action={formAction} formId={formId}>
+      <Modal.Body action={formAction} formId={formId} formRef={formRef}>
         <div className={"flex flex-col gap-2 items-center justify-center"}>
           <input type="hidden" name="id" value={data.id} />
           <FaExclamationTriangle className={"size-16 text-danger"}/>
