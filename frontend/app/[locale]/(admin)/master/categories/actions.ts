@@ -1,6 +1,6 @@
 "use server";
 import { z } from "zod";
-import {apiSend, revalidateCategories} from "@/lib/utils/api";
+import {apiSend, revalidatePage} from "@/lib/utils/api";
 import {ActionResult} from "next/dist/server/app-render/types";
 import {ApiEnvelope, Category} from "@/lib/type/api";
 
@@ -27,7 +27,7 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
       message: "Success",
       data: data
     }
-    revalidateCategories("/master/categories");
+    revalidatePage("/master/categories");
     return { ok: true , data: result};
   } catch (e: unknown) {
     const err: ApiError = e instanceof Error ? { message: e.message } : { message: "Create failed" };
@@ -35,15 +35,32 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
   }
 }
 
-export async function updateCategory(_: unknown, formData: FormData) {
-  const parsed = UpdateSchema.safeParse({ id: formData.get("id"), name: formData.get("name") });
-  if (!parsed.success) return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+export async function updateCategory(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const parsed = UpdateSchema.safeParse({
+    id: formData.get("id"),
+    name: formData.get("name"),
+  });
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
   try {
-    await apiSend<unknown>(`/api/v1/categories/${parsed.data.id}`, "PUT", { name: parsed.data.name });
-    revalidateCategories("/master/categories");
+    await apiSend<void>(
+      `/api/v1/categories/${parsed.data.id}`,
+      "PUT",
+      { name: parsed.data.name }
+    );
+
+    // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
+    revalidatePage("/master/categories");    // by path
+
     return { ok: true };
-  } catch (e: any) {
-    return { ok: false, message: e?.message ?? "Update failed" };
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Update failed";
+    return { ok: false, message };
   }
 }
 
@@ -59,8 +76,8 @@ export async function deleteCategory(
   try {
     await apiSend<void>(`/api/v1/categories/${parsed.data.id}`, "DELETE");
     // Sesuaikan dengan strategi revalidate kamu
-    revalidateCategories("categories");            // jika fetch list pakai next:{ tags:["categories"] }
-    revalidateCategories("/master/categories");    // kalau mau by path juga
+    revalidatePage("categories");            // jika fetch list pakai next:{ tags:["categories"] }
+    revalidatePage("/master/categories");    // kalau mau by path juga
     return { ok: true };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Delete failed";

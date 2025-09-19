@@ -94,7 +94,7 @@ export async function apiSend<T>(
  *   revalidateCategories("/master/categories");  // path
  *   revalidateCategories("categories");          // tag
  */
-export function revalidateCategories(target: string) {
+export function revalidatePage(target: string) {
   if (target.startsWith("/")) {
     revalidatePath(target);
   } else {
