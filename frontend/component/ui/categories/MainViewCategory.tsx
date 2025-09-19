@@ -55,7 +55,7 @@ export default function MainViewCategory({
 
                   <CategoryEdit data={row as Category}/>
 
-                  <CategoryDelete id={row as number}/>
+                  <CategoryDelete data={row as Category}/>
                 </td>
               )
             }

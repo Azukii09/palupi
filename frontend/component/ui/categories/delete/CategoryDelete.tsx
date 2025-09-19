@@ -1,18 +1,19 @@
 import React, {useActionState, useEffect, useRef} from 'react';
-import {FaTrash} from "react-icons/fa";
+import {FaExclamationTriangle, FaTrash} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
 import {ActionResult} from "next/dist/server/app-render/types";
 import { deleteCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {useModal} from "@/providers/context/ModalContext";
+import {Category} from "@/lib/type/api";
 
 export default function CategoryDelete({
-  id
+  data
 }:{
-  id:number;
+  data:Category;
 }) {
   const {modals, closeModal } = useModal();
-  const modalId = `delet-category-${id}`;
-  const formId = `delete-category-form-${id}`;
+  const modalId = `delet-category-${data.id}`;
+  const formId = `delete-category-form-${data.id}`;
   const isOpen = modals[modalId];
 
 
@@ -58,7 +59,7 @@ export default function CategoryDelete({
     <Modal
       id={modalId}
       btnVariant={"danger"}
-      btnName={`delete-${id}`}
+      btnName={`delete-${data.id}`}
       btnText={`Delete`}
       btnSize={"xs"}
       btnBadge
@@ -72,10 +73,13 @@ export default function CategoryDelete({
       </Modal.Header>
       <Modal.Body action={formAction} formId={formId}>
         <div className={"flex flex-col gap-2 items-center justify-center"}>
-          <div className={"bg-rose-500 p-8 rounded-full"}>
-            <input type="hidden" name="id" value={id} />
-            <FaTrash className={"size-14 text-white"}/>
-          </div>
+          <input type="hidden" name="id" value={data.id} />
+          <FaExclamationTriangle className={"size-16 text-danger"}/>
+          <p className="text-primary text-center font-medium">
+            Are you sure you want to delete category
+            <span className="font-bold block mt-1 text-danger text-lg">{`"${data.name}"`}</span>
+            This action cannot be undone.
+          </p>
         </div>
       </Modal.Body>
       <Modal.Footer
