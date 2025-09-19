@@ -1,11 +1,11 @@
 'use client'
-import React, {useActionState, useEffect, useRef} from 'react';
+import React, {useActionState, useMemo, useRef} from 'react';
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import Modal from "@/component/util/base/Modal";
-import {useModal} from "@/providers/context/ModalContext";
-import {updateCategory} from "@/app/[locale]/(admin)/master/categories/actions";
-import {ActionResult} from "next/dist/server/app-render/types";
+import {ActionResult, updateCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {Category} from "@/lib/type/api";
+import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
+import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryEdit({
   data,
@@ -13,48 +13,34 @@ export default function CategoryEdit({
   data:Category;
 }) {
 
-  const {modals, closeModal } = useModal();
   const modalId = `demo-create-category-${data.id}`;
   const formId = `edit-category-form-${data.id}`;
-  const isOpen = modals[modalId];
 
   const [state, formAction, isPending] = useActionState<ActionResult, FormData>(updateCategory, { ok:false, message:"" });
 
+  const toastOpts = useMemo(() => ({
+    success: {
+      title: "Updated",
+      // kalau mau, kirim deskripsi sukses statis/ambil dari result
+      description: (r: ActionResult) => r.message,
+    },
+    error: { title: "Update failed" },
+  }), []);
+
+  useActionToast(state, isPending, toastOpts);
 
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
-  const didSubmitRef = useRef(false);
-  const hasClosedRef = useRef(false);
-
-  // Tandai ketika submit dimulai
-  useEffect(() => {
-    if (isPending) didSubmitRef.current = true;
-  }, [isPending]);
-
-  // Reset guards saat modal ditutup / dibuka lagi
-  useEffect(() => {
-    if (!isOpen) {
-      didSubmitRef.current = false;
-      hasClosedRef.current = false;
+  useActionModalAutoClose(
+    {
+      modalId,
+      state,
+      pending: isPending,
+      formRef,
+      resetOnClose: true,
+      closeDelayMs: 0,
     }
-  }, [isOpen]);
-
-  // Tutup modal sekali setelah submit sukses
-  useEffect(() => {
-    const shouldClose =
-      isOpen &&                 // hanya saat modal terbuka
-      !isPending &&             // request sudah selesai
-      state.ok &&               // berhasil
-      didSubmitRef.current &&   // memang hasil dari submit terakhir
-      !hasClosedRef.current;    // belum pernah ditutup di siklus ini
-
-    if (shouldClose) {
-      hasClosedRef.current = true;
-      didSubmitRef.current = false;
-      formRef.current?.reset(); // opsional: bersihkan input
-      closeModal(modalId);
-    }
-  }, [isOpen, isPending, state.ok, closeModal, modalId]);
+  )
   return (
     <Modal
       id={modalId}
@@ -71,7 +57,7 @@ export default function CategoryEdit({
     >
       <Modal.Header>Edit Category</Modal.Header>
 
-      <Modal.Body formId={formId} action={formAction}>
+      <Modal.Body formId={formId} action={formAction} formRef={formRef}>
         {/* name */}
         <label
           htmlFor="name"
