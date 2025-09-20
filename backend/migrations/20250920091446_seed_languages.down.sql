@@ -1,1 +1,1 @@
--- Add down migration script here
+DELETE FROM languages WHERE code IN ('id','en');
