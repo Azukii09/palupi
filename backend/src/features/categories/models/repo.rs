@@ -1,5 +1,6 @@
 use async_trait::async_trait;
-use crate::features::categories::models::entity::Category;
+use uuid::Uuid;
+use crate::features::categories::models::entity::{ CategoryI18n};
 
 #[derive(thiserror::Error, Debug)]
 pub enum DomainError {
@@ -7,13 +8,29 @@ pub enum DomainError {
     NotFound,
     #[error("conflict: {0}")]
     Conflict(String),
+    #[error("internal: {0}")]
+    Internal(String),
 }
 
 #[async_trait]
 pub trait CategoryRepo {
-    async fn get_all(&self) -> Result<Vec<Category>, DomainError>;
-    async fn get_by_id(&self, id: i32) -> Result<Category, DomainError>;
-    async fn create(&self, name: &str) -> Result<Category, DomainError>;
-    async fn update(&self, id: i32, name: &str) -> Result<Category, DomainError>;
-    async fn delete(&self, id: i32) -> Result<(), DomainError>;
+    async fn get_all(&self, locale: &str) -> Result<Vec<CategoryI18n>, DomainError>;
+    async fn get_by_id(&self, id: Uuid, locale: &str) -> Result<CategoryI18n, DomainError>;
+    async fn create(
+        &self,
+        locale: &str,
+        name: &str,
+        description: Option<&str>,
+        status: bool,
+    ) -> Result<CategoryI18n, DomainError>;
+    async fn update(
+        &self,
+        id: Uuid,
+        locale: &str,
+        status: Option<bool>,
+        name: Option<&str>,
+        description: Option<&str>,
+    ) -> Result<CategoryI18n, DomainError>;
+    async fn soft_delete(&self, id: Uuid) -> Result<(), DomainError>;
+    async fn hard_delete(&self, id: Uuid) -> Result<(), DomainError>;
 }

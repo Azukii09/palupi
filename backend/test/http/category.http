@@ -1,25 +1,69 @@
-### GET request to example server
-GET http://localhost:8080/api/v1/categories
+### Vars (ubah sesuai envmu)
+@baseUrl = http://localhost:8080/api/v1
+@locale = id
+@locale2 = id
+@categoryId = 019966d4-c0f4-77c0-97ae-9b9b2acddb26
 
-###
-GET http://localhost:8080/api/v1/categories/4
+################################################################
+# LIST (per-locale)
+################################################################
+GET {{baseUrl}}/categories?locale={{locale}}
+Accept: application/json
 
-###
-POST http://localhost:8080/api/v1/categories
-Content-Type: application/json
 
-{
-  "name": "ini percobaan"
-}
-
-###
-PUT http://localhost:8080/api/v1/categories/6
+################################################################
+# CREATE (per-locale). Simpan UUID ke var {{categoryId}}
+################################################################
+POST {{baseUrl}}/categories?locale={{locale}}
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "ini edit"
+  "name": "Kategori Percobaan",
+  "description": "Deskripsi dalam bahasa default/locale saat ini",
+  "status": true
 }
 
-###
-DELETE http://localhost:8080/api/v1/categories/6
+> {%
+  // Simpan ID dari response ke variable global untuk dipakai di request berikutnya.
+  // Sesuaikan path jika ApiResponse kamu berbeda.
+  const body = JSON.parse(response.body);
+  const id = body?.data?.id ?? body?.id;
+  if (id) client.global.set("categoryId", id);
+%}
+
+
+################################################################
+# GET BY ID (gunakan UUID hasil create)
+################################################################
+GET {{baseUrl}}/categories/{{categoryId}}?locale={{locale}}
+Accept: application/json
+
+
+################################################################
+# UPDATE TERJEMAHAN (contoh: ubah ke locale 'en')
+# - ganti locale di query untuk mengedit/buat translation locale tsb
+################################################################
+PUT {{baseUrl}}/categories/{{categoryId}}?locale=en
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Trial Category (EN)",
+  "description": "English description",
+  "status": false
+}
+
+
+################################################################
+# LIST dengan locale lain (cek hasil i18n)
+################################################################
+GET {{baseUrl}}/categories?locale=en
+Accept: application/json
+
+
+################################################################
+# SOFT DELETE
+################################################################
+DELETE {{baseUrl}}/categories/{{categoryId}}
+Accept: application/json

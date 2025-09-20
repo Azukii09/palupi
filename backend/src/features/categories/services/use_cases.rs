@@ -1,37 +1,58 @@
-use crate::features::categories::models::entity::Category;
+use uuid::Uuid;
+use crate::features::categories::models::entity::{ CategoryI18n};
 use crate::features::categories::models::repo::{CategoryRepo, DomainError};
 
-pub struct GetAll<R: CategoryRepo>(pub R);
-impl<R: CategoryRepo> GetAll<R> {
-    pub async fn run(&self) -> Result<Vec<Category>,DomainError> {
-        self.0.get_all().await
+pub struct GetAllCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> GetAllCategory<R> {
+    pub async fn run(&self, locale: &str) -> Result<Vec<CategoryI18n>,DomainError> {
+        self.0.get_all(locale).await
     }
 }
 
-pub struct GetById<R: CategoryRepo>(pub R);
-impl<R: CategoryRepo> GetById<R> {
-    pub async fn run(&self, id: i32) -> Result<Category,DomainError> {
-        self.0.get_by_id(id).await
+pub struct GetCategoryById<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> GetCategoryById<R> {
+    pub async fn run(&self, id: Uuid, locale:&str) -> Result<CategoryI18n,DomainError> {
+        self.0.get_by_id(id,locale).await
     }
 }
 
 pub struct AddCategory<R: CategoryRepo>(pub R);
 impl<R: CategoryRepo> AddCategory<R> {
-    pub async fn run(&self, name: &str) -> Result<Category,DomainError> {
-        self.0.create(name).await
+    pub async fn run(
+        &self,
+        locale: &str,
+        name: &str,
+        description: Option<&str>,
+        status: bool,
+    ) -> Result<CategoryI18n,DomainError> {
+        self.0.create(locale,name,description,status).await
     }
 }
 
 pub struct UpdateCategory<R: CategoryRepo>(pub R);
 impl<R: CategoryRepo> UpdateCategory<R> {
-    pub async fn run(&self, id: i32, name: &str) -> Result<Category,DomainError> {
-        self.0.update(id, name).await
+    pub async fn run(
+        &self,
+        id: Uuid,
+        locale: &str,
+        status: Option<bool>,
+        name: Option<&str>,
+        description: Option<&str>,
+    ) -> Result<CategoryI18n,DomainError> {
+        self.0.update(id,locale,status,name,description).await
     }
 }
 
-pub struct DeleteCategory<R: CategoryRepo>(pub R);
-impl<R: CategoryRepo> DeleteCategory<R> {
-    pub async fn run(&self, id: i32) -> Result<(),DomainError> {
-        self.0.delete(id).await
+pub struct SoftDeleteCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> SoftDeleteCategory<R> {
+    pub async fn run(&self, id: Uuid) -> Result<(),DomainError> {
+        self.0.soft_delete(id).await
+    }
+}
+
+pub struct HardDeleteCategory<R: CategoryRepo>(pub R);
+impl<R: CategoryRepo> HardDeleteCategory<R> {
+    pub async fn run(&self, id: Uuid) -> Result<(),DomainError> {
+        self.0.hard_delete(id).await
     }
 }
