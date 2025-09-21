@@ -5,6 +5,8 @@ use regex::Regex;
 use crate::features::categories::models::repo::DomainError;
 
 const NAME_MAX: usize = 255;
+pub const DESC_MAX: usize = 10_000; // atur sesuai kebutuhan
+
 
 fn normalize_name(s: &str) -> String { s.trim().to_string() }
 
@@ -90,9 +92,28 @@ impl CategoryTranslation {
         Ok(())
     }
 
-    pub fn set_description(&mut self, description: Option<String>) {
-        self.description = description;
+    pub fn set_description<S>(&mut self, description: Option<S>) -> Result<(), DomainError>
+    where
+        S: AsRef<str>,
+    {
+        // normalize: Option<&str> -> Option<String> (trim), kosong -> None
+        let normalized = description
+            .map(|s| s.as_ref().trim().to_string())
+            .filter(|s| !s.is_empty());
+
+        // validate length jika ada
+        if let Some(ref d) = normalized {
+            if d.len() > DESC_MAX {
+                return Err(DomainError::Validation(format!(
+                    "description too long (>{})",
+                    DESC_MAX
+                )));
+            }
+        }
+
+        self.description = normalized;
         self.updated_at = Utc::now();
+        Ok(())
     }
 
     pub fn soft_delete(&mut self) { let now = Utc::now(); self.deleted_at = Some(now); self.updated_at = now; }
