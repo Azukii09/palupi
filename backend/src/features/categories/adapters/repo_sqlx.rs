@@ -16,25 +16,36 @@ impl CategoryRepoSqlx {
 }
 
 fn map_db_err(e: sqlx::Error) -> DomainError {
-    use sqlx::error::DatabaseError;
     match &e {
         sqlx::Error::RowNotFound => DomainError::NotFound,
+
+        // Pelanggaran unik -> 409
         sqlx::Error::Database(db) if db.is_unique_violation() => {
             DomainError::Conflict(db.message().to_string())
         }
-        sqlx::Error::Database(db) => {
-            // Periksa SQLSTATE Postgres untuk jenis error lain
-            if let Some(pg) = db.try_downcast_ref::<sqlx::postgres::PgDatabaseError>() {
-                match pg.code().as_ref() {
-                    "23503" => DomainError::Conflict("foreign key violation".into()), // FK
-                    "23514" => DomainError::Conflict("check constraint violation".into()),
-                    "40001" | "40P01" => DomainError::Conflict("transient error, retry".into()), // serialization / deadlock
-                    _ => DomainError::Internal(pg.message().to_string()),
-                }
-            } else {
-                DomainError::Internal(db.message().to_string())
+
+        // FK violation (23503) -> 422 (mis. locale tidak ada di languages)
+        sqlx::Error::Database(db)
+        if db.code().as_deref() == Some("23503") =>
+            {
+                DomainError::Validation("foreign key violation".into())
             }
-        }
+
+        // Check constraint (23514) -> 422
+        sqlx::Error::Database(db)
+        if db.code().as_deref() == Some("23514") =>
+            {
+                DomainError::Validation("check constraint violation".into())
+            }
+
+        // String terlalu panjang untuk kolom (22001) -> 422
+        sqlx::Error::Database(db)
+        if db.code().as_deref() == Some("22001") =>
+            {
+                DomainError::Validation("value too long for column".into())
+            }
+
+        // Lainnya -> 500
         _ => DomainError::Internal(e.to_string()),
     }
 }

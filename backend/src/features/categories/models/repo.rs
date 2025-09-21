@@ -8,6 +8,8 @@ pub enum DomainError {
     NotFound,
     #[error("conflict: {0}")]
     Conflict(String),
+    #[error("validation: {0}")]
+    Validation(String),
     #[error("internal: {0}")]
     Internal(String),
 }

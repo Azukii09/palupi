@@ -17,7 +17,10 @@ impl IntoResponse for AppError {
                 (StatusCode::NOT_FOUND, "Not Found").into_response(),
             AppError::Domain(DomainError::Conflict(msg)) =>
                 (StatusCode::CONFLICT, msg).into_response(),
-            _ => (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response(),
+            AppError::Domain(DomainError::Validation(msg)) =>   // ⬅️ 422
+                (StatusCode::UNPROCESSABLE_ENTITY, msg).into_response(),
+            _ =>
+                (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response(),
         }
     }
 }

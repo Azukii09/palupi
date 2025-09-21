@@ -12,6 +12,7 @@ use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
 use crate::features::categories::controllers::dto::{
     CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest, LocaleParam,
 };
+use crate::features::categories::models::repo::DomainError;
 use crate::features::categories::services::use_cases::{
     GetAllCategory, GetCategoryById, AddCategory, UpdateCategory, SoftDeleteCategory
 };
@@ -46,12 +47,28 @@ pub async fn create_category(
     Query(q): Query<LocaleParam>,
     Json(payload): Json<CreateCategoryRequest>,
 ) -> Result<(StatusCode, Json<ApiResponse<CategoryResponse>>), AppError> {
-    let uc = AddCategory(state.repo);
+    // --- Validasi ringan di layer presentation (fail-fast) ---
+    let name_trim = payload.name.trim();
+    if name_trim.is_empty() {
+        return Err(AppError::Domain(DomainError::Validation(
+            "name cannot be empty".into(),
+        )));
+    }
+    if name_trim.len() > 255 {
+        return Err(AppError::Domain(DomainError::Validation(
+            "name too long (>255)".into(),
+        )));
+    }
+    // (Validasi format locale dilakukan di entity/usecase; optional kalau mau cek di sini juga)
+
     let status = payload.status.unwrap_or(true);
 
+    // Catatan: clone repo agar tidak memindahkan state.repo
+    let uc = AddCategory(state.repo.clone());
+
     let created = uc
-        .run(&q.locale, &payload.name, payload.description.as_deref(), status)
-        .await?; // -> CategoryI18n
+        .run(&q.locale, name_trim, payload.description.as_deref(), status)
+        .await?; // -> CategoryI18n (akan tervalidasi lagi di domain)
 
     Ok((
         StatusCode::CREATED,

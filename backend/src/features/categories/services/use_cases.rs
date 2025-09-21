@@ -1,5 +1,5 @@
 use uuid::Uuid;
-use crate::features::categories::models::entity::{ CategoryI18n};
+use crate::features::categories::models::entity::{Category, CategoryI18n, CategoryTranslation};
 use crate::features::categories::models::repo::{CategoryRepo, DomainError};
 
 pub struct GetAllCategory<R: CategoryRepo>(pub R);
@@ -24,8 +24,15 @@ impl<R: CategoryRepo> AddCategory<R> {
         name: &str,
         description: Option<&str>,
         status: bool,
-    ) -> Result<CategoryI18n,DomainError> {
-        self.0.create(locale,name,description,status).await
+    ) -> Result<CategoryI18n, DomainError> {
+        // === validasi domain ===
+        let id = Uuid::now_v7();
+        let _ = Category::new(id, status);
+        // constructor validasi name + format locale
+        let _ = CategoryTranslation::try_new(id, locale, name, description.map(|s| s.to_string()))?;
+
+        // === persist ===
+        self.0.create(locale, name, description, status).await
     }
 }
 
