@@ -14,8 +14,10 @@ impl<R: CategoryRepo> GetAllCategory<R> {
 
 pub struct GetCategoryById<R: CategoryRepo>(pub R);
 impl<R: CategoryRepo> GetCategoryById<R> {
-    pub async fn run(&self, id: Uuid, locale:&str) -> Result<CategoryI18n,DomainError> {
-        self.0.get_by_id(id,locale).await
+    pub async fn run(&self, id: Uuid, locale: &str) -> Result<CategoryI18n, DomainError> {
+        // Validasi format locale (tanpa membuat perubahan apa pun)
+        let _ = CategoryTranslation::try_new(id, locale, "placeholder", None)?;
+        self.0.get_by_id(id, locale).await
     }
 }
 
