@@ -108,10 +108,3 @@ impl<R: CategoryRepo> SoftDeleteCategory<R> {
         self.0.soft_delete(id).await
     }
 }
-
-pub struct HardDeleteCategory<R: CategoryRepo>(pub R);
-impl<R: CategoryRepo> HardDeleteCategory<R> {
-    pub async fn run(&self, id: Uuid) -> Result<(),DomainError> {
-        self.0.hard_delete(id).await
-    }
-}
