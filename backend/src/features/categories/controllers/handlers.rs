@@ -14,8 +14,9 @@ use crate::features::categories::controllers::dto::{
 };
 use crate::features::categories::models::repo::DomainError;
 use crate::features::categories::services::create_category::CreateCategory;
+use crate::features::categories::services::update_category::UpdateCategory;
 use crate::features::categories::services::use_cases::{
-    GetAllCategory, GetCategoryById, UpdateCategory, SoftDeleteCategory
+    GetAllCategory, GetCategoryById, SoftDeleteCategory
 };
 
 #[derive(Clone)]
