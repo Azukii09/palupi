@@ -5,14 +5,13 @@ use axum::{
 use http::StatusCode;
 use uuid::Uuid;
 
-use crate::core::errors::error::AppError;
+use crate::core::errors::error::{AppError, DomainError};
 use crate::core::response::global_response::ApiResponse;
 
 use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
 use crate::features::categories::controllers::dto::{
     CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest, LocaleParam,
 };
-use crate::features::categories::models::repo::DomainError;
 use crate::features::categories::services::create_category::CreateCategory;
 use crate::features::categories::services::update_category::UpdateCategory;
 use crate::features::categories::services::get_all_category::GetAllCategory;

@@ -1,9 +1,10 @@
 use async_trait::async_trait;
 use sqlx::{Postgres, Transaction};
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::adapters::repo_sqlx::{map_db_err, CategoryRepoSqlx};
 use crate::features::categories::models::entity::CategoryI18n;
-use crate::features::categories::models::repo::{CategoryUpdateRepo, DomainError};
+use crate::features::categories::models::repo::{CategoryUpdateRepo};
 
 #[async_trait]
 impl CategoryUpdateRepo for CategoryRepoSqlx {

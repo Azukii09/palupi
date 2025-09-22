@@ -1,7 +1,8 @@
 use async_trait::async_trait;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::adapters::repo_sqlx::{map_db_err, CategoryRepoSqlx};
 use crate::features::categories::models::entity::CategoryI18n;
-use crate::features::categories::models::repo::{CategoryGetAllRepo, DomainError};
+use crate::features::categories::models::repo::{CategoryGetAllRepo};
 
 #[async_trait]
 impl CategoryGetAllRepo for CategoryRepoSqlx {

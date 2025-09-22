@@ -1,5 +1,5 @@
 use sqlx::{PgPool};
-use crate::features::categories::models::repo::{ DomainError};
+use crate::core::errors::error::DomainError;
 
 #[derive(Clone)]
 pub struct CategoryRepoSqlx {

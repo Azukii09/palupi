@@ -1,6 +1,7 @@
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::models::entity::{CategoryI18n, CategoryTranslation};
-use crate::features::categories::models::repo::{CategoryCreateRepo, DomainError};
+use crate::features::categories::models::repo::{CategoryCreateRepo};
 
 pub struct CreateCategory<R: CategoryCreateRepo>(pub R);
 impl<R: CategoryCreateRepo> CreateCategory<R> {

@@ -1,6 +1,7 @@
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::models::entity::{CategoryI18n, CategoryTranslation};
-use crate::features::categories::models::repo::{ CategoryUpdateRepo, DomainError};
+use crate::features::categories::models::repo::{ CategoryUpdateRepo};
 
 pub struct UpdateCategory<R: CategoryUpdateRepo>(pub R);
 impl<R: CategoryUpdateRepo> UpdateCategory<R> {

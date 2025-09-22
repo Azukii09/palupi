@@ -2,7 +2,7 @@ use uuid::Uuid;
 use chrono::{DateTime, Utc};
 use sqlx::FromRow;
 use regex::Regex;
-use crate::features::categories::models::repo::DomainError;
+use crate::core::errors::error::DomainError;
 
 const NAME_MAX: usize = 255;
 pub const DESC_MAX: usize = 10_000; // atur sesuai kebutuhan

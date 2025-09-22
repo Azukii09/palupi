@@ -1,5 +1,6 @@
 use uuid::Uuid;
-use crate::features::categories::models::repo::{CategorySoftDeleteRepo, DomainError};
+use crate::core::errors::error::DomainError;
+use crate::features::categories::models::repo::{CategorySoftDeleteRepo};
 
 pub struct SoftDeleteCategory<R: CategorySoftDeleteRepo>(pub R);
 impl<R: CategorySoftDeleteRepo> SoftDeleteCategory<R> {

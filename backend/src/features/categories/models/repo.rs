@@ -1,18 +1,7 @@
 use async_trait::async_trait;
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::models::entity::{ CategoryI18n};
-
-#[derive(thiserror::Error, Debug)]
-pub enum DomainError {
-    #[error("Not Found")]
-    NotFound,
-    #[error("conflict: {0}")]
-    Conflict(String),
-    #[error("validation: {0}")]
-    Validation(String),
-    #[error("internal: {0}")]
-    Internal(String),
-}
 
 #[async_trait]
 pub trait CategoryGetAllRepo {

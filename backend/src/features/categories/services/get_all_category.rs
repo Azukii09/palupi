@@ -1,6 +1,7 @@
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::models::entity::{CategoryI18n, CategoryTranslation};
-use crate::features::categories::models::repo::{CategoryGetAllRepo, DomainError};
+use crate::features::categories::models::repo::{CategoryGetAllRepo};
 
 pub struct GetAllCategory<R: CategoryGetAllRepo>(pub R);
 impl<R: CategoryGetAllRepo> GetAllCategory<R> {

@@ -1,8 +1,9 @@
 use async_trait::async_trait;
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::adapters::repo_sqlx::{map_db_err, CategoryRepoSqlx};
 use crate::features::categories::models::entity::CategoryI18n;
-use crate::features::categories::models::repo::{CategoryGetByIdRepo, DomainError};
+use crate::features::categories::models::repo::{CategoryGetByIdRepo};
 
 #[async_trait]
 impl CategoryGetByIdRepo for CategoryRepoSqlx {

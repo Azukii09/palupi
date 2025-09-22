@@ -1,6 +1,5 @@
 use axum::response::{IntoResponse, Response};
 use http::StatusCode;
-use crate::features::categories::models::repo::DomainError;
 
 #[derive(Debug, thiserror::Error)]
 pub enum AppError {
@@ -23,4 +22,16 @@ impl IntoResponse for AppError {
                 (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response(),
         }
     }
+}
+
+#[derive(thiserror::Error, Debug)]
+pub enum DomainError {
+    #[error("Not Found")]
+    NotFound,
+    #[error("conflict: {0}")]
+    Conflict(String),
+    #[error("validation: {0}")]
+    Validation(String),
+    #[error("internal: {0}")]
+    Internal(String),
 }

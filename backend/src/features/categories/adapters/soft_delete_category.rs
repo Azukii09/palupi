@@ -1,8 +1,9 @@
 use async_trait::async_trait;
 use sqlx::{Postgres, Transaction};
 use uuid::Uuid;
+use crate::core::errors::error::DomainError;
 use crate::features::categories::adapters::repo_sqlx::{map_db_err, CategoryRepoSqlx};
-use crate::features::categories::models::repo::{CategorySoftDeleteRepo, DomainError};
+use crate::features::categories::models::repo::{CategorySoftDeleteRepo};
 
 #[async_trait]
 impl CategorySoftDeleteRepo for CategoryRepoSqlx{
