@@ -69,6 +69,7 @@ export default function MainViewCategory({
                 </div>
               )
             }}
+            columnOrder={["name","description","status"]}
           />
         </div>
       </BasicCard.content>
