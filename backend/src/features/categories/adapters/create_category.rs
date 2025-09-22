@@ -2,6 +2,7 @@ use async_trait::async_trait;
 use sqlx::{Postgres, Transaction};
 use uuid::Uuid;
 use crate::core::errors::error::DomainError;
+use crate::core::errors::map_db_err::map_db_err;
 use crate::features::categories::adapters::repo_sqlx::CategoryRepoSqlx;
 use crate::features::categories::models::entity::CategoryI18n;
 use crate::features::categories::models::repo::{CategoryCreateRepo};
@@ -9,7 +10,7 @@ use crate::features::categories::models::repo::{CategoryCreateRepo};
 #[async_trait]
 impl CategoryCreateRepo for CategoryRepoSqlx {
     async fn create(&self, locale: &str, name: &str, description: Option<&str>, status: bool) -> Result<CategoryI18n, DomainError> {
-        let mut tx: Transaction<'_, Postgres> = self.pool.begin().await.map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+        let mut tx: Transaction<'_, Postgres> = self.pool.begin().await.map_err(map_db_err)?;
 
         // Gunakan UUID v7 agar index lebih "time-ordered"
         let id = Uuid::now_v7();
@@ -22,7 +23,7 @@ impl CategoryCreateRepo for CategoryRepoSqlx {
         )
             .execute(&mut *tx)
             .await
-            .map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+            .map_err(map_db_err)?;
 
         // Ambil default locale
         let def_locale: String = sqlx::query_scalar(
@@ -30,7 +31,7 @@ impl CategoryCreateRepo for CategoryRepoSqlx {
         )
             .fetch_one(&mut *tx)
             .await
-            .map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+            .map_err(map_db_err)?;
 
         // Translation untuk locale yang diminta
         sqlx::query!(
@@ -45,7 +46,7 @@ impl CategoryCreateRepo for CategoryRepoSqlx {
         )
             .execute(&mut *tx)
             .await
-            .map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+            .map_err(map_db_err)?;
 
         // Jika bukan default-locale, tambahkan default juga (biar lulus constraint)
         if locale != def_locale {
@@ -62,7 +63,7 @@ impl CategoryCreateRepo for CategoryRepoSqlx {
             )
                 .execute(&mut *tx)
                 .await
-                .map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+                .map_err(map_db_err)?;
         }
 
         // Ambil hasil gabungan untuk locale diminta
@@ -98,9 +99,9 @@ impl CategoryCreateRepo for CategoryRepoSqlx {
             .bind(id)
             .fetch_one(&mut *tx)
             .await
-            .map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+            .map_err(map_db_err)?;
 
-        tx.commit().await.map_err(crate::features::categories::adapters::repo_sqlx::map_db_err)?;
+        tx.commit().await.map_err(map_db_err)?;
         Ok(created)
     }
 }
