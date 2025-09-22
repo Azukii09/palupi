@@ -4,3 +4,4 @@ pub mod update_category;
 pub mod get_all_category;
 pub mod get_by_id_category;
 pub mod soft_delete_category;
+pub mod hard_delete_category;
