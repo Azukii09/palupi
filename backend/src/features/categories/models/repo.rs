@@ -47,9 +47,12 @@ pub trait CategoryUpdateRepo {
     ) -> Result<CategoryI18n, DomainError>;
 }
 
+#[async_trait]
+pub trait CategorySoftDeleteRepo {
+    async fn soft_delete(&self, id: Uuid) -> Result<(), DomainError>;
+}
 
 #[async_trait]
-pub trait CategoryRepo {
-    async fn soft_delete(&self, id: Uuid) -> Result<(), DomainError>;
+pub trait CategoryHardDeleteRepo {
     async fn hard_delete(&self, id: Uuid) -> Result<(), DomainError>;
 }

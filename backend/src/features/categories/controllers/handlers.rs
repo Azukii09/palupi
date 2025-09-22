@@ -17,9 +17,7 @@ use crate::features::categories::services::create_category::CreateCategory;
 use crate::features::categories::services::update_category::UpdateCategory;
 use crate::features::categories::services::get_all_category::GetAllCategory;
 use crate::features::categories::services::get_by_id_category::GetCategoryById;
-use crate::features::categories::services::use_cases::{
-    SoftDeleteCategory
-};
+use crate::features::categories::services::soft_delete_category::SoftDeleteCategory;
 
 #[derive(Clone)]
 pub struct AppState {
