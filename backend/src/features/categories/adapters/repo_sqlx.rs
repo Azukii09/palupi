@@ -15,7 +15,7 @@ impl CategoryRepoSqlx {
     }
 }
 
-fn map_db_err(e: sqlx::Error) -> DomainError {
+pub fn map_db_err(e: sqlx::Error) -> DomainError {
     match &e {
         sqlx::Error::RowNotFound => DomainError::NotFound,
 

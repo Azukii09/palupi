@@ -19,7 +19,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "tes2",
+  "name": "tes3",
   "description": "Deskripsi dalam bahasa default/locale saat ini",
   "status": true
 }
@@ -44,12 +44,12 @@ Accept: application/json
 # UPDATE TERJEMAHAN (contoh: ubah ke locale 'en')
 # - ganti locale di query untuk mengedit/buat translation locale tsb
 ################################################################
-PUT {{baseUrl}}/categories/01996bc4-58b1-70d0-b335-007137eeb5c1?locale=en
+PUT {{baseUrl}}/categories/01996eed-3570-7be2-9a4c-d9b8e32c6247?locale=en
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "tes2",
+  "name": "tes3",
   "description": "English description",
   "status": false
 }

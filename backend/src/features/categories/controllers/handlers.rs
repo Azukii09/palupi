@@ -13,8 +13,9 @@ use crate::features::categories::controllers::dto::{
     CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest, LocaleParam,
 };
 use crate::features::categories::models::repo::DomainError;
+use crate::features::categories::services::create_category::CreateCategory;
 use crate::features::categories::services::use_cases::{
-    GetAllCategory, GetCategoryById, AddCategory, UpdateCategory, SoftDeleteCategory
+    GetAllCategory, GetCategoryById, UpdateCategory, SoftDeleteCategory
 };
 
 #[derive(Clone)]
@@ -64,7 +65,7 @@ pub async fn create_category(
     let status = payload.status.unwrap_or(true);
 
     // Catatan: clone repo agar tidak memindahkan state.repo
-    let uc = AddCategory(state.repo.clone());
+    let uc = CreateCategory(state.repo.clone());
 
     let created = uc
         .run(&q.locale, name_trim, payload.description.as_deref(), status)

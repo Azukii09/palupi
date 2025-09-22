@@ -15,6 +15,17 @@ pub enum DomainError {
 }
 
 #[async_trait]
+pub trait CategoryCreateRepo {
+    async fn create(
+        &self,
+        locale: &str,
+        name: &str,
+        description: Option<&str>,
+        status: bool,
+    ) -> Result<CategoryI18n, DomainError>;
+}
+
+#[async_trait]
 pub trait CategoryRepo {
     async fn get_all(&self, locale: &str) -> Result<Vec<CategoryI18n>, DomainError>;
     async fn get_by_id(&self, id: Uuid, locale: &str) -> Result<CategoryI18n, DomainError>;
