@@ -16,8 +16,9 @@ use crate::features::categories::models::repo::DomainError;
 use crate::features::categories::services::create_category::CreateCategory;
 use crate::features::categories::services::update_category::UpdateCategory;
 use crate::features::categories::services::get_all_category::GetAllCategory;
+use crate::features::categories::services::get_by_id_category::GetCategoryById;
 use crate::features::categories::services::use_cases::{
-    GetCategoryById, SoftDeleteCategory
+    SoftDeleteCategory
 };
 
 #[derive(Clone)]

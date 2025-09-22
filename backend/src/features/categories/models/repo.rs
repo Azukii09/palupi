@@ -18,6 +18,12 @@ pub enum DomainError {
 pub trait CategoryGetAllRepo {
     async fn get_all(&self, locale: &str) -> Result<Vec<CategoryI18n>, DomainError>;
 }
+
+#[async_trait]
+pub trait CategoryGetByIdRepo {
+    async fn get_by_id(&self, id: Uuid, locale: &str) -> Result<CategoryI18n, DomainError>;
+}
+
 #[async_trait]
 pub trait CategoryCreateRepo {
     async fn create(
@@ -44,7 +50,6 @@ pub trait CategoryUpdateRepo {
 
 #[async_trait]
 pub trait CategoryRepo {
-    async fn get_by_id(&self, id: Uuid, locale: &str) -> Result<CategoryI18n, DomainError>;
     async fn soft_delete(&self, id: Uuid) -> Result<(), DomainError>;
     async fn hard_delete(&self, id: Uuid) -> Result<(), DomainError>;
 }
