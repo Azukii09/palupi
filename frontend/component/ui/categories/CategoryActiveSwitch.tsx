@@ -4,32 +4,45 @@ import * as React from 'react'
 import Switch from "@/component/util/base/Switch";
 
 type Props = {
-  categoryId: string
-  initialActive: boolean
-  revalidatePathAfter?: string // contoh: '/admin/categories'
-  disabled?: boolean
+  categoryId: string;
+  /** untuk uncontrolled */
+  initialActive?: boolean;
+  /** untuk controlled (opsional) */
+  checked?: boolean;
+  onChange?: (next: boolean) => void;
+  disabled?: boolean;
 }
 
 export function CategoryActiveSwitch({
   categoryId,
-  initialActive,
+  initialActive = false,
+  checked,            // ← kalau dikirim, komponen jadi controlled
+  onChange,
+  disabled,
 }: Props) {
-  const [on, setOn] = React.useState(initialActive)
+  const isControlled = checked !== undefined;
+
+  const [on, setOn] = React.useState<boolean>(initialActive);
+
+  // ⬇️ sinkronkan state saat prop berubah / row berganti
+  React.useEffect(() => {
+    if (!isControlled) setOn(initialActive);
+  }, [initialActive, isControlled, categoryId]);
 
   const handleChange = (next: boolean) => {
-    // optimistic
-    setOn(next)
-  }
+    if (!isControlled) setOn(next); // optimistic local
+    onChange?.(next);
+  };
 
   return (
     <Switch
-      checked={on}
+      checked={isControlled ? !!checked : on}
       onChange={handleChange}
       aria-label="Aktif/nonaktif kategori"
-      // optional: kamu bisa beri name/value jika suatu saat ingin kirim via form
       name={`category-${categoryId}-active`}
       value="true"
-      size={"sm"}
+      size="sm"
+      disabled={disabled}
     />
-  )
+  );
 }

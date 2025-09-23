@@ -5,6 +5,7 @@ import {useTranslations} from "next-intl";
 import {ActionResult, createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
+import Switch from "@/component/util/base/Switch";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";
@@ -68,6 +69,38 @@ export default function CategoryCreate() {
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
+        {!state.ok && "message" in state && state.message && (
+          <p className="text-sm text-red-600">{state.message}</p>
+        )}
+
+        {/* description */}
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-primary mb-1"
+        >
+          {tCategory('form.description')}
+        </label>
+        <input
+          id="description"
+          name="description"
+          type="text"
+          placeholder="e.g. Beverages"
+          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
+          required
+        />
+        {!state.ok && "message" in state && state.message && (
+          <p className="text-sm text-red-600">{state.message}</p>
+        )}
+
+        {/* status */}
+        <label
+          htmlFor="status"
+          className="block text-sm font-medium text-primary mb-1"
+        >
+          {tCategory('form.status')}
+        </label>
+        <Switch name={"status"} defaultChecked={false} value={"true"}/>
+        <input type="hidden" name="status" value="false" />
         {!state.ok && "message" in state && state.message && (
           <p className="text-sm text-red-600">{state.message}</p>
         )}

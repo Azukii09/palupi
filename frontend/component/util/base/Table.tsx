@@ -43,7 +43,7 @@ export default function Table({
     excludesColumnsName?: string[];
     excludesColumnsData?: string[];
     withNumbering?: boolean;
-    withActions?: (row: number | unknown) => JSX.Element;
+    withActions?: (row: Record<string, unknown>) => JSX.Element;
     withFooter?: boolean;
     variants: 'default' | 'strip';
     rowHover?: boolean;
@@ -211,24 +211,30 @@ export default function Table({
                     </thead>
 
                     <tbody className={`${poppins.className}`}>
-                    {currentData.map((row, idx) => (
-                      <tr
-                        key={idx}
-                        className={`${rowHover ? hoverColor : ''} ${variants === 'strip' && idx % 2 !== 1 ? stripColor : rowColor} ${borderColor} border-y`}
-                      >
-                        {withNumbering && <td className="text-center">{start + idx + 1}</td>}
+                    {currentData.map((row, idx) => {
+                      const rowId =
+                        (row.id as string | number | undefined) ??
+                        (row["id"] as string | number | undefined) ??
+                        `row-${start + idx}`; // fallback terakhir (sebaiknya selalu ada id)
+                      return(
+                        <tr
+                          key={rowId}
+                          className={`${rowHover ? hoverColor : ''} ${variants === 'strip' && idx % 2 !== 1 ? stripColor : rowColor} ${borderColor} border-y`}
+                        >
+                          {withNumbering && <td className="text-center">{start + idx + 1}</td>}
 
-                        {dataColumns.map((key, cidx) => (
-                          <td key={`${key}-${cidx}`} className={`${borderColor} px-4 py-2 border-x`}>
-                            {typeof customColumnRenderer[key] === 'function'
-                              ? customColumnRenderer[key](row)
-                              : row[key] != null ? String(row[key]) : '-'}
-                          </td>
-                        ))}
+                          {dataColumns.map((key) => (
+                            <td key={`${rowId}-${String(key)}`} className={`${borderColor} px-4 py-2 border-x`}>
+                              {typeof customColumnRenderer[key] === 'function'
+                                ? customColumnRenderer[key](row)
+                                : row[key] != null ? String(row[key]) : '-'}
+                            </td>
+                          ))}
 
-                        {withActions ? withActions(row) : null}
-                      </tr>
-                    ))}
+                          {withActions ? withActions(row) : null}
+                        </tr>
+                      )
+                    })}
 
                     {currentData.length === 0 && (
                       <tr>

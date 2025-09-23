@@ -2,6 +2,7 @@
 import { z } from "zod";
 import {apiSend, revalidatePage} from "@/lib/utils/api";
 import {ApiEnvelope, Category} from "@/lib/type/api";
+import {getLocale} from "next-intl/server";
 
 type ApiError = { message: string };
 // actions.ts
@@ -12,17 +13,30 @@ export type ActionResult =
 const DeleteSchema = z.object({
   id: z.coerce.number().int().positive(),
 });
-const CreateSchema = z.object({ name: z.string().trim().min(1).max(120) });
+const CreateSchema = z.object({ 
+  name: z.string().trim().min(1).max(120) ,
+  description: z.string().trim().min(4).max(120).optional(),
+  status: z.boolean().optional(),
+})
+
 const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
 
 export async function createCategory(_prev: ActionResult,formData: FormData) {
-  const parsed = CreateSchema.safeParse({ name: formData.get("name") });
+  const locale = await getLocale()
+  const parsed = CreateSchema.safeParse({
+    name: formData.get("name"),
+    description: formData.get("description"),
+    status: formData.get("status") === "true",
+  });
+
+  console.log(parsed)
+
   if (!parsed.success) {
     return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
   try {
-    const data  = await apiSend<unknown>(`/api/v1/categories`, "POST", parsed.data) as Category;
+    const data  = await apiSend<unknown>(`/api/v1/categories?locale=${locale}`, "POST", parsed.data) as Category;
 
     const result : ApiEnvelope<Category> = {
       status_code: 200,

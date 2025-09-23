@@ -5,6 +5,8 @@ export type ApiEnvelope<T> = {
 };
 
 export type Category = {
-  id: number;
+  id: string;
   name: string;
+  description: string;
+  status:boolean;
 };
