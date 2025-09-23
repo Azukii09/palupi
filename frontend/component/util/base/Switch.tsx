@@ -1,3 +1,4 @@
+// component/util/base/Switch.tsx
 'use client'
 import * as React from 'react'
 
@@ -52,7 +53,13 @@ const Switch = React.forwardRef<HTMLInputElement, Props>(
     const s = sizeMap[size]
 
     return (
-      <label className="relative inline-flex items-center cursor-pointer">
+      <label
+        aria-disabled={disabled ? true : undefined}
+        className={[
+          'relative inline-flex items-center select-none',
+          disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
+        ].join(' ')}
+      >
         <input
           ref={ref}
           id={id}
@@ -67,12 +74,17 @@ const Switch = React.forwardRef<HTMLInputElement, Props>(
         />
         <div
           className={[
-            // kelas asli + tambahan untuk font-size & line-height emoji
-            `group peer ring-0 bg-gradient-to-tr from-quaternary via-quinary to-danger rounded-full outline-none duration-300 after:duration-300 shadow-md peer-checked:bg-success peer-focus:outline-none
-             after:content-['✖️'] after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:top-1 after:left-1 after:-rotate-180 after:flex after:justify-center after:items-center
-             after:leading-none after:select-none
+            `group peer ring-0 rounded-full outline-none duration-300 after:duration-300 shadow-md
+             bg-gradient-to-tr from-quaternary via-quinary to-danger
+             peer-checked:bg-success
+             after:content-['✖️'] after:absolute after:bg-gray-50 after:rounded-full after:outline-none after:top-1 after:left-1
+             after:-rotate-180 after:flex after:justify-center after:items-center after:leading-none after:select-none
              peer-checked:after:content-['✔️'] peer-hover:after:scale-95 peer-checked:after:rotate-0
-             peer-checked:bg-gradient-to-tr peer-checked:from-green-300 peer-checked:via-secondary/40 peer-checked:to-success`,
+             peer-checked:bg-gradient-to-tr peer-checked:from-green-300 peer-checked:via-secondary/40 peer-checked:to-success
+             peer-disabled:opacity-50 peer-disabled:saturate-100 peer-disabled:brightness-95
+             peer-disabled:after:bg-gray-200 peer-disabled:after:shadow-none
+             peer-disabled:after:scale-100 peer-disabled:after:rotate-0
+             peer-disabled:pointer-events-none`,
             s.track,
             s.thumb,
             s.translate,
