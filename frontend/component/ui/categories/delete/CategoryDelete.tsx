@@ -73,6 +73,7 @@ export default function CategoryDelete({
       <Modal.Body action={formAction} formId={formId} formRef={formRef}>
         <div className={"flex flex-col gap-2 items-center justify-center"}>
           <input type="hidden" name="id" value={data.id} />
+          <input type="hidden" name="name" value={data.name} />
           <FaExclamationTriangle className={"size-16 text-danger"}/>
           <p className="text-primary text-center font-medium">
             Are you sure you want to delete category

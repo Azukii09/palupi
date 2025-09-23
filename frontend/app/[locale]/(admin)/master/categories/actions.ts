@@ -12,7 +12,9 @@ export type ActionResult =
 
 const DeleteSchema = z.object({
   id: z.coerce.string().trim(),
+  name: z.string().trim().min(1).max(120) ,
 });
+
 const CreateSchema = z.object({ 
   name: z.string().trim().min(1).max(120) ,
   description: z.string().trim().min(4).max(120).optional(),
@@ -82,7 +84,7 @@ export async function deleteCategory(
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
-  const parsed = DeleteSchema.safeParse({ id: formData.get("id") });
+  const parsed = DeleteSchema.safeParse({ id: formData.get("id"), name: formData.get("name") });
   if (!parsed.success) {
     return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid id" };
   }
@@ -90,7 +92,7 @@ export async function deleteCategory(
   try {
     await apiSend<void>(`/api/v1/categories/${parsed.data.id}`, "DELETE");
     // Sesuaikan dengan strategi revalidate kamu
-    return { ok: true, message: `Successfully deleted ${parsed.data.id}` };
+    return { ok: true, message: `Successfully deleted ${parsed.data.name}` };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Delete failed";
     return { ok: false, message: msg };
