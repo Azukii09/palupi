@@ -26,9 +26,20 @@ const UpdateSchema = z.object({
   name: z.string().trim().min(1).max(120)
 });
 
+const zBoolFromForm = z.union([z.boolean(), z.string()]).transform((v) => {
+  if (typeof v === "boolean") return v;
+  const s = v.trim().toLowerCase();
+  if (["true", "1", "on", "yes", "y"].includes(s)) return true;
+  if (["false", "0", "off", "no", "n"].includes(s)) return false;
+  // kalau nilai aneh, kamu bisa:
+  // - return false;  // fallback aman
+  // - atau throw new Error("Invalid boolean"); // biar gagal validasi
+  return false;
+});
+
 const ToggleSchema = z.object({
-  id: z.string().min(1),            // kalau ID numeric: ganti ke z.coerce.number().int().positive()
-  status: z.coerce.boolean(),       // parse "true"/"false"
+  id: z.string().min(1),
+  status: zBoolFromForm,
 });
 
 export async function createCategory(_prev: ActionResult,formData: FormData) {
