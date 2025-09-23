@@ -1,10 +1,11 @@
-import React, {useActionState, useMemo, useRef} from 'react';
+import React, {useActionState, useEffect, useMemo, useRef} from 'react';
 import {FaExclamationTriangle, FaTrash} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
 import {ActionResult, deleteCategory} from "@/app/[locale]/(admin)/master/categories/actions";
 import {Category} from "@/lib/type/api";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
+import {useRouter} from "next/navigation";
 
 export default function CategoryDelete({
   data
@@ -13,6 +14,8 @@ export default function CategoryDelete({
 }) {
   const modalId = `delete-category-${data.id}`;
   const formId = `delete-category-form-${data.id}`;
+
+  const router = useRouter();
 
 
   const [state, formAction, isPending] = useActionState<ActionResult,FormData>(deleteCategory, { ok: false, message: "" });
@@ -38,6 +41,17 @@ export default function CategoryDelete({
     resetOnClose: true,
     closeDelayMs: 150,
   });
+
+  // Setelah sukses: tembak toast via event+queue, lalu refresh data
+  useEffect(() => {
+    if (isPending) return;
+    if (!state.ok) return;
+    // refresh data setelah modal sempat close
+    const t = setTimeout(() => {
+      router.refresh();
+    }, 160); // > closeDelayMs
+    return () => clearTimeout(t);
+  }, [isPending, state.ok, router]);
 
 
   return (

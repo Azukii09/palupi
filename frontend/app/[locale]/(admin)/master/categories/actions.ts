@@ -29,8 +29,6 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
     status: formData.get("status") === "true",
   });
 
-  console.log(parsed)
-
   if (!parsed.success) {
     return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
@@ -92,8 +90,6 @@ export async function deleteCategory(
   try {
     await apiSend<void>(`/api/v1/categories/${parsed.data.id}`, "DELETE");
     // Sesuaikan dengan strategi revalidate kamu
-    revalidatePage("categories");            // jika fetch list pakai next:{ tags:["categories"] }
-    revalidatePage("/master/categories");    // kalau mau by path juga
     return { ok: true, message: `Successfully deleted ${parsed.data.id}` };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Delete failed";
