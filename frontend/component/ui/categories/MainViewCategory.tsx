@@ -8,12 +8,14 @@ import CategoryEdit from "@/component/ui/categories/edit/CategoryEdit";
 import CategoryCreate from "@/component/ui/categories/create/CategoryCreate";
 import CategoryDelete from "@/component/ui/categories/delete/CategoryDelete";
 import {Category} from "@/lib/type/api";
+import {useRouter} from "next/navigation";
 
 export default function MainViewCategory({
   data
 }:{
   data: Category[];
 }) {
+  const router = useRouter();
   return (
     <BasicCard>
       {/*Title*/}
@@ -64,7 +66,10 @@ export default function MainViewCategory({
                 <div className={"flex items-center justify-center"}>
                   <CategoryActiveSwitch
                     categoryId={data.id as string}
-                    initialActive={data.status as boolean}
+                    initialActive={Boolean(data.status)}
+                    onSaved={() => {
+                      setTimeout(() => router.refresh(), 50);
+                    }}
                   />
                 </div>
               )

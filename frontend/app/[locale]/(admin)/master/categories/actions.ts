@@ -21,7 +21,15 @@ const CreateSchema = z.object({
   status: z.boolean().optional(),
 })
 
-const UpdateSchema = z.object({ id: z.coerce.number().int().positive(), name: z.string().trim().min(1).max(120) });
+const UpdateSchema = z.object({
+  id: z.coerce.number().int().positive(),
+  name: z.string().trim().min(1).max(120)
+});
+
+const ToggleSchema = z.object({
+  id: z.string().min(1),            // kalau ID numeric: ganti ke z.coerce.number().int().positive()
+  status: z.coerce.boolean(),       // parse "true"/"false"
+});
 
 export async function createCategory(_prev: ActionResult,formData: FormData) {
   const locale = await getLocale()
@@ -95,6 +103,42 @@ export async function deleteCategory(
     return { ok: true, message: `Successfully deleted ${parsed.data.name}` };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Delete failed";
+    return { ok: false, message: msg };
+  }
+}
+
+export async function toggleCategoryStatus(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const locale = await getLocale()
+  const parsed = ToggleSchema.safeParse({
+    id: formData.get("id"),
+    status: formData.get("status"),
+  });
+  if (!parsed.success) {
+    const msg = parsed.error.issues[0]?.message ?? "Invalid payload";
+    return { ok: false, message: msg };
+  }
+
+  const { id, status } = parsed.data;
+
+  console.log(id, status)
+
+  try {
+    // Sesuaikan method/path backend kamu:
+    // - Jika backend PATCH sebagian: "PATCH" { status }
+    // - Jika backend PUT penuh: "PUT" { status }
+    await apiSend<void>(`/api/v1/categories/${id}?locale=${locale}`, "PUT", { status });
+
+    // ⚠️ Biarkan revalidate/refresh dilakukan DI CLIENT setelah toast/modal
+    // supaya komponen ini tidak keburu unmount.
+    return {
+      ok: true,
+      message: status ? "Category activated" : "Category deactivated",
+    };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Toggle failed";
     return { ok: false, message: msg };
   }
 }
