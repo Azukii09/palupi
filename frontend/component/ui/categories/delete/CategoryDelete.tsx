@@ -36,7 +36,7 @@ export default function CategoryDelete({
     pending: isPending,
     formRef,
     resetOnClose: true,
-    closeDelayMs: 0,
+    closeDelayMs: 150,
   });
 
 
