@@ -134,8 +134,6 @@ export async function toggleCategoryStatus(
 
   const { id, status } = parsed.data;
 
-  console.log(id, status)
-
   try {
     // Sesuaikan method/path backend kamu:
     // - Jika backend PATCH sebagian: "PATCH" { status }
