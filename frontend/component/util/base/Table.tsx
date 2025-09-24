@@ -270,9 +270,9 @@ export default function Table({
             {pagination.paginated && (
                 <div className="flex justify-between w-full items-center gap-2 mt-4">
                     <div className={`${delaGothic.className} ${pagination.textColor?.text || 'text-primary/80'} bg-white text-xs tracking-widest h-full py-2`}>
-                        Show{' '}
+                      {tAction('show')}{' '}
                         <span className={`${poppins.className} ${pagination.textColor?.pageNumber || 'text-success/60'} font-extrabold`}>{start + 1}–{Math.min(start + pageSize, rows.length)}</span>
-                        {' '}from{' '}
+                        {' '}{tAction('from')}{' '}
                         <span className={`${poppins.className} ${pagination.textColor?.pageNumber || 'text-success/60'} font-extrabold`}>{rows.length}</span>{' '}data
                     </div>
                     <PaginationControls
