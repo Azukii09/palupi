@@ -72,7 +72,7 @@ export default function Table({
     };
     columnOrder?: string[];
 }) {
-    const tAction = useTranslations('TableColum');
+    const tAction = useTranslations('Table');
     // derive headers (keys mentah utk akses data)
     const columnName = getDeepKeys(data || [], {
       excludeParents: excludesColumnsData,
@@ -245,7 +245,7 @@ export default function Table({
                           colSpan={dataColumns.length + (withNumbering ? 1 : 0) + (withActions ? 1 : 0)}
                           className="py-4 text-center"
                         >
-                          No data found
+                          {tAction('noData')}
                         </td>
                       </tr>
                     )}
@@ -260,7 +260,7 @@ export default function Table({
                               {headerMap.get(key) ?? key}
                             </th>
                           ))}
-                          {withActions && <th className="px-4 py-2">actions</th>}
+                          {withActions && <th className="px-4 py-2">{tAction('actions')}</th>}
                         </tr>
                       </tfoot>
                     )}

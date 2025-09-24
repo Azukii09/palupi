@@ -7,8 +7,9 @@
     "search": "pencarian",
     "formTitle": "Formulir Dasar"
   },
-  "TableColum": {
-    "actions": "Aksi"
+  "Table": {
+    "actions": "Aksi",
+    "noData": "Tidak ada data ditemukan"
   },
   "Category": {
     "form": {

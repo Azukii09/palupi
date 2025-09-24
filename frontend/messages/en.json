@@ -7,8 +7,9 @@
     "search": "search",
     "formTitle": "Basic Form"
   },
-  "TableColum": {
-    "actions": "Actions"
+  "Table": {
+    "actions": "Actions",
+    "noData": "No Data Found"
   },
   "Category": {
     "form": {
