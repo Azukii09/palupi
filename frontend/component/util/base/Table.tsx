@@ -184,12 +184,12 @@ export default function Table({
                 {withSearch.searchStatus && (
                     <div className={`${withSearch.textColor?withSearch.textColor:"text-primary/80"} capitalize flex items-center`}>
                         <label htmlFor="table-search" className="mr-2">
-                            Search:
+                          {tAction('search')}:
                         </label>
                         <input
                             id="table-search"
                             type="text"
-                            placeholder="Search..."
+                            placeholder={`${tAction('search')} . . .`}
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                             className={`${withSearch.borders ? withSearch.borders : "border-primary"} ${withSearch.textColor?withSearch.textColor:"text-primary/80"} border-1 px-1 lg:px-4 py-1 focus:outline-0 focus:border-3 cursor-text mx-2 rounded-md`}

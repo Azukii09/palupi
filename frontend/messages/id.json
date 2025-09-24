@@ -11,7 +11,8 @@
     "actions": "Aksi",
     "noData": "Tidak ada data ditemukan",
     "show": "Tampilkan",
-    "entries": "Data"
+    "entries": "Data",
+    "search": "Pencarian"
   },
   "Category": {
     "form": {
