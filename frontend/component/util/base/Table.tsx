@@ -1,8 +1,10 @@
+'use client'
 import React, {useState, useMemo, useEffect, JSX} from 'react';
 import { getDeepKeys } from '@/lib/utils/getDeepKeys';
 import { flattenObject } from '@/lib/utils/flattenObject';
 import { delaGothic, poppins } from '@/lib/font/font';
 import {PaginationControls} from "@/component/util/base/PaginationControls";
+import {useTranslations} from "next-intl";
 
 export default function Table({
     data,
@@ -70,6 +72,7 @@ export default function Table({
     };
     columnOrder?: string[];
 }) {
+    const tAction = useTranslations('TableColum');
     // derive headers (keys mentah utk akses data)
     const columnName = getDeepKeys(data || [], {
       excludeParents: excludesColumnsData,
@@ -206,7 +209,7 @@ export default function Table({
                             {headerMap.get(key) ?? key}
                           </th>
                         ))}
-                        {withActions && <th className="px-4 py-2">actions</th>}
+                        {withActions && <th className="px-4 py-2">{tAction('actions')}</th>}
                       </tr>
                     </thead>
 

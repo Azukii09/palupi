@@ -7,6 +7,9 @@
     "search": "search",
     "formTitle": "Basic Form"
   },
+  "TableColum": {
+    "actions": "Actions"
+  },
   "Category": {
     "form": {
       "name": "Name",
@@ -23,8 +26,7 @@
     "table_column_name": {
       "name": "Name",
       "description": "Description",
-      "status": "Status",
-      "action": "Action"
+      "status": "Status"
     }
   }
 }
