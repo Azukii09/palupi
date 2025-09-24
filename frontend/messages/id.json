@@ -21,10 +21,10 @@
       "detail": "Detail"
     },
     "table_column_name": {
-      "name": "Name",
-      "description": "Description",
+      "name": "Nama",
+      "description": "Deskripsi",
       "status": "Status",
-      "action": "Action"
+      "action": "Aksi"
     }
   }
 }

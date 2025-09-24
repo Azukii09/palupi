@@ -9,6 +9,7 @@ import CategoryCreate from "@/component/ui/categories/create/CategoryCreate";
 import CategoryDelete from "@/component/ui/categories/delete/CategoryDelete";
 import {Category} from "@/lib/type/api";
 import {useRouter} from "next/navigation";
+import {useTranslations} from "next-intl";
 
 export default function MainViewCategory({
   data
@@ -16,6 +17,7 @@ export default function MainViewCategory({
   data: Category[];
 }) {
   const router = useRouter();
+  const tCategoryColoumName = useTranslations('Category.table_column_name')
   return (
     <BasicCard>
       {/*Title*/}
@@ -36,6 +38,11 @@ export default function MainViewCategory({
             data={data}
             excludesColumnsData={[ "id"]}
             excludesColumnsName={[ "id"]}
+            renameMap={{
+              'name': tCategoryColoumName('name'),
+              'description': tCategoryColoumName('description'),
+              'status': tCategoryColoumName('status')
+            }}
             variants={"strip"}
             withNumbering
             withSearch={
