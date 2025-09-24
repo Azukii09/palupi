@@ -18,6 +18,8 @@
     "next": "Next"
   },
   "Category": {
+    "title": "Category",
+    "titleMany": "Categories Datalist",
     "form": {
       "name": "Name",
       "description": "Description",

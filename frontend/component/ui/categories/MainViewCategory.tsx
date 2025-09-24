@@ -17,13 +17,13 @@ export default function MainViewCategory({
   data: Category[];
 }) {
   const router = useRouter();
-  const tCategoryColoumName = useTranslations('Category.table_column_name')
+  const tCategory = useTranslations('Category')
   return (
     <BasicCard>
       {/*Title*/}
       <BasicCard.title>
         <h1 className="text-xl font-bold text-primary capitalize">
-          Categories
+          {tCategory('titleMany')}
         </h1>
       </BasicCard.title>
 
@@ -39,9 +39,9 @@ export default function MainViewCategory({
             excludesColumnsData={[ "id"]}
             excludesColumnsName={[ "id"]}
             renameMap={{
-              'name': tCategoryColoumName('name'),
-              'description': tCategoryColoumName('description'),
-              'status': tCategoryColoumName('status')
+              'name': tCategory('table_column_name.name'),
+              'description': tCategory('table_column_name.description'),
+              'status': tCategory('table_column_name.status')
             }}
             variants={"strip"}
             withNumbering

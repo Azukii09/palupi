@@ -18,6 +18,8 @@
     "next": "Selanjutnya"
   },
   "Category": {
+    "title": "Kategori",
+    "titleMany": "Daftar Kategori",
     "form": {
       "name": "Nama",
       "description": "Deskripsi",
