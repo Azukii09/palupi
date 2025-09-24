@@ -19,6 +19,12 @@
       "create": "Buat",
       "category": "Kategori",
       "detail": "Detail"
+    },
+    "table_column_name": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "action": "Action"
     }
   }
 }
