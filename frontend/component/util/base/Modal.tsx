@@ -3,6 +3,7 @@
 import React, {ReactNode} from "react";
 import Button from "@/component/util/base/Button";
 import {useModal} from "@/providers/context/ModalContext";
+import {useTranslations} from "next-intl";
 
 type FormAction = React.ComponentProps<"form">["action"];
 
@@ -120,6 +121,7 @@ const ModalFooter = ({
     formId?: string;
     disable?: boolean;
 }) => {
+    const tModal = useTranslations("Modal")
     return (
         <div
             className="flex-shrink-0 px-6 py-4 bg-white rounded-b-lg text-primary w-full border-t-1 border-primary/60">
@@ -144,7 +146,7 @@ const ModalFooter = ({
                             variant="white"
                             variantType="solid"
                             buttonName="close"
-                            buttonText="Close"
+                            buttonText={tModal("close")}
                             size={btnSize ?? "sm"}
                             handler={onClose}
                         />

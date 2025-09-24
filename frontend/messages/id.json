@@ -7,6 +7,9 @@
     "search": "pencarian",
     "formTitle": "Formulir Dasar"
   },
+  "Modal": {
+    "close": "Tutup"
+  },
   "Table": {
     "actions": "Aksi",
     "noData": "Tidak ada data ditemukan",
@@ -20,6 +23,13 @@
   "Category": {
     "title": "Kategori",
     "titleMany": "Daftar Kategori",
+    "create": {
+      "button": "Kategori Baru",
+      "title": "Kategori Baru",
+      "save": "Simpan",
+      "saving": "Menyimpan...",
+      "footer": "Untuk menambahkan kategori baru, klik tombol simpan"
+    },
     "form": {
       "name": "Nama",
       "description": "Deskripsi",
@@ -30,7 +40,9 @@
       "delete": "Hapus",
       "create": "Buat",
       "category": "Kategori",
-      "detail": "Detail"
+      "detail": "Detail",
+      "phName": "contoh: Minuman",
+      "phDescription": "contoh: Makanan & Minuman"
     },
     "table_column_name": {
       "name": "Nama",

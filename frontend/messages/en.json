@@ -7,6 +7,9 @@
     "search": "search",
     "formTitle": "Basic Form"
   },
+  "Modal": {
+    "close": "Close"
+  },
   "Table": {
     "actions": "Actions",
     "noData": "No Data Found",
@@ -20,6 +23,13 @@
   "Category": {
     "title": "Category",
     "titleMany": "Categories Datalist",
+    "create": {
+      "button": "New Category",
+      "title": "New Category",
+      "save": "Save",
+      "saving": "Saving...",
+      "footer": "To add a new category, click save button"
+    },
     "form": {
       "name": "Name",
       "description": "Description",
@@ -30,7 +40,9 @@
       "delete": "Delete",
       "create": "Create",
       "category": "Category",
-      "detail": "Detail"
+      "detail": "Detail",
+      "phName": "e.g. Beverages",
+      "phDescription": "e.g. Beverages"
     },
     "table_column_name": {
       "name": "Name",
