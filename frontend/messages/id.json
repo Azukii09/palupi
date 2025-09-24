@@ -42,7 +42,9 @@
       "category": "Kategori",
       "detail": "Detail",
       "phName": "contoh: Minuman",
-      "phDescription": "contoh: Makanan & Minuman"
+      "phDescription": "contoh: Makanan & Minuman",
+      "active": "Aktif",
+      "notActive": "Tidak Aktif"
     },
     "table_column_name": {
       "name": "Nama",

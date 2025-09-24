@@ -42,7 +42,9 @@
       "category": "Category",
       "detail": "Detail",
       "phName": "e.g. Beverages",
-      "phDescription": "e.g. Beverages"
+      "phDescription": "e.g. Beverages",
+      "active": "Active",
+      "notActive": "Not Active"
     },
     "table_column_name": {
       "name": "Name",

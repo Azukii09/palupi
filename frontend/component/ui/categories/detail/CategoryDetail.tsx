@@ -52,7 +52,7 @@ export default function CategoryDetail({
                   {params.locale ==="id" ? `${tCategory('form.status')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.status')}`}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
-                <td className="px-4 py-2 text-start">{data.status ? "active":"not active"}</td>
+                <td className="px-4 py-2 text-start">{data.status ? tCategory('form.active'):tCategory('form.notActive')}</td>
               </tr>
             </tbody>
           </table>
