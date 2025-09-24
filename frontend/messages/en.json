@@ -13,7 +13,9 @@
     "show": "Show",
     "entries": "Entries",
     "search": "Search",
-    "from": "From"
+    "from": "From",
+    "prev": "Prev",
+    "next": "Next"
   },
   "Category": {
     "form": {

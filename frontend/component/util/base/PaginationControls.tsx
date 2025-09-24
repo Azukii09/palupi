@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useMemo, useState } from "react";
 import { getPageItems } from "@/lib/utils/getPageItems";
+import {useTranslations} from "next-intl";
 
 interface PaginationControlsProps {
   currentPage: number;
@@ -46,6 +47,8 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
     "px-2 py-1 rounded-full shadow-sm shadow-primary text-nowrap text-xs sm:text-sm md:text-base";
   const textClass = activePage?.text ?? "text-primary/80";
 
+  const tTable = useTranslations("Table")
+
   return (
     <div className={`${textClass} flex items-center space-x-1`} aria-label="Pagination">
       {items.map((it) => {
@@ -60,7 +63,7 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
               className={`${baseBtn}${disabled ? " opacity-50 bg-primary/20 cursor-not-allowed" : " hover:bg-primary/20"}`}
               aria-label="Previous page"
             >
-              ‹ Prev
+              ‹ {tTable('prev')}
             </button>
           );
         }
@@ -76,7 +79,7 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
               className={`${baseBtn}${disabled ? " opacity-50 bg-primary/20 cursor-not-allowed" : " hover:bg-primary/20"}`}
               aria-label="Next page"
             >
-              Next ›
+              {tTable('next')} ›
             </button>
           );
         }

@@ -13,7 +13,9 @@
     "show": "Tampilkan",
     "entries": "Data",
     "search": "Pencarian",
-    "from": "dari"
+    "from": "dari",
+    "prev": "Sebelumnya",
+    "next": "Selanjutnya"
   },
   "Category": {
     "form": {
