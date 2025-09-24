@@ -9,7 +9,9 @@
   },
   "Table": {
     "actions": "Actions",
-    "noData": "No Data Found"
+    "noData": "No Data Found",
+    "show": "Show",
+    "entries": "Entries"
   },
   "Category": {
     "form": {

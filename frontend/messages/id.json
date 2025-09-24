@@ -9,7 +9,9 @@
   },
   "Table": {
     "actions": "Aksi",
-    "noData": "Tidak ada data ditemukan"
+    "noData": "Tidak ada data ditemukan",
+    "show": "Tampilkan",
+    "entries": "Data"
   },
   "Category": {
     "form": {

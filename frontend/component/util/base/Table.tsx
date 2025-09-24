@@ -158,7 +158,7 @@ export default function Table({
             >
                 {pagination.paginated && (
                     <div className={"py-6 flex flex-col md:flex-row gap-2 items-center justify-center"}>
-                        <span>Show </span>
+                        <span>{tAction('show')} </span>
                         <select
                             name="pagination"
                             value={pageSize}
@@ -178,7 +178,7 @@ export default function Table({
                                     ))
                             }
                         </select>
-                        <span> Entries</span>
+                        <span> {tAction('entries')}</span>
                     </div>
                 )}
                 {withSearch.searchStatus && (
