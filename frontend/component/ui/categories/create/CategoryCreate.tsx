@@ -20,8 +20,9 @@ export default function CategoryCreate() {
       title: tCategory('create.addTitle'),
       // kalau mau, kirim deskripsi sukses statis/ambil dari result
       description: (r: ActionResult) => r.message,
+      duration: 5000,
     },
-    error: { title: tCategory('create.errorTitle') },
+    error: { title: tCategory('create.errorTitle') ,duration: 5000},
   }), [tCategory]);
 
   useActionToast(state, isPending, toastOpts);

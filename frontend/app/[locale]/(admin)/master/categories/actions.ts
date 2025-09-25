@@ -66,7 +66,7 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
       data: data
     }
     revalidatePage("/master/categories");
-    return {ok: true, message: `${tCategory('create.success')} ${parsed.data.name} ${tCategory('create.success')}`, data: result};
+    return {ok: true, message: `${tCategory('create.success')} ${parsed.data.name} ${tCategory('create.success2')}`, data: result};
   } catch (e: unknown) {
     const err: ApiError = e instanceof Error ? { message: e.message } : { message: tCategory('create.failed') };
     return { ok: false, message: err.message };
