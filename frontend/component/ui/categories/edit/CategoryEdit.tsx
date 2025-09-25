@@ -7,12 +7,14 @@ import {Category} from "@/lib/type/api";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
 import Switch from "@/component/util/base/Switch";
+import {useTranslations} from "next-intl";
 
 export default function CategoryEdit({
   data,
 }:{
   data:Category;
 }) {
+  const tCategory = useTranslations('Category')
 
   const modalId = `demo-create-category-${data.id}`;
   const formId = `edit-category-form-${data.id}`;
@@ -56,7 +58,7 @@ export default function CategoryEdit({
       btnBadge
       formId={formId}
     >
-      <Modal.Header>Edit Category</Modal.Header>
+      <Modal.Header>{tCategory('edit.title')}</Modal.Header>
 
       <Modal.Body formId={formId} action={formAction} formRef={formRef}>
         {/* name */}
@@ -64,7 +66,7 @@ export default function CategoryEdit({
           htmlFor="name"
           className="block text-sm font-medium text-primary mb-1 text-start"
         >
-          Category Name
+          {tCategory('edit.name')}
         </label>
         <input type="hidden" name="id" value={data.id} />
         <input
@@ -72,7 +74,7 @@ export default function CategoryEdit({
           name="name"
           type="text"
           defaultValue={data.name}
-          placeholder="e.g. Beverages"
+          placeholder={tCategory('form.phName')}
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
@@ -85,7 +87,7 @@ export default function CategoryEdit({
           htmlFor="description"
           className="block text-sm font-medium text-primary mb-1 text-start"
         >
-          Category Description
+          {tCategory('edit.description')}
         </label>
         <input type="hidden" name="id" value={data.id} />
         <input
@@ -107,7 +109,7 @@ export default function CategoryEdit({
             htmlFor="status"
             className="block text-sm font-medium text-primary mb-1"
           >
-            Category Status
+            {tCategory('edit.status')}
           </label>
           <Switch name={"status"} defaultChecked={false} value={"true"} checked={data.status}/>
           <input type="hidden" name="status" value="false" />
@@ -122,13 +124,13 @@ export default function CategoryEdit({
         btnVariant="primary"
         btnVariantType="solid"
         btnName="submit-create-category"
-        btnText={isPending ? "Saving..." : "Save"}
+        btnText={isPending ? tCategory('edit.saving') : tCategory('edit.save')}
         btnSize="sm"
         formId={formId}
         disable={isPending}
       >
-        <span className="text-xs text-primary/70">
-          Edit Category
+        <span className="text-xs text-primary/70 text-start">
+          {tCategory('edit.footer')}
         </span>
       </Modal.Footer>
     </Modal>

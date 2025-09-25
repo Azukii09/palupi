@@ -30,6 +30,16 @@
       "saving": "Saving...",
       "footer": "To add a new category, click save button"
     },
+    "edit": {
+      "button": "Edit Category",
+      "title": "Edit Category",
+      "save": "Save",
+      "saving": "Saving...",
+      "footer": "To edit a category, click save button",
+      "name": "Category Name",
+      "description": "Category Description",
+      "status": "Category Status"
+    },
     "form": {
       "name": "Name",
       "description": "Description",
