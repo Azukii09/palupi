@@ -6,6 +6,7 @@ import {ActionResult, updateCategory} from "@/app/[locale]/(admin)/master/catego
 import {Category} from "@/lib/type/api";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
+import Switch from "@/component/util/base/Switch";
 
 export default function CategoryEdit({
   data,
@@ -75,6 +76,45 @@ export default function CategoryEdit({
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
+        {!state.ok && "message" in state && state.message && (
+          <p className="text-sm text-red-600">{state.message}</p>
+        )}
+
+        {/* description */}
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-primary mb-1 text-start"
+        >
+          Category Description
+        </label>
+        <input type="hidden" name="id" value={data.id} />
+        <input
+          id="description"
+          name="description"
+          type="text"
+          defaultValue={data.description}
+          placeholder="e.g. Beverages"
+          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
+          required
+        />
+        {!state.ok && "message" in state && state.message && (
+          <p className="text-sm text-red-600">{state.message}</p>
+        )}
+
+        {/* status */}
+        <div className={"flex flex-col gap-1 items-start justify-start"}>
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-primary mb-1"
+          >
+            Category Status
+          </label>
+          <Switch name={"status"} defaultChecked={false} value={"true"} checked={data.status}/>
+          <input type="hidden" name="status" value="false" />
+          {!state.ok && "message" in state && state.message && (
+            <p className="text-sm text-red-600">{state.message}</p>
+          )}
+        </div>
       </Modal.Body>
 
       {/* onClose di-inject otomatis */}
