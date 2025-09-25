@@ -23,30 +23,26 @@
   "Category": {
     "title": "Category",
     "titleMany": "Categories Datalist",
+    "fields": {
+      "name": "Category Name",
+      "description": "Category Description",
+      "status": "Category Status"
+    },
     "create": {
       "button": "New Category",
       "title": "New Category",
       "save": "Save",
       "saving": "Saving...",
-      "footer": "To add a new category, click save button",
-      "name": "Category Name",
-      "description": "Category Description",
-      "status": "Category Status"
+      "footer": "To add a new category, click save button"
     },
     "edit": {
       "button": "Edit Category",
       "title": "Edit Category",
       "save": "Save",
       "saving": "Saving...",
-      "footer": "To edit a category, click save button",
-      "name": "Category Name",
-      "description": "Category Description",
-      "status": "Category Status"
+      "footer": "To edit a category, click save button"
     },
     "form": {
-      "name": "Name",
-      "description": "Description",
-      "status": "Status",
       "submit": "Submit",
       "cancel": "Cancel",
       "edit": "Edit",

@@ -59,7 +59,7 @@ export default function CategoryCreate() {
           htmlFor="name"
           className="block text-sm font-medium text-primary mb-1"
         >
-          {tCategory('create.name')}
+          {tCategory('fields.name')}
         </label>
         <input
           id="name"
@@ -78,7 +78,7 @@ export default function CategoryCreate() {
           htmlFor="description"
           className="block text-sm font-medium text-primary mb-1"
         >
-          {tCategory('create.description')}
+          {tCategory('fields.description')}
         </label>
         <input
           id="description"
@@ -97,7 +97,7 @@ export default function CategoryCreate() {
           htmlFor="status"
           className="block text-sm font-medium text-primary mb-1"
         >
-          {tCategory('create.status')}
+          {tCategory('fields.status')}
         </label>
         <Switch name={"status"} defaultChecked={false} value={"true"}/>
         <input type="hidden" name="status" value="false" />

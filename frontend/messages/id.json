@@ -23,30 +23,26 @@
   "Category": {
     "title": "Kategori",
     "titleMany": "Daftar Kategori",
+    "fields": {
+      "name": "Nama Kategori",
+      "description": "Deskripsi Kategori",
+      "status": "Status Kategori"
+    },
     "create": {
       "button": "Kategori Baru",
       "title": "Kategori Baru",
       "save": "Simpan",
       "saving": "Menyimpan...",
-      "footer": "Untuk menambahkan kategori baru, klik tombol simpan",
-      "name": "Nama Kategori",
-      "description": "Deskripsi Kategori",
-      "status": "Status Kategori"
+      "footer": "Untuk menambahkan kategori baru, klik tombol simpan"
     },
     "edit": {
       "button": "Edit Kategori",
       "title": "Edit Kategori",
       "save": "Simpan",
       "saving": "Menyimpan...",
-      "footer": "Untuk mengedit kategori, klik tombol simpan",
-      "name": "Nama Kategori",
-      "description": "Deskripsi Kategori",
-      "status": "Status Kategori"
+      "footer": "Untuk mengedit kategori, klik tombol simpan"
     },
     "form": {
-      "name": "Nama",
-      "description": "Deskripsi",
-      "status": "Status",
       "submit": "Kirim",
       "cancel": "Batal",
       "edit": "Edit",

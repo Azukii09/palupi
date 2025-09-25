@@ -66,7 +66,7 @@ export default function CategoryEdit({
           htmlFor="name"
           className="block text-sm font-medium text-primary mb-1 text-start"
         >
-          {tCategory('edit.name')}
+          {tCategory('fields.name')}
         </label>
         <input type="hidden" name="id" value={data.id} />
         <input
@@ -87,7 +87,7 @@ export default function CategoryEdit({
           htmlFor="description"
           className="block text-sm font-medium text-primary mb-1 text-start"
         >
-          {tCategory('edit.description')}
+          {tCategory('fields.description')}
         </label>
         <input type="hidden" name="id" value={data.id} />
         <input
@@ -109,7 +109,7 @@ export default function CategoryEdit({
             htmlFor="status"
             className="block text-sm font-medium text-primary mb-1"
           >
-            {tCategory('edit.status')}
+            {tCategory('fields.status')}
           </label>
           <Switch name={"status"} defaultChecked={false} value={"true"} checked={data.status}/>
           <input type="hidden" name="status" value="false" />

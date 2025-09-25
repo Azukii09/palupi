@@ -35,21 +35,21 @@ export default function CategoryDetail({
             <tbody className={`${poppins.className}`}>
               <tr className=" border-primary/50">
                 <td className={`px-4 py-2 text-start bg-primary text-white`}>
-                  {params.locale ==="id" ? `${tCategory('form.name')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.name')}`}
+                  {tCategory('fields.name')}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white">:</td>
                 <td className="px-4 py-2 text-start">{data.name}</td>
               </tr>
               <tr className=" border-primary/50 border-t">
                 <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">
-                  {params.locale ==="id" ? `${tCategory('form.description')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.description')}`}
+                  {tCategory('fields.description')}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
                 <td className="px-4 py-2 text-start">{data.description}</td>
               </tr>
               <tr className=" border-primary/50 border-t">
                 <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">
-                  {params.locale ==="id" ? `${tCategory('form.status')} ${tCategory('form.category')}` : `${tCategory('form.category')} ${tCategory('form.status')}`}
+                  {tCategory('fields.status')}
                 </td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
                 <td className="px-4 py-2 text-start">{data.status ? tCategory('form.active'):tCategory('form.notActive')}</td>
