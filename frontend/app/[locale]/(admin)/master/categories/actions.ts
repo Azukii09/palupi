@@ -22,8 +22,10 @@ const CreateSchema = z.object({
 })
 
 const UpdateSchema = z.object({
-  id: z.coerce.number().int().positive(),
-  name: z.string().trim().min(1).max(120)
+  id: z.coerce.string().trim(),
+  name: z.string().trim().min(1).max(120) ,
+  description: z.string().trim().min(4).max(120).optional(),
+  status: z.boolean().optional(),
 });
 
 const zBoolFromForm = z.union([z.boolean(), z.string()]).transform((v) => {
@@ -74,9 +76,13 @@ export async function updateCategory(
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
+  const locale = await getLocale()
+
   const parsed = UpdateSchema.safeParse({
     id: formData.get("id"),
     name: formData.get("name"),
+    description: formData.get("description"),
+    status: formData.get("status") === "true",
   });
   if (!parsed.success) {
     return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
@@ -84,9 +90,9 @@ export async function updateCategory(
 
   try {
     await apiSend<void>(
-      `/api/v1/categories/${parsed.data.id}`,
+      `/api/v1/categories/${parsed.data.id}?locale=${locale}`,
       "PUT",
-      { name: parsed.data.name }
+      parsed.data,
     );
 
     // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
