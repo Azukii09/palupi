@@ -42,6 +42,15 @@
       "saving": "Menyimpan...",
       "footer": "Untuk mengedit kategori, klik tombol simpan"
     },
+    "delete": {
+      "button": "Hapus Kategori",
+      "title": "Hapus Kategori",
+      "delete": "Hapus",
+      "deleting": "Menghapus...",
+      "footer": "Untuk menghapus kategori, klik tombol hapus",
+      "message": "Apakah anda yakin ingin menghapus kategori",
+      "message2": "Tindakan ini tidak dapat dibatalkan."
+    },
     "form": {
       "submit": "Kirim",
       "cancel": "Batal",

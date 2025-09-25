@@ -42,6 +42,15 @@
       "saving": "Saving...",
       "footer": "To edit a category, click save button"
     },
+    "delete": {
+      "button": "Delete Category",
+      "title": "Delete Category",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "footer": "To delete a category, click delete button",
+      "message": "Are you sure you want to delete category",
+      "message2": "This action cannot be undone."
+    },
     "form": {
       "submit": "Submit",
       "cancel": "Cancel",

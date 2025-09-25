@@ -6,12 +6,14 @@ import {Category} from "@/lib/type/api";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
 import {useRouter} from "next/navigation";
+import {useTranslations} from "next-intl";
 
 export default function CategoryDelete({
   data
 }:{
   data:Category;
 }) {
+  const tCategory = useTranslations('Category')
   const modalId = `delete-category-${data.id}`;
   const formId = `delete-category-form-${data.id}`;
 
@@ -68,7 +70,7 @@ export default function CategoryDelete({
       lockClose={isPending}
     >
       <Modal.Header>
-        Delete Category
+        {tCategory('delete.title')}
       </Modal.Header>
       <Modal.Body action={formAction} formId={formId} formRef={formRef}>
         <div className={"flex flex-col gap-2 items-center justify-center"}>
@@ -76,22 +78,22 @@ export default function CategoryDelete({
           <input type="hidden" name="name" value={data.name} />
           <FaExclamationTriangle className={"size-16 text-danger"}/>
           <p className="text-primary text-center font-medium">
-            Are you sure you want to delete category
+            {tCategory('delete.message')}
             <span className="font-bold block mt-1 text-danger text-lg">{`"${data.name}"`}</span>
-            This action cannot be undone.
+            {tCategory('delete.message2')}
           </p>
         </div>
       </Modal.Body>
       <Modal.Footer
         btnVariant={"danger"}
-        btnText={isPending ? "Deleting..." : "Delete"}
+        btnText={isPending ? tCategory('delete.deleting') : tCategory('delete.delete')}
         btnName={"delete"}
         btnVariantType={"solid"}
         btnSize={"sm"}
         formId={formId}
         disable={isPending}
       >
-        Delete Category
+        {tCategory('delete.footer')}
       </Modal.Footer>
     </Modal>
   );
