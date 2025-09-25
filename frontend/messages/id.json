@@ -33,7 +33,13 @@
       "title": "Kategori Baru",
       "save": "Simpan",
       "saving": "Menyimpan...",
-      "footer": "Untuk menambahkan kategori baru, klik tombol simpan"
+      "footer": "Untuk menambahkan kategori baru, klik tombol simpan",
+      "success": "Berhasil menambahkan",
+      "success2": "sebagai kategori baru",
+      "addTitle": "Buat Kategori Baru",
+      "errorTitle": "Gagal Membuat",
+      "failed": "Gagal untuk membuat kategori baru",
+      "invalid": "Invalid input"
     },
     "edit": {
       "button": "Edit Kategori",

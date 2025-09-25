@@ -33,7 +33,13 @@
       "title": "New Category",
       "save": "Save",
       "saving": "Saving...",
-      "footer": "To add a new category, click save button"
+      "footer": "To add a new category, click save button",
+      "success": "Successfully created",
+      "success2":"as a new category",
+      "addTitle": "Create New Category",
+      "errorTitle": "Create Failed",
+      "failed": "Failed to create new category",
+      "invalid": "Invalid input"
     },
     "edit": {
       "button": "Edit Category",

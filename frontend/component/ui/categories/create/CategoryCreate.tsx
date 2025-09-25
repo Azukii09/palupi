@@ -17,12 +17,12 @@ export default function CategoryCreate() {
 
   const toastOpts = useMemo(() => ({
     success: {
-      title: "Created",
+      title: tCategory('create.addTitle'),
       // kalau mau, kirim deskripsi sukses statis/ambil dari result
       description: (r: ActionResult) => r.message,
     },
-    error: { title: "Create failed" },
-  }), []);
+    error: { title: tCategory('create.errorTitle') },
+  }), [tCategory]);
 
   useActionToast(state, isPending, toastOpts);
   // Refs

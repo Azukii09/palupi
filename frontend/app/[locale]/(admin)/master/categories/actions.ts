@@ -2,7 +2,7 @@
 import { z } from "zod";
 import {apiSend, revalidatePage} from "@/lib/utils/api";
 import {ApiEnvelope, Category} from "@/lib/type/api";
-import {getLocale} from "next-intl/server";
+import {getLocale, getTranslations} from "next-intl/server";
 
 type ApiError = { message: string };
 // actions.ts
@@ -46,6 +46,7 @@ const ToggleSchema = z.object({
 
 export async function createCategory(_prev: ActionResult,formData: FormData) {
   const locale = await getLocale()
+  const tCategory = await getTranslations("Category");
   const parsed = CreateSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -53,7 +54,7 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
   });
 
   if (!parsed.success) {
-    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+    return { ok: false, message: parsed.error.issues[0]?.message ?? tCategory('create.invalid') };
   }
 
   try {
@@ -65,9 +66,9 @@ export async function createCategory(_prev: ActionResult,formData: FormData) {
       data: data
     }
     revalidatePage("/master/categories");
-    return {ok: true, message: `Successfully created ${parsed.data.name} as a new category`, data: result};
+    return {ok: true, message: `${tCategory('create.success')} ${parsed.data.name} ${tCategory('create.success')}`, data: result};
   } catch (e: unknown) {
-    const err: ApiError = e instanceof Error ? { message: e.message } : { message: "Create failed" };
+    const err: ApiError = e instanceof Error ? { message: e.message } : { message: tCategory('create.failed') };
     return { ok: false, message: err.message };
   }
 }
