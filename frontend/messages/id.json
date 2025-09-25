@@ -28,7 +28,10 @@
       "title": "Kategori Baru",
       "save": "Simpan",
       "saving": "Menyimpan...",
-      "footer": "Untuk menambahkan kategori baru, klik tombol simpan"
+      "footer": "Untuk menambahkan kategori baru, klik tombol simpan",
+      "name": "Nama Kategori",
+      "description": "Deskripsi Kategori",
+      "status": "Status Kategori"
     },
     "edit": {
       "button": "Edit Kategori",
