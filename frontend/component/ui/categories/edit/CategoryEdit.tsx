@@ -23,7 +23,7 @@ export default function CategoryEdit({
 
   const toastOpts = useMemo(() => ({
     success: {
-      title: "Updated",
+      title: tCategory('edit.updateTitle'),
       // kalau mau, kirim deskripsi sukses statis/ambil dari result
       description: (r: ActionResult) => r.message,
     },
