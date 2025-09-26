@@ -49,6 +49,7 @@
       "footer": "To edit a category, click save button",
       "success": "Successfully update",
       "updateTitle": "Update Category",
+      "errorTitle": "Update Failed",
       "failed": "Failed to update category"
     },
     "delete": {

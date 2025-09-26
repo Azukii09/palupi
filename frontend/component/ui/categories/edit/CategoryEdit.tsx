@@ -27,7 +27,7 @@ export default function CategoryEdit({
       // kalau mau, kirim deskripsi sukses statis/ambil dari result
       description: (r: ActionResult) => r.message,
     },
-    error: { title: "Update failed" },
+    error: { title: tCategory('edit.errorTitle') },
   }), []);
 
   useActionToast(state, isPending, toastOpts);
