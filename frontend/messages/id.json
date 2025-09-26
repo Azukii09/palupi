@@ -46,7 +46,8 @@
       "title": "Edit Kategori",
       "save": "Simpan",
       "saving": "Menyimpan...",
-      "footer": "Untuk mengedit kategori, klik tombol simpan"
+      "footer": "Untuk mengedit kategori, klik tombol simpan",
+      "success": "Successfully update"
     },
     "delete": {
       "button": "Hapus Kategori",

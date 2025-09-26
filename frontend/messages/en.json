@@ -46,7 +46,8 @@
       "title": "Edit Category",
       "save": "Save",
       "saving": "Saving...",
-      "footer": "To edit a category, click save button"
+      "footer": "To edit a category, click save button",
+      "success": "Successfully update"
     },
     "delete": {
       "button": "Delete Category",
