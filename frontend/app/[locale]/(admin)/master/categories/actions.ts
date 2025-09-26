@@ -78,6 +78,7 @@ export async function updateCategory(
   formData: FormData
 ): Promise<ActionResult> {
   const locale = await getLocale()
+  const tCategory = await getTranslations("Category");
 
   const parsed = UpdateSchema.safeParse({
     id: formData.get("id"),
@@ -99,7 +100,7 @@ export async function updateCategory(
     // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
     revalidatePage("/master/categories");    // by path
 
-    return { ok: true, message: `Successfully updated ${parsed.data.name}` };
+    return { ok: true, message: `${tCategory('success')} ${parsed.data.name}` };
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "Update failed";
     return { ok: false, message };
