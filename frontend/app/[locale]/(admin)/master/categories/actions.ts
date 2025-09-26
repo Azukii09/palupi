@@ -100,7 +100,7 @@ export async function updateCategory(
     // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
     revalidatePage("/master/categories");    // by path
 
-    return { ok: true, message: `${tCategory('success')} ${parsed.data.name}` };
+    return { ok: true, message: `${tCategory('edit.success')} ${parsed.data.name}` };
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : tCategory('edit.failed');
     return { ok: false, message };
