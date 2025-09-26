@@ -102,7 +102,7 @@ export async function updateCategory(
 
     return { ok: true, message: `${tCategory('success')} ${parsed.data.name}` };
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Update failed";
+    const message = e instanceof Error ? e.message : tCategory('edit.failed');
     return { ok: false, message };
   }
 }
