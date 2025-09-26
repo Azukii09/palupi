@@ -39,7 +39,7 @@
       "addTitle": "Buat Kategori Baru",
       "errorTitle": "Gagal Membuat",
       "failed": "Gagal untuk membuat kategori baru",
-      "invalid": "Invalid input"
+      "invalid": "Input tidak valid"
     },
     "edit": {
       "button": "Edit Kategori",
@@ -50,7 +50,8 @@
       "success": "Berhasil memperbarui",
       "updateTitle": "Perbarui Kategori",
       "errorTitle": "Gagal Memperbarui",
-      "failed": "Gagal memperbarui kategori"
+      "failed": "Gagal memperbarui kategori",
+      "invalid": "Input tidak valid"
     },
     "delete": {
       "button": "Hapus Kategori",

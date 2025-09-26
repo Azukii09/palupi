@@ -50,7 +50,8 @@
       "success": "Successfully update",
       "updateTitle": "Update Category",
       "errorTitle": "Update Failed",
-      "failed": "Failed to update category"
+      "failed": "Failed to update category",
+      "invalid": "Invalid input"
     },
     "delete": {
       "button": "Delete Category",

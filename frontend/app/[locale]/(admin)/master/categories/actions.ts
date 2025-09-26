@@ -87,7 +87,7 @@ export async function updateCategory(
     status: formData.get("status") === "true",
   });
   if (!parsed.success) {
-    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid input" };
+    return { ok: false, message: parsed.error.issues[0]?.message ?? tCategory('edit.invalid') };
   }
 
   try {
