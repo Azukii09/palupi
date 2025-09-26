@@ -48,7 +48,8 @@
       "saving": "Menyimpan...",
       "footer": "Untuk mengedit kategori, klik tombol simpan",
       "success": "Berhasil memperbarui",
-      "updateTitle": "Perbarui Kategori"
+      "updateTitle": "Perbarui Kategori",
+      "failed": "Gagal memperbarui kategori"
     },
     "delete": {
       "button": "Hapus Kategori",

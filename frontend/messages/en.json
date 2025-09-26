@@ -48,7 +48,8 @@
       "saving": "Saving...",
       "footer": "To edit a category, click save button",
       "success": "Successfully update",
-      "updateTitle": "Update Category"
+      "updateTitle": "Update Category",
+      "failed": "Failed to update category"
     },
     "delete": {
       "button": "Delete Category",
