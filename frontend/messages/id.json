@@ -39,7 +39,10 @@
       "addTitle": "Buat Kategori Baru",
       "errorTitle": "Gagal Membuat",
       "failed": "Gagal untuk membuat kategori baru",
-      "invalid": "Input tidak valid"
+      "invalid": "Input tidak valid",
+      "validation": {
+        "name": "Nama harus minimal 4 karakter"
+      }
     },
     "edit": {
       "button": "Edit Kategori",

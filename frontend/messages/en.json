@@ -39,7 +39,10 @@
       "addTitle": "Create New Category",
       "errorTitle": "Create Failed",
       "failed": "Failed to create new category",
-      "invalid": "Invalid input"
+      "invalid": "Invalid input",
+      "validation": {
+        "name": "Name must be at least 4 characters"
+      }
     },
     "edit": {
       "button": "Edit Category",
