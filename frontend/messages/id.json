@@ -41,7 +41,8 @@
       "failed": "Gagal untuk membuat kategori baru",
       "invalid": "Input tidak valid",
       "validation": {
-        "name": "Nama harus minimal 4 karakter"
+        "name": "Nama harus minimal 4 karakter",
+        "description": "Deskripsi harus minimal 4 karakter"
       }
     },
     "edit": {
