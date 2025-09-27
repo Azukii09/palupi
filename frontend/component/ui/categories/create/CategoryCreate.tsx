@@ -8,7 +8,7 @@ import Switch from "@/component/util/base/Switch";
 import {
   categoryCreateInitial,
   CategoryCreateState,
-} from "@/app/[locale]/(admin)/master/categories/validation";
+} from "@/app/[locale]/(admin)/master/categories/validationCreate";
 import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryCreate() {
