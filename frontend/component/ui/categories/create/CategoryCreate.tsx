@@ -96,7 +96,7 @@ export default function CategoryCreate() {
           required
         />
         {state.errors?.name?.[0] && (
-          <p className="text-sm text-red-600">{state.errors.name[0]}</p>
+          <p className="text-sm text-red-600">{tCategory(state.errors.name[0])}</p>
         )}
 
         {/* description */}
