@@ -2,41 +2,70 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { z } from "zod";
 import { useModal } from "@/providers/context/ModalContext";
+import {ActionResultFrom} from "@/lib/type/actionType";
 
-// Samakan dengan tipe hasil action kamu
-export type ActionResult = { ok: true,message:string,data?:unknown } | { ok: false; message: string };
-
-type Params = {
-  modalId: string;
-  state: ActionResult;
-  pending: boolean;
-  formRef?: React.RefObject<HTMLFormElement | null>;
-  resetOnClose?: boolean;   // default: true
-  closeDelayMs?: number;    // default: 0 (langsung tutup)
+type Accessors<S extends z.ZodTypeAny, D> = {
+  /** Default: (s) => s.ok */
+  getOk?: (s: ActionResultFrom<S, D>) => boolean;
 };
 
-export function useActionModalAutoClose({
-  modalId,
-  state,
-  pending,
-  formRef,
-  resetOnClose = true,
-  closeDelayMs = 0,
-}: Params) {
+type Params<S extends z.ZodTypeAny, D> = {
+  modalId: string;
+  state: ActionResultFrom<S, D>;
+  pending: boolean;
+  formRef?: React.RefObject<HTMLFormElement | null>;
+  /**
+   * default: true — reset form saat modal ditutup otomatis
+   */
+  resetOnClose?: boolean;
+  /**
+   * default: 0ms — tutup langsung; set >0 untuk delay
+   */
+  closeDelayMs?: number;
+  /**
+   * default: false — kalau true, modal juga ditutup saat gagal (ok === false)
+   */
+  closeOnError?: boolean;
+  /**
+   * Opsional selector agar hook ini kompatibel untuk semua bentuk state
+   */
+  accessors?: Accessors<S, D>;
+  /**
+   * default: true — hanya menutup bila siklus submit benar-benar dimulai
+   * (yakni pernah melihat pending: false -> true)
+   */
+  requireSubmitStart?: boolean;
+};
+
+export function useActionModalAutoClose<S extends z.ZodTypeAny, D>({
+                                                                     modalId,
+                                                                     state,
+                                                                     pending,
+                                                                     formRef,
+                                                                     resetOnClose = true,
+                                                                     closeDelayMs = 0,
+                                                                     closeOnError = false,
+                                                                     accessors,
+                                                                     requireSubmitStart = true,
+                                                                   }: Params<S, D>) {
   const { modals, closeModal } = useModal();
   const isOpen = modals[modalId];
 
-  // guard: menandai submit terakhir & mencegah close berulang
-  const didSubmitRef = useRef(false);
-  const hasClosedRef = useRef(false);
+  const getOk =
+    accessors?.getOk ?? ((s: ActionResultFrom<S, D>) => s.ok);
 
-  // tandai ketika submit dimulai
+  // guard untuk 1 siklus submit
+  const didSubmitRef = useRef(false); // pernah lihat false -> true?
+  const hasClosedRef = useRef(false); // sudah menutup modal pada siklus ini?
+
+  // tandai saat submit dimulai (false -> true)
   useEffect(() => {
     if (pending) didSubmitRef.current = true;
   }, [pending]);
 
-  // reset guard saat modal ditutup / dibuka kembali
+  // reset guard saat modal ditutup/dibuka ulang
   useEffect(() => {
     if (!isOpen) {
       didSubmitRef.current = false;
@@ -44,15 +73,16 @@ export function useActionModalAutoClose({
     }
   }, [isOpen]);
 
-  // tutup modal sekali setelah submit sukses
+  // Tutup modal sekali ketika request selesai
   useEffect(() => {
-    const shouldClose =
-      isOpen &&                 // hanya kalau modal sedang terbuka
-      !pending &&               // request sudah selesai
-      state.ok &&               // action sukses
-      didSubmitRef.current &&   // memang dari submit terakhir
-      !hasClosedRef.current;    // belum pernah ditutup di siklus ini
+    if (!isOpen) return;
+    if (pending) return;
 
+    if (requireSubmitStart && !didSubmitRef.current) return;
+    if (hasClosedRef.current) return;
+
+    const ok = getOk(state);
+    const shouldClose = ok || (closeOnError && !ok);
     if (!shouldClose) return;
 
     hasClosedRef.current = true;
@@ -66,5 +96,17 @@ export function useActionModalAutoClose({
     } else {
       closeModal(modalId);
     }
-  }, [isOpen, pending, state.ok, resetOnClose, closeDelayMs, closeModal, modalId, formRef]);
+  }, [
+    isOpen,
+    pending,
+    state,                 // tergantung state terbaru
+    requireSubmitStart,
+    closeOnError,
+    resetOnClose,
+    closeDelayMs,
+    getOk,
+    closeModal,
+    modalId,
+    formRef,
+  ]);
 }

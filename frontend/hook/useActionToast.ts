@@ -3,7 +3,16 @@
 import { useEffect, useRef } from "react";
 import { useToast } from "@/providers/context/ToastProvider";
 
-export type ActionResultLike = { ok: boolean; message?: string };
+/** Selector opsional agar hook ini bisa dipakai di state apa pun */
+type Accessors<R> = {
+  /** Cara membaca status sukses; default: (r as any).ok */
+  getOk?: (r: R) => boolean;
+  /**
+   * Pesan default ketika error/success (dipakai jika opts.success/error.description tidak ada).
+   * Default: jika gagal ambil _form[0] kalau ada; jika sukses undefined.
+   */
+  getMessage?: (r: R) => string | undefined;
+};
 
 type SuccessCfg<R> = {
   title: string;
@@ -22,9 +31,14 @@ type Options<R> = {
   error?: ErrorCfg<R>;
   /** default: true → tidak menembak di mount awal */
   requireSubmitStart?: boolean;
+  accessors?: Accessors<R>;
 };
 
-export function useActionToast<R extends ActionResultLike>(
+/**
+ * Generic toast hook — tak mengasumsikan bentuk state.
+ * Kamu beri selector getOk/getMessage supaya kompatibel dengan state apa pun.
+ */
+export function useActionToast<R>(
   result: R,
   pending: boolean,
   opts: Options<R>
@@ -32,12 +46,25 @@ export function useActionToast<R extends ActionResultLike>(
   const { showToast } = useToast();
   const requireSubmitStart = opts.requireSubmitStart ?? true;
 
+  // selector dengan fallback super-permisif
+  const getOk =
+    opts.accessors?.getOk ??
+    ((r: R) => (r as unknown as { ok?: boolean }).ok);
+
+  const getMessage =
+    opts.accessors?.getMessage ??
+    ((r: R) => {
+      // fallback generik (best effort): coba r['message'] dulu
+      const m = (r as unknown as { message?: string }).message;
+      return typeof m === "string" && m.length ? m : undefined;
+    });
+
   // track transisi submit
   const prevPending = useRef<boolean>(pending);
-  const didSubmitRef = useRef(false);         // sudah melihat false -> true?
-  const shownForSubmitRef = useRef(false);    // sudah tembak toast untuk submit ini?
+  const didSubmitRef = useRef(false);      // submit dimulai?
+  const shownForSubmitRef = useRef(false); // toast sudah ditembak untuk siklus ini?
 
-  // deteksi mulai submit (false -> true)
+  // deteksi start submit (false -> true)
   useEffect(() => {
     if (!prevPending.current && pending) {
       didSubmitRef.current = true;
@@ -50,14 +77,15 @@ export function useActionToast<R extends ActionResultLike>(
   useEffect(() => {
     if (pending) return;
 
-    // jika diminta, jangan tembak kecuali submit sempat dimulai
     if (requireSubmitStart && !didSubmitRef.current) return;
     if (shownForSubmitRef.current) return;
 
     shownForSubmitRef.current = true;
     didSubmitRef.current = false;
 
-    if (result.ok) {
+    const ok = getOk(result);
+
+    if (ok) {
       const desc =
         typeof opts.success.description === "function"
           ? opts.success.description(result)
@@ -72,11 +100,13 @@ export function useActionToast<R extends ActionResultLike>(
     } else {
       const e = opts.error ?? {};
       const descRaw =
-        typeof e.description === "function" ? e.description(result) : e.description;
-      const desc = descRaw ?? result.message;
+        typeof e.description === "function"
+          ? e.description(result)
+          : e.description;
 
-      // Kalau message kosong, boleh skip (opsional)
-      if (!desc && !e.title) return;
+      const desc = descRaw ?? getMessage(result);
+
+      if (!desc && !e.title) return; // tidak ada konten untuk ditampilkan
 
       showToast({
         title: e.title ?? "Failed",
@@ -87,8 +117,7 @@ export function useActionToast<R extends ActionResultLike>(
     }
   }, [
     pending,
-    result.ok,
-    result.message,
+    result, // aman: selector yang menentukan apa yg dibaca
     requireSubmitStart,
     opts.success.title,
     opts.success.description,
@@ -96,6 +125,8 @@ export function useActionToast<R extends ActionResultLike>(
     opts.error?.title,
     opts.error?.description,
     opts.error?.duration,
+    getOk,
+    getMessage,
     showToast,
   ]);
 }
