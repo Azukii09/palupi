@@ -46,7 +46,8 @@
           "max": "Nama harus kurang dari 120 karakter"
         },
         "description": {
-          "min": "Deskripsi harus minimal 4 karakter"
+          "min": "Deskripsi harus minimal 4 karakter",
+          "max": "Deskripsi harus kurang dari 120 karakter"
         }
       }
     },

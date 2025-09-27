@@ -10,7 +10,7 @@ export const CategorySchema = z.object({
   description: z.string()
     .trim()
     .min(4, "create.validation.description.min")
-    .max(120, "Description must be less than 120 characters")
+    .max(120, "create.validation.description.max")
     .optional(),
   status: z.boolean()
     .optional(),

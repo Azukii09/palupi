@@ -102,23 +102,25 @@ export default function CategoryCreate() {
         </div>
 
         {/* description */}
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-primary mb-1"
-        >
-          {tCategory('fields.description')}
-        </label>
-        <input
-          id="description"
-          name="description"
-          type="text"
-          placeholder={tCategory('form.phDescription')}
-          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
-          required
-        />
-        {state.errors?.description?.[0] && (
-          <p className="text-sm text-red-600">{tCategory(state.errors?.description[0])}</p>
-        )}
+        <div className={"flex flex-col gap-1 mb-3 items-start justify-start"}>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-primary mb-1"
+          >
+            {tCategory('fields.description')}
+          </label>
+          <input
+            id="description"
+            name="description"
+            type="text"
+            placeholder={tCategory('form.phDescription')}
+            className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
+            required
+          />
+          {state.errors?.description?.[0] && (
+            <p className="text-sm text-danger">{tCategory(state.errors?.description[0])}</p>
+          )}
+        </div>
 
         {/* status */}
         <label

@@ -46,7 +46,8 @@
           "max": "Name must be less than 120 characters"
         },
         "description": {
-          "min": "Description must be at least 4 characters"
+          "min": "Description must be at least 4 characters",
+          "max": "Description must be less than 120 characters"
         }
       }
     },
