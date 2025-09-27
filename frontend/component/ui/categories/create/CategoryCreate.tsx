@@ -81,23 +81,25 @@ export default function CategoryCreate() {
 
       <Modal.Body formId={formId} action={formAction} formRef={formRef}>
         {/* name */}
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-primary mb-1"
-        >
-          {tCategory('fields.name')}
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          placeholder={tCategory('form.phName')}
-          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
-          required
-        />
-        {state.errors?.name?.[0] && (
-          <p className="text-sm text-red-600">{tCategory(state.errors.name[0])}</p>
-        )}
+        <div className={"flex flex-col gap-1 mb-3 items-start justify-start"}>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-primary mb-1"
+          >
+            {tCategory('fields.name')}
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder={tCategory('form.phName')}
+            className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
+            required
+          />
+          {state.errors?.name?.[0] && (
+            <p className="text-sm text-danger">{tCategory(state.errors.name[0])}</p>
+          )}
+        </div>
 
         {/* description */}
         <label
