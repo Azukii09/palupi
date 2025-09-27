@@ -6,7 +6,7 @@ export const CategorySchema = z.object({
   name: z.string()
     .trim()
     .min(4, "create.validation.name.min")
-    .max(120, "Name must be less than 120 characters") ,
+    .max(120, "create.validation.name.max") ,
   description: z.string()
     .trim()
     .min(4, "create.validation.description.min")

@@ -42,7 +42,8 @@
       "invalid": "Input tidak valid",
       "validation": {
         "name": {
-          "min": "Nama harus minimal 4 karakter"
+          "min": "Nama harus minimal 4 karakter",
+          "max": "Nama harus kurang dari 120 karakter"
         },
         "description": {
           "min": "Deskripsi harus minimal 4 karakter"

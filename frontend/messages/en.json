@@ -42,7 +42,8 @@
       "invalid": "Invalid input",
       "validation": {
         "name": {
-          "min": "Name must be at least 4 characters"
+          "min": "Name must be at least 4 characters",
+          "max": "Name must be less than 120 characters"
         },
         "description": {
           "min": "Description must be at least 4 characters"
