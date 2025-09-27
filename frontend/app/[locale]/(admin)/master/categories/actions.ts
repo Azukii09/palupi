@@ -3,8 +3,12 @@ import { z } from "zod";
 import {apiSend, revalidatePage} from "@/lib/utils/api";
 import {ApiEnvelope, Category} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
+import { mapZodErrorFromSchema} from "@/lib/type/actionType";
+import {
+  CategoryCreateAction,
+  CategorySchema
+} from "@/app/[locale]/(admin)/master/categories/validation";
 
-type ApiError = { message: string };
 // actions.ts
 export type ActionResult =
   | { ok: true;  message: string, data?: ApiEnvelope<unknown>}   // ← message opsional saat sukses
@@ -15,11 +19,7 @@ const DeleteSchema = z.object({
   name: z.string().trim().min(1).max(120) ,
 });
 
-const CreateSchema = z.object({ 
-  name: z.string().trim().min(1).max(120) ,
-  description: z.string().trim().min(4).max(120).optional(),
-  status: z.boolean().optional(),
-})
+
 
 const UpdateSchema = z.object({
   id: z.coerce.string().trim(),
@@ -44,34 +44,52 @@ const ToggleSchema = z.object({
   status: zBoolFromForm,
 });
 
-export async function createCategory(_prev: ActionResult,formData: FormData) {
-  const locale = await getLocale()
+
+export const createCategory: CategoryCreateAction = async (_prev, formData) => {
+  "use server";
+
+  const locale = await getLocale();
   const tCategory = await getTranslations("Category");
-  const parsed = CreateSchema.safeParse({
+
+  const parsed = CategorySchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
-    status: formData.get("status") === "true",
+    status: formData.get("status") === "true"
   });
 
   if (!parsed.success) {
-    return { ok: false, message: parsed.error.issues[0]?.message ?? tCategory('create.invalid') };
+    return {
+      ok: false as const,
+      data: null,
+      errors: mapZodErrorFromSchema<typeof CategorySchema>(parsed.error),
+    };
   }
 
   try {
-    const data  = await apiSend<unknown>(`/api/v1/categories?locale=${locale}`, "POST", parsed.data) as Category;
+    const data = (await apiSend(
+      `/api/v1/categories?locale=${locale}`,
+      "POST",
+      parsed.data
+    )) as Category;
 
-    const result : ApiEnvelope<Category> = {
-      status_code: 200,
-      message: "Success",
-      data: data
-    }
     revalidatePage("/master/categories");
-    return {ok: true, message: `${tCategory('create.success')} ${parsed.data.name} ${tCategory('create.success2')}`, data: result};
-  } catch (e: unknown) {
-    const err: ApiError = e instanceof Error ? { message: e.message } : { message: tCategory('create.failed') };
-    return { ok: false, message: err.message };
+
+    return {
+      ok: true as const,
+      data: {
+        message: `${tCategory("create.success")} ${parsed.data.name} ${tCategory(
+          "create.success2"
+        )}`,
+        result: { status_code: 200, message: "Success", data },
+      },
+      errors: null,
+    };
+  } catch (e) {
+    const msg =
+      e instanceof Error ? e.message : tCategory("create.failed");
+    return { ok: false as const, data: null, errors: { _form: [msg] } };
   }
-}
+};
 
 export async function updateCategory(
   _prev: ActionResult,

@@ -1,11 +1,15 @@
 "use client";
-import React, {useActionState, useMemo, useRef} from "react";
+import React, {useActionState, useCallback, useMemo, useRef} from "react";
 import Modal from "@/component/util/base/Modal";
 import {useTranslations} from "next-intl";
-import {ActionResult, createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
-import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
-import {useActionToast} from "@/hook/useActionToast";
+import { createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
+import { useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import Switch from "@/component/util/base/Switch";
+import {
+  categoryCreateInitial,
+  CategoryCreateState,
+} from "@/app/[locale]/(admin)/master/categories/validation";
+import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";
@@ -13,19 +17,40 @@ export default function CategoryCreate() {
 
   const tCategory = useTranslations('Category')
 
-  const [state, formAction, isPending] = useActionState<ActionResult, FormData>(createCategory, { ok: false, message: "" });
+  const [state, formAction, isPending] = useActionState<CategoryCreateState, FormData>(
+    createCategory,
+    categoryCreateInitial
+    );
 
-  const toastOpts = useMemo(() => ({
-    success: {
-      title: tCategory('create.addTitle'),
-      // kalau mau, kirim deskripsi sukses statis/ambil dari result
-      description: (r: ActionResult) => r.message,
-      duration: 5000,
-    },
-    error: { title: tCategory('create.errorTitle') ,duration: 5000},
-  }), [tCategory]);
+  // selector STABIL (tak bergantung apa pun)
+  const getOk = useCallback((s: CategoryCreateState) => s.ok, []);
+  const getMessage = useCallback(
+    (s: CategoryCreateState) => (s.ok ? s.data?.message : s.errors?._form?.[0]),
+    []
+  );
 
-  useActionToast(state, isPending, toastOpts);
+// objekt opsi STABIL; hanya berubah saat tCategory berubah
+  const toastOpts = useMemo(
+    () => ({
+      success: {
+        title: tCategory("create.addTitle"),
+        description: (s: CategoryCreateState) => (s.ok ? s.data.message : undefined),
+        duration: 5000,
+      },
+      error: {
+        title: tCategory("create.errorTitle"),
+        description: (s: CategoryCreateState) => (!s.ok ? s.errors?._form?.[0] : undefined),
+        duration: 5000,
+      },
+      accessors: { getOk, getMessage },
+      requireSubmitStart: true,
+    }),
+    [tCategory, getOk, getMessage]
+  );
+
+// pakai seperti biasa
+  useActionToast<CategoryCreateState>(state, isPending, toastOpts);
+
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -70,8 +95,8 @@ export default function CategoryCreate() {
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
-        {!state.ok && "message" in state && state.message && (
-          <p className="text-sm text-red-600">{state.message}</p>
+        {state.errors?.name?.[0] && (
+          <p className="text-sm text-red-600">{state.errors.name[0]}</p>
         )}
 
         {/* description */}
@@ -89,8 +114,8 @@ export default function CategoryCreate() {
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
-        {!state.ok && "message" in state && state.message && (
-          <p className="text-sm text-red-600">{state.message}</p>
+        {state.errors?.description?.[0] && (
+          <p className="text-sm text-red-600">{state.errors?.description[0]}</p>
         )}
 
         {/* status */}
@@ -102,8 +127,8 @@ export default function CategoryCreate() {
         </label>
         <Switch name={"status"} defaultChecked={false} value={"true"}/>
         <input type="hidden" name="status" value="false" />
-        {!state.ok && "message" in state && state.message && (
-          <p className="text-sm text-red-600">{state.message}</p>
+        {state.errors?.status?.[0] && (
+          <p className="text-sm text-red-600">{state.errors?.status}</p>
         )}
       </Modal.Body>
 
