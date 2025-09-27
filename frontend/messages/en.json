@@ -44,7 +44,9 @@
         "name": {
           "min": "Name must be at least 4 characters"
         },
-        "description": "Description must be at least 4 characters"
+        "description": {
+          "min": "Description must be at least 4 characters"
+        }
       }
     },
     "edit": {

@@ -5,11 +5,11 @@ import {ActionResultFrom} from "@/lib/type/actionType";
 export const CategorySchema = z.object({
   name: z.string()
     .trim()
-    .min(4, "create.validation.name")
+    .min(4, "create.validation.name.min")
     .max(120, "Name must be less than 120 characters") ,
   description: z.string()
     .trim()
-    .min(4, "Description is required")
+    .min(4, "create.validation.description.min")
     .max(120, "Description must be less than 120 characters")
     .optional(),
   status: z.boolean()
