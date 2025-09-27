@@ -41,7 +41,9 @@
       "failed": "Failed to create new category",
       "invalid": "Invalid input",
       "validation": {
-        "name": "Name must be at least 4 characters",
+        "name": {
+          "min": "Name must be at least 4 characters"
+        },
         "description": "Description must be at least 4 characters"
       }
     },
