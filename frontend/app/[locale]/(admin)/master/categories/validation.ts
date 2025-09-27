@@ -5,7 +5,7 @@ import {ActionResultFrom} from "@/lib/type/actionType";
 export const CategorySchema = z.object({
   name: z.string()
     .trim()
-    .min(1, "create.validation.name")
+    .min(4, "create.validation.name")
     .max(120, "Name must be less than 120 characters") ,
   description: z.string()
     .trim()
