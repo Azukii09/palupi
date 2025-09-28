@@ -5,11 +5,8 @@ import {useTranslations} from "next-intl";
 import { createCategory} from "@/features/categories/actions/actions";
 import { useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import Switch from "@/component/util/base/Switch";
-import {
-  categoryCreateInitial,
-  CategoryCreateState,
-} from "@/features/categories/validations/validation";
 import {useActionToast} from "@/hook/useActionToast";
+import {categoryCreateInitial, CategoryCreateState} from "@/features/categories/state/categoryCreateInitial";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";

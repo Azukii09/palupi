@@ -5,9 +5,9 @@ import {ApiEnvelope, Category} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
-  CategoryCreateAction,
   CreateCategorySchema
 } from "@/features/categories/validations/validation";
+import {CategoryCreateAction} from "@/features/categories/services/category.type";
 
 // actions.ts
 export type ActionResult =

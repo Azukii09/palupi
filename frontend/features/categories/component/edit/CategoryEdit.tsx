@@ -4,7 +4,6 @@ import {HiOutlinePencilAlt} from "react-icons/hi";
 import Modal from "@/component/util/base/Modal";
 import {ActionResult, updateCategory} from "@/features/categories/actions/actions";
 import {Category} from "@/lib/type/api";
-import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
 import Switch from "@/component/util/base/Switch";
 import {useTranslations} from "next-intl";
@@ -28,22 +27,22 @@ export default function CategoryEdit({
       description: (r: ActionResult) => r.message,
     },
     error: { title: tCategory('edit.errorTitle') },
-  }), []);
+  }), [tCategory]);
 
   useActionToast(state, isPending, toastOpts);
 
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
-  useActionModalAutoClose(
-    {
-      modalId,
-      state,
-      pending: isPending,
-      formRef,
-      resetOnClose: true,
-      closeDelayMs: 0,
-    }
-  )
+  // useActionModalAutoClose(
+  //   {
+  //     modalId,
+  //     state,
+  //     pending: isPending,
+  //     formRef,
+  //     resetOnClose: true,
+  //     closeDelayMs: 0,
+  //   }
+  // )
   return (
     <Modal
       id={modalId}
