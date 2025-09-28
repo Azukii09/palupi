@@ -28,6 +28,16 @@
       "description": "Category Description",
       "status": "Category Status"
     },
+    "validation": {
+      "name": {
+        "min": "Name must be at least 4 characters",
+        "max": "Name must be less than 120 characters"
+      },
+      "description": {
+        "min": "Description must be at least 4 characters",
+        "max": "Description must be less than 120 characters"
+      }
+    },
     "create": {
       "button": "New Category",
       "title": "New Category",
@@ -39,17 +49,7 @@
       "addTitle": "Create New Category",
       "errorTitle": "Create Failed",
       "failed": "Failed to create new category",
-      "invalid": "Invalid input",
-      "validation": {
-        "name": {
-          "min": "Name must be at least 4 characters",
-          "max": "Name must be less than 120 characters"
-        },
-        "description": {
-          "min": "Description must be at least 4 characters",
-          "max": "Description must be less than 120 characters"
-        }
-      }
+      "invalid": "Invalid input"
     },
     "edit": {
       "button": "Edit Category",

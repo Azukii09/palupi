@@ -28,6 +28,16 @@
       "description": "Deskripsi Kategori",
       "status": "Status Kategori"
     },
+    "validation": {
+      "name": {
+        "min": "Nama harus minimal 4 karakter",
+        "max": "Nama harus kurang dari 120 karakter"
+      },
+      "description": {
+        "min": "Deskripsi harus minimal 4 karakter",
+        "max": "Deskripsi harus kurang dari 120 karakter"
+      }
+    },
     "create": {
       "button": "Kategori Baru",
       "title": "Kategori Baru",
@@ -39,17 +49,7 @@
       "addTitle": "Buat Kategori Baru",
       "errorTitle": "Gagal Membuat",
       "failed": "Gagal untuk membuat kategori baru",
-      "invalid": "Input tidak valid",
-      "validation": {
-        "name": {
-          "min": "Nama harus minimal 4 karakter",
-          "max": "Nama harus kurang dari 120 karakter"
-        },
-        "description": {
-          "min": "Deskripsi harus minimal 4 karakter",
-          "max": "Deskripsi harus kurang dari 120 karakter"
-        }
-      }
+      "invalid": "Input tidak valid"
     },
     "edit": {
       "button": "Edit Kategori",
