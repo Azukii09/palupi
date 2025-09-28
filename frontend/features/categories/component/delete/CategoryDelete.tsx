@@ -1,7 +1,7 @@
 import React, {useActionState, useEffect, useMemo, useRef} from 'react';
 import {FaExclamationTriangle, FaTrash} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
-import {ActionResult, deleteCategory} from "@/app/[locale]/(admin)/master/categories/actions";
+import {ActionResult, deleteCategory} from "@/features/categories/actions/actions";
 import {Category} from "@/lib/type/api";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";

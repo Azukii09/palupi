@@ -7,7 +7,7 @@ import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
   CategoryCreateAction,
   CreateCategorySchema
-} from "@/app/[locale]/(admin)/master/categories/validation";
+} from "@/features/categories/validations/validation";
 
 // actions.ts
 export type ActionResult =

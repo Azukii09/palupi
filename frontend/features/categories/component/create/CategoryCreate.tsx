@@ -2,13 +2,13 @@
 import React, {useActionState, useCallback, useMemo, useRef} from "react";
 import Modal from "@/component/util/base/Modal";
 import {useTranslations} from "next-intl";
-import { createCategory} from "@/app/[locale]/(admin)/master/categories/actions";
+import { createCategory} from "@/features/categories/actions/actions";
 import { useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import Switch from "@/component/util/base/Switch";
 import {
   categoryCreateInitial,
   CategoryCreateState,
-} from "@/app/[locale]/(admin)/master/categories/validation";
+} from "@/features/categories/validations/validation";
 import {useActionToast} from "@/hook/useActionToast";
 
 export default function CategoryCreate() {

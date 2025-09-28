@@ -4,7 +4,7 @@
 import * as React from "react";
 import Switch from "@/component/util/base/Switch";
 import { useActionState, startTransition } from "react";
-import { toggleCategoryStatus, type ActionResult } from "@/app/[locale]/(admin)/master/categories/actions";
+import { toggleCategoryStatus, type ActionResult } from "@/features/categories/actions/actions";
 import { useActionToast } from "@/hook/useActionToast";
 
 type Props = {
