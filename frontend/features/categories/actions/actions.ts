@@ -1,13 +1,13 @@
 "use server";
 import { z } from "zod";
 import {apiSend, revalidatePage} from "@/lib/utils/api";
-import {ApiEnvelope, Category} from "@/lib/type/api";
+import {ApiEnvelope} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
   CreateCategorySchema
 } from "@/features/categories/validations/validation";
-import {CategoryCreateAction} from "@/features/categories/services/category.type";
+import {Category, CategoryCreateAction} from "@/features/categories/services/category.type";
 
 // actions.ts
 export type ActionResult =

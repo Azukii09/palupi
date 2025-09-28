@@ -3,10 +3,3 @@ export type ApiEnvelope<T> = {
   message: string;
   data: T;
 };
-
-export type Category = {
-  id: string;
-  name: string;
-  description: string;
-  status:boolean;
-};
