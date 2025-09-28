@@ -6,7 +6,7 @@ import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
   CategoryCreateAction,
-  CategorySchema
+  CreateCategorySchema
 } from "@/app/[locale]/(admin)/master/categories/validation";
 
 // actions.ts
@@ -51,7 +51,7 @@ export const createCategory: CategoryCreateAction = async (_prev, formData) => {
   const locale = await getLocale();
   const tCategory = await getTranslations("Category");
 
-  const parsed = CategorySchema.safeParse({
+  const parsed = CreateCategorySchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
     status: formData.get("status") === "true"
@@ -61,7 +61,7 @@ export const createCategory: CategoryCreateAction = async (_prev, formData) => {
     return {
       ok: false as const,
       data: null,
-      errors: mapZodErrorFromSchema<typeof CategorySchema>(parsed.error),
+      errors: mapZodErrorFromSchema<typeof CreateCategorySchema>(parsed.error),
     };
   }
 

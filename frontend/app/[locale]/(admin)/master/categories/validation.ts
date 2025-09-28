@@ -2,7 +2,7 @@ import {z} from "zod";
 import {ApiEnvelope, Category} from "@/lib/type/api";
 import {ActionResultFrom} from "@/lib/type/actionType";
 
-export const CategorySchema = z.object({
+export const CreateCategorySchema = z.object({
   name: z.string()
     .trim()
     .min(4, "validation.name.min")
@@ -21,7 +21,7 @@ export type CategoryCreateSuccess = {
   result: ApiEnvelope<Category>;
 };
 
-export type CategoryCreateState = ActionResultFrom<typeof CategorySchema, CategoryCreateSuccess>;
+export type CategoryCreateState = ActionResultFrom<typeof CreateCategorySchema, CategoryCreateSuccess>;
 
 // ✅ initial state: ok di-narrow literal
 export const categoryCreateInitial: CategoryCreateState = {
