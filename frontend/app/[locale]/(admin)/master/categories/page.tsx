@@ -1,5 +1,5 @@
 import React from 'react';
-import MainViewCategory from "@/component/ui/categories/MainViewCategory";
+import MainViewCategory from "@/features/categories/component/MainViewCategory";
 import {apiGet} from "@/lib/utils/api";
 import {Category} from "@/lib/type/api";
 import {getLocale} from "next-intl/server";
