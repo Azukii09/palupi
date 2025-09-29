@@ -8,7 +8,7 @@ export type Category = {
   status:boolean;
 };
 
-export type CategoryCreateSuccess = {
+export type CategorySuccess = {
   message: string;
   result: ApiEnvelope<Category>;
 };
@@ -18,3 +18,5 @@ export type CategoryCreateAction = (
   state: CategoryCreateState,
   payload: FormData
 ) => Promise<CategoryCreateState>;
+
+
