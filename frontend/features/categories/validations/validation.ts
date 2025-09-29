@@ -15,10 +15,12 @@ export const CreateCategorySchema = z.object({
 });
 
 export const UpdateCategorySchema = z.object({
+  id: z.string().trim(),
   name: z.string()
     .trim()
     .min(4, "validation.name.min")
-    .max(120, "validation.name.max") ,
+    .max(120, "validation.name.max")
+    .optional(),
   description: z.string()
     .trim()
     .min(4, "validation.description.min")

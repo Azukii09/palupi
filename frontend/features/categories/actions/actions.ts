@@ -5,9 +5,9 @@ import {ApiEnvelope} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
-  CreateCategorySchema
+  CreateCategorySchema, UpdateCategorySchema
 } from "@/features/categories/validations/validation";
-import {Category, CategoryCreateAction} from "@/features/categories/services/category.type";
+import {Category, CategoryCreateAction, CategoryUpdateAction} from "@/features/categories/services/category.type";
 
 // actions.ts
 export type ActionResult =
@@ -17,15 +17,6 @@ export type ActionResult =
 const DeleteSchema = z.object({
   id: z.coerce.string().trim(),
   name: z.string().trim().min(1).max(120) ,
-});
-
-
-
-const UpdateSchema = z.object({
-  id: z.coerce.string().trim(),
-  name: z.string().trim().min(1).max(120) ,
-  description: z.string().trim().min(4).max(120).optional(),
-  status: z.boolean().optional(),
 });
 
 const zBoolFromForm = z.union([z.boolean(), z.string()]).transform((v) => {
@@ -91,37 +82,48 @@ export const createCategory: CategoryCreateAction = async (_prev, formData) => {
   }
 };
 
-export async function updateCategory(
-  _prev: ActionResult,
-  formData: FormData
-): Promise<ActionResult> {
+export const updateCategory: CategoryUpdateAction = async (_prev, formData) => {
+  "use server"
+
   const locale = await getLocale()
   const tCategory = await getTranslations("Category");
 
-  const parsed = UpdateSchema.safeParse({
+  const parsed = UpdateCategorySchema.safeParse({
     id: formData.get("id"),
     name: formData.get("name"),
     description: formData.get("description"),
     status: formData.get("status") === "true",
   });
   if (!parsed.success) {
-    return { ok: false, message: parsed.error.issues[0]?.message ?? tCategory('edit.invalid') };
+    return {
+      ok: false as const,
+      data: null,
+      errors: mapZodErrorFromSchema<typeof UpdateCategorySchema>(parsed.error),
+    };
   }
 
   try {
-    await apiSend<void>(
+    const data = await apiSend<ApiEnvelope<Category>>(
       `/api/v1/categories/${parsed.data.id}?locale=${locale}`,
       "PUT",
       parsed.data,
-    );
+    )
 
-    // Pilih salah satu (atau keduanya) sesuai strategi cache kamu:
-    revalidatePage("/master/categories");    // by path
-
-    return { ok: true, message: `${tCategory('edit.success')} ${parsed.data.name}` };
+    return {
+      ok: true,
+      data:{
+        message: `${tCategory('edit.success')} ${parsed.data.name}`,
+        result:data
+      },
+      errors:null};
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : tCategory('edit.failed');
-    return { ok: false, message };
+    const msg =
+      e instanceof Error ? e.message : tCategory('edit.failed');
+    return {
+      ok: false as const,
+      data: null,
+      errors: { _form: [msg] }
+    };
   }
 }
 

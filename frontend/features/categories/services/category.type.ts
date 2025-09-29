@@ -1,5 +1,5 @@
 import {ApiEnvelope} from "@/lib/type/api";
-import {CategoryCreateState} from "@/features/categories/state/categoryInitialState";
+import {CategoryCreateState, CategoryUpdateState} from "@/features/categories/state/categoryInitialState";
 
 export type Category = {
   id: string;
@@ -10,7 +10,7 @@ export type Category = {
 
 export type CategorySuccess = {
   message: string;
-  result: ApiEnvelope<Category>;
+  result?: ApiEnvelope<Category>;
 };
 
 // 👉 function type agar implementasi “harus” cocok dgn useActionState (state, FormData)
@@ -20,3 +20,7 @@ export type CategoryCreateAction = (
 ) => Promise<CategoryCreateState>;
 
 
+export type CategoryUpdateAction = (
+  state: CategoryUpdateState,
+  payload: FormData
+) => Promise<CategoryUpdateState>;
