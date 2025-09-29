@@ -1,12 +1,14 @@
 'use client'
-import React, {useActionState, useMemo, useRef} from 'react';
+import React, {useActionState, useCallback, useMemo, useRef} from 'react';
 import {HiOutlinePencilAlt} from "react-icons/hi";
 import Modal from "@/component/util/base/Modal";
-import {ActionResult, updateCategory} from "@/features/categories/actions/actions";
-import {Category} from "@/lib/type/api";
+import { updateCategory} from "@/features/categories/actions/actions";
 import {useActionToast} from "@/hook/useActionToast";
 import Switch from "@/component/util/base/Switch";
 import {useTranslations} from "next-intl";
+import {categoryUpdateInitial, CategoryUpdateState} from "@/features/categories/state/categoryInitialState";
+import {Category} from "@/features/categories/services/category.type";
+import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 
 export default function CategoryEdit({
   data,
@@ -18,31 +20,52 @@ export default function CategoryEdit({
   const modalId = `demo-create-category-${data.id}`;
   const formId = `edit-category-form-${data.id}`;
 
-  const [state, formAction, isPending] = useActionState<ActionResult, FormData>(updateCategory, { ok:false, message:"" });
+  const [state, formAction, isPending] = useActionState<CategoryUpdateState, FormData>(
+    updateCategory,
+    categoryUpdateInitial
+    );
 
-  const toastOpts = useMemo(() => ({
-    success: {
-      title: tCategory('edit.updateTitle'),
-      // kalau mau, kirim deskripsi sukses statis/ambil dari result
-      description: (r: ActionResult) => r.message,
-    },
-    error: { title: tCategory('edit.errorTitle') },
-  }), [tCategory]);
+  // selector STABIL (tak bergantung apa pun)
+  const getOk = useCallback((s: CategoryUpdateState) => s.ok, []);
+  const getMessage = useCallback(
+    (s: CategoryUpdateState) => (s.ok ? s.data?.message : s.errors?._form?.[0]),
+    []
+  );
 
-  useActionToast(state, isPending, toastOpts);
+// objekt opsi STABIL; hanya berubah saat tCategory berubah
+  const toastOpts = useMemo(
+    () => ({
+      success: {
+        title: tCategory("create.addTitle"),
+        description: (s: CategoryUpdateState) => (s.ok ? s.data.message : undefined),
+        duration: 5000,
+      },
+      error: {
+        title: tCategory("create.errorTitle"),
+        description: (s: CategoryUpdateState) => (!s.ok ? s.errors?._form?.[0] : undefined),
+        duration: 5000,
+      },
+      accessors: { getOk, getMessage },
+      requireSubmitStart: true,
+    }),
+    [tCategory, getOk, getMessage]
+  );
+
+// pakai seperti biasa
+  useActionToast<CategoryUpdateState>(state, isPending, toastOpts);
 
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
-  // useActionModalAutoClose(
-  //   {
-  //     modalId,
-  //     state,
-  //     pending: isPending,
-  //     formRef,
-  //     resetOnClose: true,
-  //     closeDelayMs: 0,
-  //   }
-  // )
+  useActionModalAutoClose(
+    {
+      modalId,
+      state,
+      pending: isPending,
+      formRef,
+      resetOnClose: true,
+      closeDelayMs: 0,
+    }
+  )
   return (
     <Modal
       id={modalId}
@@ -77,8 +100,8 @@ export default function CategoryEdit({
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
-        {!state.ok && "message" in state && state.message && (
-          <p className="text-sm text-red-600">{state.message}</p>
+        {state.errors?.name?.[0] && (
+          <p className="text-sm text-danger">{tCategory(state.errors?.name[0])}</p>
         )}
 
         {/* description */}
@@ -98,8 +121,9 @@ export default function CategoryEdit({
           className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
           required
         />
-        {!state.ok && "message" in state && state.message && (
-          <p className="text-sm text-red-600">{state.message}</p>
+
+        {state.errors?.description?.[0] && (
+          <p className="text-sm text-danger">{tCategory(state.errors?.description[0])}</p>
         )}
 
         {/* status */}
@@ -112,8 +136,9 @@ export default function CategoryEdit({
           </label>
           <Switch name={"status"} defaultChecked={false} value={"true"} checked={data.status}/>
           <input type="hidden" name="status" value="false" />
-          {!state.ok && "message" in state && state.message && (
-            <p className="text-sm text-red-600">{state.message}</p>
+
+          {state.errors?.status?.[0] && (
+            <p className="text-sm text-danger">{tCategory(state.errors?.status[0])}</p>
           )}
         </div>
       </Modal.Body>

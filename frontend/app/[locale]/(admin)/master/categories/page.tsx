@@ -1,8 +1,8 @@
 import React from 'react';
 import MainViewCategory from "@/features/categories/component/MainViewCategory";
 import {apiGet} from "@/lib/utils/api";
-import {Category} from "@/lib/type/api";
 import {getLocale} from "next-intl/server";
+import {Category} from "@/features/categories/services/category.type";
 
 export const revalidate = 600; // 10 minutes
 export const metadata = { title: "Categories" };
