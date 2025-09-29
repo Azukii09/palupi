@@ -1,5 +1,5 @@
 import {ApiEnvelope} from "@/lib/type/api";
-import {CategoryCreateState} from "@/features/categories/state/categoryCreateInitial";
+import {CategoryCreateState} from "@/features/categories/state/categoryInitialState";
 
 export type Category = {
   id: string;

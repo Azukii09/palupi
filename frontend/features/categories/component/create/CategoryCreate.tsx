@@ -6,7 +6,7 @@ import { createCategory} from "@/features/categories/actions/actions";
 import { useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import Switch from "@/component/util/base/Switch";
 import {useActionToast} from "@/hook/useActionToast";
-import {categoryCreateInitial, CategoryCreateState} from "@/features/categories/state/categoryCreateInitial";
+import {categoryCreateInitial, CategoryCreateState} from "@/features/categories/state/categoryInitialState";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";
