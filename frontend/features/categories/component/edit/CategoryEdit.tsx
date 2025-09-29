@@ -36,12 +36,12 @@ export default function CategoryEdit({
   const toastOpts = useMemo(
     () => ({
       success: {
-        title: tCategory("create.addTitle"),
+        title: tCategory("edit.updateTitle"),
         description: (s: CategoryUpdateState) => (s.ok ? s.data.message : undefined),
         duration: 5000,
       },
       error: {
-        title: tCategory("create.errorTitle"),
+        title: tCategory("edit.errorTitle"),
         description: (s: CategoryUpdateState) => (!s.ok ? s.errors?._form?.[0] : undefined),
         duration: 5000,
       },
@@ -84,47 +84,51 @@ export default function CategoryEdit({
 
       <Modal.Body formId={formId} action={formAction} formRef={formRef}>
         {/* name */}
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-primary mb-1 text-start"
-        >
-          {tCategory('fields.name')}
-        </label>
-        <input type="hidden" name="id" value={data.id} />
-        <input
-          id="name"
-          name="name"
-          type="text"
-          defaultValue={data.name}
-          placeholder={tCategory('form.phName')}
-          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
-          required
-        />
-        {state.errors?.name?.[0] && (
-          <p className="text-sm text-danger">{tCategory(state.errors?.name[0])}</p>
-        )}
+        <div className={"flex flex-col gap-1 mb-3 items-start justify-start"}>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-primary mb-1 text-start"
+          >
+            {tCategory('fields.name')}
+          </label>
+          <input type="hidden" name="id" value={data.id} />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            defaultValue={data.name}
+            placeholder={tCategory('form.phName')}
+            className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
+            required
+          />
+          {state.errors?.name?.[0] && (
+            <p className="text-sm text-danger">{tCategory(state.errors?.name[0])}</p>
+          )}
+        </div>
 
         {/* description */}
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-primary mb-1 text-start"
-        >
-          {tCategory('fields.description')}
-        </label>
-        <input type="hidden" name="id" value={data.id} />
-        <input
-          id="description"
-          name="description"
-          type="text"
-          defaultValue={data.description}
-          placeholder="e.g. Beverages"
-          className="w-full rounded-md border border-primary/40 px-3 py-2 mb-4 outline-none focus:ring-2 focus:ring-primary/40"
-          required
-        />
+        <div className={"flex flex-col gap-1 mb-3 items-start justify-start"}>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-primary mb-1 text-start"
+          >
+            {tCategory('fields.description')}
+          </label>
+          <input type="hidden" name="id" value={data.id} />
+          <input
+            id="description"
+            name="description"
+            type="text"
+            defaultValue={data.description}
+            placeholder="e.g. Beverages"
+            className="w-full rounded-md border border-primary/40 px-3 py-2 outline-none focus:ring-2 focus:ring-primary/40"
+            required
+          />
 
-        {state.errors?.description?.[0] && (
-          <p className="text-sm text-danger">{tCategory(state.errors?.description[0])}</p>
-        )}
+          {state.errors?.description?.[0] && (
+            <p className="text-sm text-danger">{tCategory(state.errors?.description[0])}</p>
+          )}
+        </div>
 
         {/* status */}
         <div className={"flex flex-col gap-1 items-start justify-start"}>
