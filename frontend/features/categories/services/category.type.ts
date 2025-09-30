@@ -1,5 +1,9 @@
 import {ApiEnvelope} from "@/lib/type/api";
-import {CategoryCreateState, CategoryUpdateState} from "@/features/categories/state/categoryInitialState";
+import {
+  CategoryCreateState,
+  CategoryDeleteState,
+  CategoryUpdateState
+} from "@/features/categories/state/categoryInitialState";
 
 export type Category = {
   id: string;
@@ -24,3 +28,8 @@ export type CategoryUpdateAction = (
   state: CategoryUpdateState,
   payload: FormData
 ) => Promise<CategoryUpdateState>;
+
+export type CategoryDeleteAction = (
+  state: CategoryDeleteState,
+  payload: FormData
+) => Promise<CategoryDeleteState>;
