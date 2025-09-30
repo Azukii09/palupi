@@ -1,5 +1,5 @@
 "use client";
-import React, {useActionState, useCallback, useMemo, useRef} from "react";
+import React, {useActionState, useCallback, useEffect, useMemo, useRef} from "react";
 import Modal from "@/component/util/base/Modal";
 import {useTranslations} from "next-intl";
 import { createCategory} from "@/features/categories/actions/actions";
@@ -7,10 +7,13 @@ import { useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import Switch from "@/component/util/base/Switch";
 import {useActionToast} from "@/hook/useActionToast";
 import {categoryCreateInitial, CategoryCreateState} from "@/features/categories/state/categoryInitialState";
+import {useRouter} from "next/navigation";
 
 export default function CategoryCreate() {
   const modalId = "demo-create-category";
   const formId = "create-category-form";
+
+  const router = useRouter();
 
   const tCategory = useTranslations('Category')
 
@@ -61,6 +64,16 @@ export default function CategoryCreate() {
     closeDelayMs: 0,
   });
 
+  // Setelah sukses: tembak toast via event+queue, lalu refresh data
+  useEffect(() => {
+    if (isPending) return;
+    if (!state.ok) return;
+    // refresh data setelah modal sempat close
+    const t = setTimeout(() => {
+      router.refresh();
+    }, 160); // > closeDelayMs
+    return () => clearTimeout(t);
+  }, [isPending, state.ok, router]);
 
   return (
     <Modal
