@@ -148,13 +148,13 @@ export const deleteCategory: CategoryDeleteAction = async (_prev, formData) => {
     return {
       ok: true,
       data: {
-        message: `Successfully deleted ${parsed.data.name}`,
+        message: `${tCategory('delete.success')} ${parsed.data.name}`,
       },
       errors: null
     };
   } catch (e: unknown) {
     const msg =
-      e instanceof Error ? e.message : tCategory('edit.failed');
+      e instanceof Error ? e.message : tCategory('delete.failed');
     return {
       ok: false as const,
       data: null,

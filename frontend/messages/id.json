@@ -70,7 +70,12 @@
       "deleting": "Menghapus...",
       "footer": "Untuk menghapus kategori, klik tombol hapus",
       "message": "Apakah anda yakin ingin menghapus kategori",
-      "message2": "Tindakan ini tidak dapat dibatalkan."
+      "message2": "Tindakan ini tidak dapat dibatalkan.",
+      "success": "Berhasil menghapus",
+      "deleteTitle": "Hapus Kategori",
+      "errorTitle": "Gagal Menghapus",
+      "failed": "Gagal menghapus kategori",
+      "invalid": "Input tidak valid"
     },
     "form": {
       "submit": "Kirim",

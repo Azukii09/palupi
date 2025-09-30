@@ -37,12 +37,12 @@ export default function CategoryDelete({
   const toastOpts = useMemo(
     () => ({
       success: {
-        title: tCategory("create.addTitle"),
+        title: tCategory("delete.deleteTitle"),
         description: (s: CategoryDeleteState) => (s.ok ? s.data.message : undefined),
         duration: 5000,
       },
       error: {
-        title: tCategory("create.errorTitle"),
+        title: tCategory("delete.errorTitle"),
         description: (s: CategoryDeleteState) => (!s.ok ? s.errors?._form?.[0] : undefined),
         duration: 5000,
       },

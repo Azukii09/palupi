@@ -70,7 +70,12 @@
       "deleting": "Deleting...",
       "footer": "To delete a category, click delete button",
       "message": "Are you sure you want to delete category",
-      "message2": "This action cannot be undone."
+      "message2": "This action cannot be undone.",
+      "success": "Successfully delete",
+      "deleteTitle": "Delete Category",
+      "errorTitle": "Delete Failed",
+      "failed": "Failed to delete category",
+      "invalid": "Invalid input"
     },
     "form": {
       "submit": "Submit",
