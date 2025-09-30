@@ -5,19 +5,20 @@ import {ApiEnvelope} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
-  CreateCategorySchema, UpdateCategorySchema
+  CreateCategorySchema, DeleteCategorySchema, UpdateCategorySchema
 } from "@/features/categories/validations/validation";
-import {Category, CategoryCreateAction, CategoryUpdateAction} from "@/features/categories/services/category.type";
+import {
+  Category,
+  CategoryCreateAction,
+  CategoryDeleteAction,
+  CategoryUpdateAction
+} from "@/features/categories/services/category.type";
 
 // actions.ts
 export type ActionResult =
   | { ok: true;  message: string, data?: ApiEnvelope<unknown>}   // ← message opsional saat sukses
   | { ok: false; message: string };
 
-const DeleteSchema = z.object({
-  id: z.coerce.string().trim(),
-  name: z.string().trim().min(1).max(120) ,
-});
 
 const zBoolFromForm = z.union([z.boolean(), z.string()]).transform((v) => {
   if (typeof v === "boolean") return v;
@@ -127,22 +128,38 @@ export const updateCategory: CategoryUpdateAction = async (_prev, formData) => {
   }
 }
 
-export async function deleteCategory(
-  _prev: ActionResult,
-  formData: FormData
-): Promise<ActionResult> {
-  const parsed = DeleteSchema.safeParse({ id: formData.get("id"), name: formData.get("name") });
+export const deleteCategory: CategoryDeleteAction = async (_prev, formData) => {
+  "use server"
+  const tCategory = await getTranslations("Category");
+  const parsed = DeleteCategorySchema.safeParse({
+    id: formData.get("id"),
+    name: formData.get("name")
+  });
   if (!parsed.success) {
-    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid id" };
+    return {
+      ok: false as const,
+      data: null,
+      errors: mapZodErrorFromSchema<typeof DeleteCategorySchema>(parsed.error),
+    };
   }
 
   try {
-    await apiSend<void>(`/api/v1/categories/${parsed.data.id}`, "DELETE");
-    // Sesuaikan dengan strategi revalidate kamu
-    return { ok: true, message: `Successfully deleted ${parsed.data.name}` };
+    await apiSend(`/api/v1/categories/${parsed.data.id}`, "DELETE");
+    return {
+      ok: true,
+      data: {
+        message: `Successfully deleted ${parsed.data.name}`,
+      },
+      errors: null
+    };
   } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : "Delete failed";
-    return { ok: false, message: msg };
+    const msg =
+      e instanceof Error ? e.message : tCategory('edit.failed');
+    return {
+      ok: false as const,
+      data: null,
+      errors: { _form: [msg] }
+    };
   }
 }
 
