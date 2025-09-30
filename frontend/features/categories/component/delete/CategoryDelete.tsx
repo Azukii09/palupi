@@ -1,12 +1,13 @@
-import React, {useActionState, useEffect, useMemo, useRef} from 'react';
+import React, {useActionState, useCallback, useEffect, useMemo, useRef} from 'react';
 import {FaExclamationTriangle, FaTrash} from "react-icons/fa";
 import Modal from "@/component/util/base/Modal";
-import {ActionResult, deleteCategory} from "@/features/categories/actions/actions";
-import {Category} from "@/lib/type/api";
+import { deleteCategory} from "@/features/categories/actions/actions";
 import {useActionModalAutoClose} from "@/hook/useActionModalAutoClose";
 import {useActionToast} from "@/hook/useActionToast";
 import {useRouter} from "next/navigation";
 import {useTranslations} from "next-intl";
+import {Category} from "@/features/categories/services/category.type";
+import {categoryDeleteInitial, CategoryDeleteState} from "@/features/categories/state/categoryInitialState";
 
 export default function CategoryDelete({
   data
@@ -20,18 +21,39 @@ export default function CategoryDelete({
   const router = useRouter();
 
 
-  const [state, formAction, isPending] = useActionState<ActionResult,FormData>(deleteCategory, { ok: false, message: "" });
+  const [state, formAction, isPending] = useActionState<CategoryDeleteState,FormData>(
+    deleteCategory,
+    categoryDeleteInitial
+    );
 
-  const toastOpts = useMemo(() => ({
-    success: {
-      title: "Deleted",
-      // kalau mau, kirim deskripsi sukses statis/ambil dari result
-      description: (r: ActionResult) => r.message,
-    },
-    error: { title: "Delete failed" },
-  }), []);
+  // selector STABIL (tak bergantung apa pun)
+  const getOk = useCallback((s: CategoryDeleteState) => s.ok, []);
+  const getMessage = useCallback(
+    (s: CategoryDeleteState) => (s.ok ? s.data?.message : s.errors?._form?.[0]),
+    []
+  );
 
-  useActionToast(state, isPending, toastOpts);
+// objekt opsi STABIL; hanya berubah saat tCategory berubah
+  const toastOpts = useMemo(
+    () => ({
+      success: {
+        title: tCategory("create.addTitle"),
+        description: (s: CategoryDeleteState) => (s.ok ? s.data.message : undefined),
+        duration: 5000,
+      },
+      error: {
+        title: tCategory("create.errorTitle"),
+        description: (s: CategoryDeleteState) => (!s.ok ? s.errors?._form?.[0] : undefined),
+        duration: 5000,
+      },
+      accessors: { getOk, getMessage },
+      requireSubmitStart: true,
+    }),
+    [tCategory, getOk, getMessage]
+  );
+
+// pakai seperti biasa
+  useActionToast<CategoryDeleteState>(state, isPending, toastOpts);
 
   // Refs
   const formRef = useRef<HTMLFormElement>(null);
