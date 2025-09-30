@@ -29,3 +29,11 @@ export const UpdateCategorySchema = z.object({
   status: z.boolean()
     .optional(),
 });
+
+export const DeleteCategorySchema = z.object({
+  id: z.string().trim(),
+  name: z.string()
+    .trim()
+    .min(4, "validation.name.min")
+    .max(120, "validation.name.max"),
+})
