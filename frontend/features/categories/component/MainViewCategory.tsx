@@ -7,9 +7,9 @@ import CategoryDetail from "@/features/categories/component/detail/CategoryDetai
 import CategoryEdit from "@/features/categories/component/edit/CategoryEdit";
 import CategoryCreate from "@/features/categories/component/create/CategoryCreate";
 import CategoryDelete from "@/features/categories/component/delete/CategoryDelete";
-import {Category} from "@/lib/type/api";
 import {useRouter} from "next/navigation";
 import {useTranslations} from "next-intl";
+import {Category} from "@/features/categories/services/category.type";
 
 export default function MainViewCategory({
   data
