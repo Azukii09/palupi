@@ -69,17 +69,20 @@ export default function MainViewCategory({
               )
             }
             customColumnRenderer={{
-              status:(data)=>(
-                <div className={"flex items-center justify-center"}>
-                  <CategoryActiveSwitch
-                    categoryId={data.id as string}
-                    initialActive={Boolean(data.status)}
-                    onSaved={() => {
-                      setTimeout(() => router.refresh(), 50);
-                    }}
-                  />
-                </div>
-              )
+              status:(data)=>{
+                console.log(typeof (data.status as boolean))
+                return (
+                  <div className={"flex items-center justify-center"}>
+                    <CategoryActiveSwitch
+                      categoryId={data.id as string}
+                      initialActive={data.status as boolean}
+                      onSaved={() => {
+                        setTimeout(() => router.refresh(), 50);
+                      }}
+                    />
+                  </div>
+                )
+              }
             }}
             columnOrder={["name","description","status"]}
             withFooter

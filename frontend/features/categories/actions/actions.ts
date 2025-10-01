@@ -1,16 +1,16 @@
-"use server";
-import { z } from "zod";
+"use server"
+
 import {apiSend, revalidatePage} from "@/lib/utils/api";
 import {ApiEnvelope} from "@/lib/type/api";
 import {getLocale, getTranslations} from "next-intl/server";
 import { mapZodErrorFromSchema} from "@/lib/type/actionType";
 import {
-  CreateCategorySchema, DeleteCategorySchema, UpdateCategorySchema
+  CreateCategorySchema, DeleteCategorySchema, ToggleCategorySchema, UpdateCategorySchema
 } from "@/features/categories/validations/validation";
 import {
   Category,
   CategoryCreateAction,
-  CategoryDeleteAction,
+  CategoryDeleteAction, CategoryToggleAction,
   CategoryUpdateAction
 } from "@/features/categories/services/category.type";
 
@@ -18,23 +18,6 @@ import {
 export type ActionResult =
   | { ok: true;  message: string, data?: ApiEnvelope<unknown>}   // ← message opsional saat sukses
   | { ok: false; message: string };
-
-
-const zBoolFromForm = z.union([z.boolean(), z.string()]).transform((v) => {
-  if (typeof v === "boolean") return v;
-  const s = v.trim().toLowerCase();
-  if (["true", "1", "on", "yes", "y"].includes(s)) return true;
-  if (["false", "0", "off", "no", "n"].includes(s)) return false;
-  // kalau nilai aneh, kamu bisa:
-  // - return false;  // fallback aman
-  // - atau throw new Error("Invalid boolean"); // biar gagal validasi
-  return false;
-});
-
-const ToggleSchema = z.object({
-  id: z.string().min(1),
-  status: zBoolFromForm,
-});
 
 
 export const createCategory: CategoryCreateAction = async (_prev, formData) => {
@@ -163,36 +146,40 @@ export const deleteCategory: CategoryDeleteAction = async (_prev, formData) => {
   }
 }
 
-export async function toggleCategoryStatus(
-  _prev: ActionResult,
-  formData: FormData
-): Promise<ActionResult> {
+export const toggleCategoryStatus: CategoryToggleAction = async (_prev,formData) => {
+  "use server";
+
   const locale = await getLocale()
-  const parsed = ToggleSchema.safeParse({
+  const parsed = ToggleCategorySchema.safeParse({
     id: formData.get("id"),
     status: formData.get("status"),
   });
   if (!parsed.success) {
-    const msg = parsed.error.issues[0]?.message ?? "Invalid payload";
-    return { ok: false, message: msg };
+    return {
+      ok: false as const,
+      data: null,
+      errors: mapZodErrorFromSchema<typeof ToggleCategorySchema>(parsed.error),
+    };
   }
 
   const { id, status } = parsed.data;
 
   try {
-    // Sesuaikan method/path backend kamu:
-    // - Jika backend PATCH sebagian: "PATCH" { status }
-    // - Jika backend PUT penuh: "PUT" { status }
     await apiSend<void>(`/api/v1/categories/${id}?locale=${locale}`, "PUT", { status });
-
-    // ⚠️ Biarkan revalidate/refresh dilakukan DI CLIENT setelah toast/modal
-    // supaya komponen ini tidak keburu unmount.
     return {
       ok: true,
-      message: status ? "Category activated" : "Category deactivated",
+      data: {
+        message: status ? "Category activated" : "Category deactivated",
+      },
+      errors: null
     };
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Toggle failed";
-    return { ok: false, message: msg };
+    const msg =
+      e instanceof Error ? e.message : "failed to toggle category status";
+    return {
+      ok: false as const,
+      data: null,
+      errors: { _form: [msg] }
+    };
   }
 }

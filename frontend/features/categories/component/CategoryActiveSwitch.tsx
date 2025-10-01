@@ -3,9 +3,13 @@
 
 import * as React from "react";
 import Switch from "@/component/util/base/Switch";
-import { useActionState, startTransition } from "react";
-import { toggleCategoryStatus, type ActionResult } from "@/features/categories/actions/actions";
+import {useActionState, startTransition, useCallback, useMemo} from "react";
+import { toggleCategoryStatus } from "@/features/categories/actions/actions";
 import { useActionToast } from "@/hook/useActionToast";
+import {
+  categoryToggleInitialState,
+  CategoryToggleState
+} from "@/features/categories/state/categoryInitialState";
 
 type Props = {
   categoryId: string;
@@ -25,24 +29,47 @@ export function CategoryActiveSwitch({
   // 🔒 guard lokal agar klik ganda sebelum pending=true tertahan
   const [localPending, setLocalPending] = React.useState(false);
 
-  const [result, formAction, pending] = useActionState<ActionResult, FormData>(
+  const [state, formAction, pending] = useActionState<CategoryToggleState, FormData>(
     toggleCategoryStatus,
-    { ok: false, message: "" }
+    categoryToggleInitialState
   );
 
-  // Toast (opsional)
-  useActionToast(result, pending, {
-    success: { title: "Status updated", description: r => r.message },
-    error:   { title: "Update failed" },
-  });
+  // selector STABIL (tak bergantung apa pun)
+  const getOk = useCallback((s: CategoryToggleState) => s.ok, []);
+  const getMessage = useCallback(
+    (s: CategoryToggleState) => (s.ok ? s.data?.message : s.errors?._form?.[0]),
+    []
+  );
+
+// objekt opsi STABIL; hanya berubah saat tCategory berubah
+  const toastOpts = useMemo(
+    () => ({
+      success: {
+        title: "toggle category status:",
+        description: (s: CategoryToggleState) => (s.ok ? s.data.message : undefined),
+        duration: 5000,
+      },
+      error: {
+        title: "toggle category status:",
+        description: (s: CategoryToggleState) => (!s.ok ? s.errors?._form?.[0] : undefined),
+        duration: 5000,
+      },
+      accessors: { getOk, getMessage },
+      requireSubmitStart: true,
+    }),
+    [getOk, getMessage]
+  );
+
+// pakai seperti biasa
+  useActionToast<CategoryToggleState>(state, pending, toastOpts);
 
   // Revert kalau gagal
   React.useEffect(() => {
-    if (!pending && !result.ok && result.message) {
+    if (!pending && !state.ok && state.errors) {
       // Balikkan ke nilai sebelum klik (optimistic revert)
       setOn(prev => !prev);
     }
-  }, [pending, result.ok, result.message]);
+  }, [pending, state.ok, state.errors]);
 
   // Sinkronkan localPending dengan siklus action
   React.useEffect(() => {

@@ -1,7 +1,7 @@
 import {ApiEnvelope} from "@/lib/type/api";
 import {
   CategoryCreateState,
-  CategoryDeleteState,
+  CategoryDeleteState, CategoryToggleState,
   CategoryUpdateState
 } from "@/features/categories/state/categoryInitialState";
 
@@ -33,3 +33,8 @@ export type CategoryDeleteAction = (
   state: CategoryDeleteState,
   payload: FormData
 ) => Promise<CategoryDeleteState>;
+
+export type CategoryToggleAction = (
+  state: CategoryToggleState,
+  payload: FormData
+) => Promise<CategoryToggleState>;

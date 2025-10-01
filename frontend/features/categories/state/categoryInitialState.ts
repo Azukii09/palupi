@@ -1,7 +1,7 @@
 import {ActionResultFrom} from "@/lib/type/actionType";
 import {
   CreateCategorySchema,
-  DeleteCategorySchema,
+  DeleteCategorySchema, ToggleCategorySchema,
   UpdateCategorySchema
 } from "@/features/categories/validations/validation";
 import {CategorySuccess} from "@/features/categories/services/category.type";
@@ -25,6 +25,14 @@ export const categoryUpdateInitial: CategoryUpdateState = {
 export type CategoryDeleteState = ActionResultFrom<typeof DeleteCategorySchema, CategorySuccess>
 
 export const categoryDeleteInitial: CategoryDeleteState = {
+  ok: false as const,
+  data: null,
+  errors: {},
+}
+
+export type CategoryToggleState = ActionResultFrom<typeof ToggleCategorySchema, CategorySuccess>
+
+export const categoryToggleInitialState: CategoryToggleState = {
   ok: false as const,
   data: null,
   errors: {},
