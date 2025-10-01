@@ -70,7 +70,6 @@ export default function MainViewCategory({
             }
             customColumnRenderer={{
               status:(data)=>{
-                console.log(typeof (data.status as boolean))
                 return (
                   <div className={"flex items-center justify-center"}>
                     <CategoryActiveSwitch
