@@ -3,13 +3,10 @@
 
 import * as React from "react";
 import Switch from "@/component/util/base/Switch";
-import {useActionState, startTransition, useCallback, useMemo} from "react";
-import { toggleCategoryStatus } from "@/features/categories/actions/actions";
+import {useActionState, startTransition, useCallback, useMemo, useEffect, useState, useRef} from "react";
 import { useActionToast } from "@/hook/useActionToast";
-import {
-  categoryToggleInitialState,
-  CategoryToggleState
-} from "@/features/categories/state/categoryInitialState";
+import { categoryToggleInitialState, CategoryToggleState } from "@/features/categories/state/categoryInitialState";
+import {toggleCategoryStatus} from "@/features/categories/actions/actions";
 
 type Props = {
   categoryId: string;
@@ -24,29 +21,37 @@ export function CategoryActiveSwitch({
   disabled,
   onSaved,
 }: Props) {
-  const [on, setOn] = React.useState<boolean>(initialActive);
-
-  // 🔒 guard lokal agar klik ganda sebelum pending=true tertahan
-  const [localPending, setLocalPending] = React.useState(false);
+  const [on, setOn] = useState<boolean>(initialActive);
+  const [localPending, setLocalPending] = useState(false);
 
   const [state, formAction, pending] = useActionState<CategoryToggleState, FormData>(
     toggleCategoryStatus,
     categoryToggleInitialState
   );
 
-  // selector STABIL (tak bergantung apa pun)
+  // track siklus submit: false→true menandakan submit dimulai
+  const prevPending = useRef(pending);
+  const didSubmitRef = useRef(false);
+
+  useEffect(() => {
+    if (!prevPending.current && pending) {
+      didSubmitRef.current = true;
+    }
+    prevPending.current = pending;
+  }, [pending]);
+
+  // selector STABIL
   const getOk = useCallback((s: CategoryToggleState) => s.ok, []);
   const getMessage = useCallback(
     (s: CategoryToggleState) => (s.ok ? s.data?.message : s.errors?._form?.[0]),
     []
   );
 
-// objekt opsi STABIL; hanya berubah saat tCategory berubah
   const toastOpts = useMemo(
     () => ({
       success: {
         title: "toggle category status:",
-        description: (s: CategoryToggleState) => (s.ok ? s.data.message : undefined),
+        description: (s: CategoryToggleState) => (s.ok ? s.data!.message : undefined),
         duration: 5000,
       },
       error: {
@@ -55,26 +60,30 @@ export function CategoryActiveSwitch({
         duration: 5000,
       },
       accessors: { getOk, getMessage },
-      requireSubmitStart: true,
+      requireSubmitStart: true, // penting
     }),
     [getOk, getMessage]
   );
 
-// pakai seperti biasa
   useActionToast<CategoryToggleState>(state, pending, toastOpts);
 
-  // Revert kalau gagal
-  React.useEffect(() => {
-    if (!pending && !state.ok && state.errors) {
-      // Balikkan ke nilai sebelum klik (optimistic revert)
+  // ✅ Revert hanya jika submit memang terjadi & berakhir gagal
+  useEffect(() => {
+    if (!pending && didSubmitRef.current && !state.ok && state.errors && Object.keys(state.errors).length > 0) {
       setOn(prev => !prev);
+      didSubmitRef.current = false; // reset siklus
     }
   }, [pending, state.ok, state.errors]);
 
-  // Sinkronkan localPending dengan siklus action
-  React.useEffect(() => {
+  // Sinkronkan localPending
+  useEffect(() => {
     if (!pending) setLocalPending(false);
   }, [pending]);
+
+  // (opsional) kalau initialActive dari props berubah karena router.refresh(), sinkronkan ulang:
+  useEffect(() => {
+    setOn(initialActive);
+  }, [initialActive]);
 
   const commit = (next: boolean) => {
     // ⛔ blok saat sedang proses
