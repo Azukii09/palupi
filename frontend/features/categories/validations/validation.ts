@@ -37,3 +37,19 @@ export const DeleteCategorySchema = z.object({
     .min(4, "validation.name.min")
     .max(120, "validation.name.max"),
 })
+
+const zBoolFromFormCategory = z.union([z.boolean(), z.string()]).transform((v) => {
+  if (typeof v === "boolean") return v;
+  const s = v.trim().toLowerCase();
+  if (["true", "1", "on", "yes", "y"].includes(s)) return true;
+  if (["false", "0", "off", "no", "n"].includes(s)) return false;
+  // kalau nilai aneh, kamu bisa:
+  // - return false;  // fallback aman
+  // - atau throw new Error("Invalid boolean"); // biar gagal validasi
+  return false;
+});
+
+export const ToggleCategorySchema = z.object({
+  id: z.string().min(1),
+  status: zBoolFromFormCategory,
+});
