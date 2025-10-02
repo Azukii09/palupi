@@ -5,6 +5,7 @@ import Table from "@/component/util/base/Table";
 
 export default function MainMenuItems() {
   const dummyData = Array.from({length: 50}, (_, index) => ({
+    id: index + 1,
     name: `Menu Item ${index + 1}`,
     desc: `Description for menu item ${index + 1}`,
     stock: Math.floor(Math.random() * 100),
@@ -27,6 +28,15 @@ export default function MainMenuItems() {
         <Table
           data={dummyData}
           variants={"strip"}
+          excludesColumnsData={[ "id"]}
+          excludesColumnsName={[ "id"]}
+          renameMap={{
+            'name': 'Name',
+            'desc': 'Description',
+            'stock': 'Stock',
+            'price': 'Price',
+            'category': 'Category'
+          }}
           withNumbering
           withSearch={
             {
