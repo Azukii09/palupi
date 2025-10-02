@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import Table from "@/component/util/base/Table";
@@ -39,6 +40,20 @@ export default function MainMenuItems() {
             paginated: true,
             paginatedPageCount:[5,10,20,50],
           }}
+          withActions={
+            (row: unknown) => {
+              console.log(row)
+              return (
+                <td className="text-center flex items-center justify-center gap-2 py-2">
+                  {/*<CategoryDetail data={row as Category}/>*/}
+
+                  {/*<CategoryEdit data={row as Category}/>*/}
+
+                  {/*<CategoryDelete data={row as Category}/>*/}
+                </td>
+              )
+            }
+          }
         />
       </BasicCard.content>
     </BasicCard>
