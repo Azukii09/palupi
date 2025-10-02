@@ -23,7 +23,23 @@ export default function MainMenuItems() {
       <BasicCard.content
         haveFooter={false}
       >
-        <Table data={dummyData} variants={"strip"}/>
+        <Table
+          data={dummyData}
+          variants={"strip"}
+          withNumbering
+          withSearch={
+            {
+              searchStatus: true,
+              textColor: "text-primary",
+              borders: "border-primary",
+            }
+          }
+          rowHover
+          pagination={{
+            paginated: true,
+            paginatedPageCount:[5,10,20,50],
+          }}
+        />
       </BasicCard.content>
     </BasicCard>
   );
