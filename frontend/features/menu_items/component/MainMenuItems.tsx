@@ -2,6 +2,7 @@
 import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import Table from "@/component/util/base/Table";
+import CreateMenuItems from "@/features/menu_items/component/CreateMenuItems";
 
 export default function MainMenuItems() {
   const dummyData = Array.from({length: 50}, (_, index) => ({
@@ -25,6 +26,7 @@ export default function MainMenuItems() {
       <BasicCard.content
         haveFooter={false}
       >
+        <CreateMenuItems/>
         <Table
           data={dummyData}
           variants={"strip"}
