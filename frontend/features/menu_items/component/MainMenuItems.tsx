@@ -3,6 +3,7 @@ import React from 'react';
 import BasicCard from "@/component/util/base/BasicCard";
 import Table from "@/component/util/base/Table";
 import CreateMenuItems from "@/features/menu_items/component/CreateMenuItems";
+import DetailMenuItem from "@/features/menu_items/component/DetailMenuItem";
 
 export default function MainMenuItems() {
   const dummyData = Array.from({length: 50}, (_, index) => ({
@@ -57,7 +58,7 @@ export default function MainMenuItems() {
               console.log(row)
               return (
                 <td className="text-center flex items-center justify-center gap-2 py-2">
-                  {/*<CategoryDetail data={row as Category}/>*/}
+                  <DetailMenuItem data={row as any}/>
 
                   {/*<CategoryEdit data={row as Category}/>*/}
 
