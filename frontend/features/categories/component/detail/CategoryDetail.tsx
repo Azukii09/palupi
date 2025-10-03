@@ -5,7 +5,7 @@ import Modal from "@/component/util/base/Modal";
 import {useParams} from "next/navigation";
 import {poppins} from "@/lib/font/font";
 import {useTranslations} from "next-intl";
-import {Category} from "@/lib/type/api";
+import {Category} from "@/features/categories/services/category.type";
 
 export default function CategoryDetail({
   data
