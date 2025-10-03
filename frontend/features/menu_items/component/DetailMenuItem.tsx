@@ -3,12 +3,14 @@ import Modal from "@/component/util/base/Modal";
 import {FaEye} from "react-icons/fa";
 import {poppins} from "@/lib/font/font";
 import {MenuItem} from "@/features/menu_items/services/menu.type";
+import {useFormatter} from "use-intl";
 
 export default function DetailMenuItem({
   data
 }:{
   data:MenuItem;
 }) {
+  const tFormater = useFormatter();
   return (
     <Modal
       id={`detail-${data.id}`}
@@ -53,14 +55,14 @@ export default function DetailMenuItem({
                   Stock
                 </td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
-                <td className="px-4 py-2 text-start">{data.stock}</td>
+                <td className="px-4 py-2 text-start">{tFormater.number(data.stock)}</td>
               </tr>
               <tr className=" border-primary/50 border-t">
                 <td className="px-4 py-2 text-start bg-primary text-white border-t border-white">
                   Price
                 </td>
                 <td className="px-4 py-2 bg-primary text-white border-t border-white">:</td>
-                <td className="px-4 py-2 text-start">{data.price}</td>
+                <td className="px-4 py-2 text-start">{tFormater.number(data.price, {style: 'currency', currency: 'IDR'})}</td>
               </tr>
             </tbody>
           </table>

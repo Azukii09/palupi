@@ -4,8 +4,11 @@ import BasicCard from "@/component/util/base/BasicCard";
 import Table from "@/component/util/base/Table";
 import CreateMenuItems from "@/features/menu_items/component/CreateMenuItems";
 import DetailMenuItem from "@/features/menu_items/component/DetailMenuItem";
+import {MenuItem} from "@/features/menu_items/services/menu.type";
+import {useFormatter} from "use-intl";
 
 export default function MainMenuItems() {
+  const tFormater = useFormatter();
   const dummyData = Array.from({length: 50}, (_, index) => ({
     id: index + 1,
     name: `Menu Item ${index + 1}`,
@@ -14,8 +17,6 @@ export default function MainMenuItems() {
     price: Math.floor(Math.random() * 100000) + 10000,
     category: ['Food', 'Beverage', 'Dessert', 'Snack'][Math.floor(Math.random() * 4)]
   }));
-
-  console.log(dummyData)
 
   return (
     <BasicCard>
@@ -58,7 +59,7 @@ export default function MainMenuItems() {
               console.log(row)
               return (
                 <td className="text-center flex items-center justify-center gap-2 py-2">
-                  <DetailMenuItem data={row as any}/>
+                  <DetailMenuItem data={row as MenuItem}/>
 
                   {/*<CategoryEdit data={row as Category}/>*/}
 
@@ -67,6 +68,26 @@ export default function MainMenuItems() {
               )
             }
           }
+          customColumnRenderer={{
+            price:(data)=>{
+              return (
+                <div className={"flex items-center justify-center"}>
+                  <div className="text-sm font-semibold text-primary capitalize">
+                    {tFormater.number(data.price as number, {style: 'currency', currency: 'IDR'})}
+                  </div>
+                </div>
+              )
+            },
+            stock:(data)=>{
+              return (
+                <div className={"flex items-center justify-center"}>
+                  <div className="text-sm font-semibold text-primary capitalize">
+                    {tFormater.number(data.stock as number)}
+                  </div>
+                </div>
+              )
+            }
+          }}
         />
       </BasicCard.content>
     </BasicCard>
